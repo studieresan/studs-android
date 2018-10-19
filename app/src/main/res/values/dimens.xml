@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Margins -->
-    <dimen name="default_margin">16dp</dimen>
-    <dimen name="default_margin_medium">12dp</dimen>
-    <dimen name="default_margin_small">8dp</dimen>
-    <dimen name="default_margin_mini_mini">2dp</dimen>
+    <dimen name="default_margin_tiny">2dp</dimen>
     <dimen name="default_margin_mini">4dp</dimen>
+    <dimen name="default_margin_small">8dp</dimen>
+    <dimen name="default_margin_medium">12dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
     <dimen name="default_margin_large">24dp</dimen>
     <dimen name="default_margin_huge">32dp</dimen>
     <dimen name="default_margin_enormous">48dp</dimen>
     <dimen name="default_margin_giant">64dp</dimen>
-    <dimen name="default_margin_zero">0dp</dimen>
 
     <!-- Buttons -->
     <dimen name="button_height">58dp</dimen>
