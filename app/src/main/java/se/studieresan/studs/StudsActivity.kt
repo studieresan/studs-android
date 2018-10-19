@@ -21,12 +21,12 @@ abstract class StudsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-            android.R.id.home -> {
-                homePressed()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        android.R.id.home -> {
+            homePressed()
+            true
         }
+        else -> super.onOptionsItemSelected(item)
+    }
 
 
     protected fun homePressed() {
