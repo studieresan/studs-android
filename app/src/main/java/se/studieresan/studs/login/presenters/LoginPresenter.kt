@@ -15,7 +15,7 @@ class LoginPresenter(private val view: LoginContract.View) : LoginContract.Prese
     }
 
     // Shouldn't technically use Android here in the presenter, but whatever
-    private fun validEmail(email: String): Boolean = !email.isEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    private fun validEmail(email: String): Boolean = email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     private fun validPassword(password: String) = password.length > 6
 
