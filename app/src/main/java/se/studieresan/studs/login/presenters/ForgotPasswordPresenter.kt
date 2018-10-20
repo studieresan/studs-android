@@ -1,5 +1,6 @@
 package se.studieresan.studs.login.presenters
 
+import android.util.Patterns
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import se.studieresan.studs.ForgotPasswordRequest
@@ -14,8 +15,8 @@ class ForgotPasswordPresenter(
 
     override fun forgotEmail(email: String) {
         when {
-            email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> resetPassword(email)
-            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> view.showInvalidEmailError()
+            email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() -> resetPassword(email)
+            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> view.showInvalidEmailError()
             else -> view.showInvalidEmailError()
         }
     }
