@@ -27,10 +27,10 @@ class LoginPresenter(
                     .observeOn(view.mainScheduler)
                     .subscribe({
                         Timber.d("Authenticated")
+                        view.presentMainView()
                     }, {
                         view.showLoginFailedMessage()
                     })
-            view.showLoginFailedMessage()
         }
     }
 

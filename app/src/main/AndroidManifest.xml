@@ -14,11 +14,12 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".events.EventsActivity" />
         <activity
             android:name=".login.views.ForgotPasswordActivity"
             android:label="@string/forgot_your_password"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".login.views.LoginActivity"
             android:label=""

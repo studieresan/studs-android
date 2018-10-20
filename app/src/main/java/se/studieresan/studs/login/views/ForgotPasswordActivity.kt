@@ -53,11 +53,6 @@ class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
         toast?.show()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(0, R.anim.slide_out)
-    }
-
     override fun showEmailSentVerification() =
             Snackbar.make(view, "Reset password email has been sent", Snackbar.LENGTH_SHORT).show()
 
