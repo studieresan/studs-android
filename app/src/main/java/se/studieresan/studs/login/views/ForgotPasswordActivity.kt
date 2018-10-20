@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_forgot_password.*
 import se.studieresan.studs.IntentExtra
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
+import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 import se.studieresan.studs.login.presenters.ForgotPasswordPresenter
 
@@ -38,7 +39,8 @@ class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
 
         val email = intent.getStringExtra(IntentExtra.EMAIL)
         et_email.setText(email, TextView.BufferType.EDITABLE)
-        presenter = ForgotPasswordPresenter(this)
+        val studsService = (application as StudsApplication).studsService
+        presenter = ForgotPasswordPresenter(this, studsService)
     }
 
     private fun setupClickListeners() {

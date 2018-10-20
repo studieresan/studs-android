@@ -3,7 +3,7 @@ package se.studieresan.studs.login.presenters
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import se.studieresan.studs.StudsService
-import se.studieresan.studs.User
+import se.studieresan.studs.LoginUserRequest
 import se.studieresan.studs.login.contracts.LoginContract
 import timber.log.Timber
 
@@ -22,7 +22,7 @@ class LoginPresenter(
         if (validCredentialFormat) {
             loginDisposable?.dispose()
             loginDisposable = studsService
-                    .login(User(email, password))
+                    .login(LoginUserRequest(email, password))
                     .subscribeOn(Schedulers.io())
                     .observeOn(view.mainScheduler)
                     .subscribe({
