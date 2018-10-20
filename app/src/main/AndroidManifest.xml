@@ -17,7 +17,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".login.views.ForgotPasswordActivity"
-            android:label="@string/forgot_your_password"
+            android:label="Forgot password"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
