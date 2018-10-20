@@ -15,9 +15,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "INSTABUG_KEY", instabug_apiKey
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "INSTABUG_KEY", instabug_apiKey
         }
     }
 }
@@ -43,6 +47,7 @@ dependencies {
     // Logging
     implementation "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttpVersion"
+    implementation "com.instabug.library:instabug:$rootProject.ext.instabugVersion"
 
     // Testing
     implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
