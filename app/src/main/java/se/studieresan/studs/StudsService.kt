@@ -5,7 +5,9 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface StudsService {
-    @POST("login") fun login(@Body user: User): Completable
+    @POST("login") fun login(@Body loginUserRequest: LoginUserRequest): Completable
+    @POST("forgot") fun forgotPassword(@Body forgotPasswordRequest: ForgotPasswordRequest): Completable
 }
 
-data class User(val email: String, val password: String)
+data class ForgotPasswordRequest(val email: String)
+data class LoginUserRequest(val email: String, val password: String)

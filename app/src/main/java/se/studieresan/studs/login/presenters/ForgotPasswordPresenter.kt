@@ -1,19 +1,38 @@
 package se.studieresan.studs.login.presenters
 
+import android.util.Patterns
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import se.studieresan.studs.ForgotPasswordRequest
+import se.studieresan.studs.StudsService
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 
 class ForgotPasswordPresenter(
-        private val view: ForgotPasswordContract.View
+        private val view: ForgotPasswordContract.View,
+        private val studsService: StudsService
 ) : ForgotPasswordContract.Presenter {
+    private var disposable: Disposable? = null
+
     override fun forgotEmail(email: String) {
-        // todo, reset in backend
         when {
-            email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> view.showEmailSentVerification()
-            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> view.showInvalidEmailError()
+            email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() -> resetPassword(email)
+            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> view.showInvalidEmailError()
             else -> view.showInvalidEmailError()
         }
     }
 
+    private fun resetPassword(email: String) {
+        disposable?.dispose()
+        disposable = studsService.forgotPassword(ForgotPasswordRequest(email))
+                .subscribeOn(Schedulers.io())
+                .observeOn(view.mainScheduler)
+                .subscribe({
+                    view.showEmailSentVerification()
+                }, { view.showGenericErrorMessage() })
+    }
+
     override fun onCleanup() {
+        disposable?.dispose()
+        disposable = null
     }
 }
