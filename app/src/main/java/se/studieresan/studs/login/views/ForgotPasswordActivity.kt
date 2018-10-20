@@ -14,7 +14,6 @@ import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 import se.studieresan.studs.login.presenters.ForgotPasswordPresenter
 
-
 private val MESSAGES = listOf(
         "You should keep better track of your passwords",
         "Don't wear out the forgot password button",
@@ -52,11 +51,6 @@ class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
         toast?.cancel()
         toast = Toast.makeText(this, MESSAGES.shuffled()[0], Toast.LENGTH_SHORT)
         toast?.show()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(0, R.anim.slide_out)
     }
 
     override fun showEmailSentVerification() =

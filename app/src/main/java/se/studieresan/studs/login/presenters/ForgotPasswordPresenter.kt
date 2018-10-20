@@ -2,7 +2,9 @@ package se.studieresan.studs.login.presenters
 
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 
-class ForgotPasswordPresenter(private val view: ForgotPasswordContract.View) : ForgotPasswordContract.Presenter {
+class ForgotPasswordPresenter(
+        private val view: ForgotPasswordContract.View
+) : ForgotPasswordContract.Presenter {
     override fun forgotEmail(email: String) {
         // todo, reset in backend
         when {
