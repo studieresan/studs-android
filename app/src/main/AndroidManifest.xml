@@ -14,7 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".events.EventsActivity" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".login.views.ForgotPasswordActivity"
             android:label="@string/forgot_your_password"
@@ -24,7 +24,7 @@
             android:name=".login.views.LoginActivity"
             android:label=""
             android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

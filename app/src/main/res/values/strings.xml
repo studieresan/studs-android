@@ -10,4 +10,8 @@
     <string name="invalid_email_or_password">Wrong email or password</string>
     <string name="reset_password">Reset password</string>
     <string name="forgot_your_password">Forgot your password?</string>
+
+    <string name="events">Events</string>
+    <string name="trip">Trip</string>
+    <string name="more">More</string>
 </resources>
