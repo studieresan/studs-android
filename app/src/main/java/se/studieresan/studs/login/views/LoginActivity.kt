@@ -8,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
+import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
 
@@ -23,7 +24,8 @@ class LoginActivity : StudsActivity(), LoginContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setupClickListeners()
-        presenter = LoginPresenter(this)
+        val studsService = (application as StudsApplication).studsService
+        presenter = LoginPresenter(this, studsService)
     }
 
     private fun setupClickListeners() {

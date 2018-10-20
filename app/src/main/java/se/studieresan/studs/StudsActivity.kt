@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 
-abstract class StudsActivity : AppCompatActivity() {
+abstract class StudsActivity : AppCompatActivity(), BaseView {
 
     protected fun addToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -60,4 +62,6 @@ abstract class StudsActivity : AppCompatActivity() {
     val view: View by lazy {
         findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
     }
+
+    override val mainScheduler: Scheduler = AndroidSchedulers.mainThread()
 }
