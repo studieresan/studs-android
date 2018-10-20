@@ -1,6 +1,8 @@
 package se.studieresan.studs
 
 import android.app.Application
+import com.instabug.library.Instabug
+import com.instabug.library.invocation.InstabugInvocationEvent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,7 +17,13 @@ class StudsApplication : Application() {
         super.onCreate()
 
         if (BuildConfig.DEBUG) {
+            // Plant Timber
             Timber.plant(Timber.DebugTree())
+        } else {
+            // Setup Instabug for feedback and bugs
+            Instabug.Builder(this, BuildConfig.INSTABUG_KEY)
+                    .setInvocationEvents(InstabugInvocationEvent.SCREENSHOT)
+                    .build()
         }
     }
 
