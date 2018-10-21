@@ -223,5 +223,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+/app/release
+
 
 # End of https://www.gitignore.io/api/macos,kotlin,android,androidstudio
