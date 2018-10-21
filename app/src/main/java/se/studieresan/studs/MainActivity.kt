@@ -15,8 +15,6 @@ import se.studieresan.studs.util.inTransaction
 
 class MainActivity : StudsActivity() {
 
-    private lateinit var currentFragment: Fragment
-
     companion object {
         fun makeIntent(context: Context, newTask: Boolean = false): Intent {
             val intent = Intent(context, MainActivity::class.java)
@@ -53,11 +51,10 @@ class MainActivity : StudsActivity() {
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
 
+        // If we don't have a current Fragment from the bundle, jump to Events
         if (savedInstanceState == null) {
             replaceFragment(EventFragment())
             drawer.setCheckedItem(R.id.drawer_event)
-        } else {
-            currentFragment = supportFragmentManager.findFragmentById(FRAGMENT_ID) ?: throw IllegalStateException("No fragment found")
         }
     }
 
@@ -77,7 +74,6 @@ class MainActivity : StudsActivity() {
 
     private fun <F> replaceFragment(fragment: F) where F : Fragment {
         supportFragmentManager.inTransaction {
-            currentFragment = fragment
             replace(FRAGMENT_ID, fragment)
         }
     }
