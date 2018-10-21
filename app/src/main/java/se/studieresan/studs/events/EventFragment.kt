@@ -7,13 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_event.*
 import se.studieresan.studs.R
 
 class EventFragment : Fragment() {
-
-    private lateinit var mPager: ViewPager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_event, container, false)
@@ -22,24 +19,20 @@ class EventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mPager = view.findViewById(R.id.event_pager) as ViewPager
-        val tabs = view.findViewById(R.id.event_tabs) as TabLayout
-        tabs.setupWithViewPager(mPager)
-        mPager.adapter = EventPagerAdapter(childFragmentManager)
+        event_tabs.setupWithViewPager(event_pager)
+        event_pager.adapter = EventPagerAdapter(childFragmentManager)
     }
 
     private inner class EventPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getItem(position: Int): Fragment {
             when (position) {
-                0 -> return UpcomingFragment()
-                1 -> return PastFragment()
+                0 -> return UpcomingEventsFragment()
+                1 -> return PastEventsFragment()
             }
             throw IndexOutOfBoundsException("Unknown tab: $position")
         }
 
-        override fun getCount(): Int {
-            return 2
-        }
+        override fun getCount(): Int = 2
 
         override fun getPageTitle(position: Int): CharSequence? {
             when (position) {

@@ -34,9 +34,7 @@ class LoginActivity : StudsActivity(), LoginContract.View {
         btn_forgot_password.setOnClickListener { showForgotPassword() }
     }
 
-    private fun showForgotPassword() {
-        startActivity(ForgotPasswordActivity.makeIntent(this, et_email.text.toString()))
-    }
+    private fun showForgotPassword() = startActivity(ForgotPasswordActivity.makeIntent(this, et_email.text.toString()))
 
     private fun login() = presenter.onLoginClicked(et_email.text.toString(), et_password.text.toString())
 

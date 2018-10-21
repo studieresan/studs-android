@@ -10,46 +10,39 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
+import se.studieresan.studs.R.id.toolbar
 import se.studieresan.studs.events.EventFragment
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var mDrawerLayout: DrawerLayout
+class MainActivity : StudsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mDrawerLayout = findViewById(R.id.drawer_layout)
-
-        val navigation = findViewById<NavigationView>(R.id.drawer)
-        navigation.setNavigationItemSelectedListener { menuItem ->
+        drawer.setNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
-            mDrawerLayout.closeDrawers()
-
+            drawer_layout.closeDrawers()
             true
         }
 
         replaceFragment(EventFragment())
-        navigation.setCheckedItem(R.id.drawer_event)
+        drawer.setCheckedItem(R.id.drawer_event)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val actionBar: ActionBar? = supportActionBar
-        actionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
+        // Add hamburger
+        addToolbar()
+        supportActionBar?.apply {
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                mDrawerLayout.openDrawer(GravityCompat.START)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> {
+            drawer_layout.openDrawer(GravityCompat.START)
+            true
         }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun replaceFragment(fragment: Fragment) {

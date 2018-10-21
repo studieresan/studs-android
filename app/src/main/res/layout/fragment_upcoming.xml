@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBackground"
-    tools:context=".events.UpcomingFragment">
+    tools:context=".events.UpcomingEventsFragment">
 
     <!-- TODO: Most of this styling should be extracted to a theme -->
     <!-- TODO: Implement this as a scrollable list with HTTP fetching and all the good stuff -->
