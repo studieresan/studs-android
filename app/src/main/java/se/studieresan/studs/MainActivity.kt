@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
+import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.events.views.EventFragment
 import se.studieresan.studs.trip.TripFragment
 import se.studieresan.studs.util.consume
@@ -38,6 +39,7 @@ class MainActivity : StudsActivity() {
             when (it.itemId) {
                 R.id.drawer_event -> consume { replaceFragment(EventFragment()) }
                 R.id.drawer_trip -> consume { replaceFragment(TripFragment()) }
+                R.id.drawer_logout -> logOut()
             }
             it.isChecked = true
             drawer_layout.closeDrawers()
@@ -65,6 +67,12 @@ class MainActivity : StudsActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun logOut() {
+        StudsPreferences.setIsLoggedOut(this)
+        startActivity(LauncherActivity.makeIntent(this))
+        finish()
     }
 
     private fun <F> replaceFragment(fragment: F) where F : Fragment {

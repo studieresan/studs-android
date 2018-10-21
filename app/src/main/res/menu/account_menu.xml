@@ -14,15 +14,15 @@
 
     <group android:id="@+id/drawer_extras"
         android:checkableBehavior="single">
-        <item android:id="@+id/my_profile"
+        <item android:id="@+id/drawer_my_profile"
             android:title="@string/my_profile"
             android:icon="@drawable/ic_person_black_24dp" />
 
-        <item android:id="@+id/my_resume"
+        <item android:id="@+id/drawer_my_resume"
             android:title="@string/my_resume"
             android:icon="@drawable/ic_insert_drive_file_black_24dp" />
 
-        <item android:id="@+id/log_out"
+        <item android:id="@+id/drawer_logout"
             android:title="@string/logout"
             android:icon="@drawable/ic_exit_to_app_black_24dp" />
     </group>
