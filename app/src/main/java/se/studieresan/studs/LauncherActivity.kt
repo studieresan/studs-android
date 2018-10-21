@@ -20,7 +20,7 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (StudsPreferences.isLoggedIn(this))
-            startActivity(MainActivity.makeIntent(this, true))
+            startActivity(MainActivity.makeIntent(this))
         else
             startActivity(LoginActivity.makeIntent(this))
         finish()
