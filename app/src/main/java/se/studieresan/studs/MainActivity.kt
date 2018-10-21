@@ -14,8 +14,25 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import se.studieresan.studs.R.id.toolbar
 import se.studieresan.studs.events.EventFragment
+import se.studieresan.studs.util.inTransaction
 
 class MainActivity : StudsActivity() {
+
+    private lateinit var currentFragment: Fragment
+
+    companion object {
+        fun makeIntent(context: Context, newTask: Boolean = false): Intent {
+            val intent = Intent(context, MainActivity::class.java)
+            if (newTask) {
+                intent.run {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            }
+            return intent
+        }
+
+        private const val FRAGMENT_ID = R.id.fragment_container
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +52,25 @@ class MainActivity : StudsActivity() {
         supportActionBar?.apply {
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
+
+        navigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.navigation_events -> consume { replaceFragment(EventListFragment()) }
+                R.id.navigation_trip -> consume { replaceFragment(TripFragment()) }
+                R.id.navigation_more -> consume { replaceFragment(MoreFragment()) }
+                else -> throw IllegalStateException("Unknown item id")
+            }
+        }
+
+        // Consume event
+        navigation.setOnNavigationItemReselectedListener {  }
+
+        if (savedInstanceState == null) {
+            navigation.selectedItemId = R.id.navigation_events
+            replaceFragment(EventListFragment())
+        } else {
+            currentFragment = supportFragmentManager.findFragmentById(FRAGMENT_ID) ?: throw IllegalStateException("No fragment found")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -45,11 +81,10 @@ class MainActivity : StudsActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, fragment)
-            commit()
+    private fun <F> replaceFragment(fragment: F) where F : Fragment {
+        supportFragmentManager.inTransaction {
+            currentFragment = fragment
+            replace(FRAGMENT_ID, fragment)
         }
     }
-
 }
