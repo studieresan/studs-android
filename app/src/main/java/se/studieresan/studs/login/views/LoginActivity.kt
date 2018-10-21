@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
+import se.studieresan.studs.MainActivity
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication
+import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
 
@@ -30,7 +32,6 @@ class LoginActivity : StudsActivity(), LoginContract.View {
 
     private fun setupClickListeners() {
         btn_login.setOnClickListener { login() }
-
         btn_forgot_password.setOnClickListener { showForgotPassword() }
     }
 
@@ -51,8 +52,10 @@ class LoginActivity : StudsActivity(), LoginContract.View {
         Snackbar.make(view, getString(R.string.invalid_email_or_password), Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun presentMainView() {
-        // todo, present event view
+    override fun loginSuccessful() {
+        StudsPreferences.setIsLoggedIn(this)
+        startActivity(MainActivity.makeIntent(this, true))
+        finish()
     }
 
     override fun onDestroy() {

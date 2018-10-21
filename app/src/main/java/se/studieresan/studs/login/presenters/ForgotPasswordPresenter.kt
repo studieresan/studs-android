@@ -3,8 +3,8 @@ package se.studieresan.studs.login.presenters
 import android.util.Patterns
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import se.studieresan.studs.ForgotPasswordRequest
-import se.studieresan.studs.StudsService
+import se.studieresan.studs.data.ForgotPasswordRequest
+import se.studieresan.studs.data.StudsService
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 
 class ForgotPasswordPresenter(

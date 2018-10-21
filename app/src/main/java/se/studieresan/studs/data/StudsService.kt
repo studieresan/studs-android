@@ -1,4 +1,4 @@
-package se.studieresan.studs
+package se.studieresan.studs.data
 
 import io.reactivex.Completable
 import retrofit2.http.Body

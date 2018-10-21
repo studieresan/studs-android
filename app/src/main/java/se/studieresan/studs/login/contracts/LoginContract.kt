@@ -9,7 +9,7 @@ interface LoginContract {
         fun showEmailErrorMessage(show: Boolean)
         fun showPasswordErrorMessage(show: Boolean)
         fun showLoginFailedMessage()
-        fun presentMainView()
+        fun loginSuccessful()
     }
 
     interface Presenter : BasePresenter {

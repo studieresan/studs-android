@@ -1,17 +1,15 @@
-package se.studieresan.studs.events
+package se.studieresan.studs.trip
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
 import se.studieresan.studs.R
 
-class PastEventsFragment : Fragment() {
+class TripFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_past, container, false)
+        return inflater.inflate(R.layout.fragment_trip, container, false)
     }
-
 }

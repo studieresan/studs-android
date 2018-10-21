@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_forgot_password.*
-import se.studieresan.studs.IntentExtra
+import se.studieresan.studs.data.IntentExtra
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication

@@ -38,4 +38,32 @@
     <style name="FlatButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="Widget.Studs.BottomNav" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="itemIconTint">@android:color/holo_green_light</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Studs.BottomNavigationView.Active</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Studs.BottomNavigationView</item>
+        <item name="labelVisibilityMode">selected</item>
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+    </style>
+
+    <style name="TextAppearance.Studs.BottomNavigationView" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:textColor">@android:color/holo_green_light</item>
+    </style>
+
+    <style name="TextAppearance.Studs.BottomNavigationView.Active">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.Launcher" parent="AppTheme.LightNav">
+        <item name="android:windowBackground">@drawable/preview_window</item>
+    </style>
+
+    <style name="AppTheme.LightNav" parent="AppTheme.NoActionBar" />
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

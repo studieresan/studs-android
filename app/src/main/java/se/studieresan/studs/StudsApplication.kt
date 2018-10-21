@@ -8,6 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import se.studieresan.studs.data.StudsService
 import timber.log.Timber
 
 private const val STUDS_URL = "https://studs18-overlord.herokuapp.com/"
