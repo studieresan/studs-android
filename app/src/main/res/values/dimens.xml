@@ -14,4 +14,8 @@
     <!-- Buttons -->
     <dimen name="button_height">58dp</dimen>
     <dimen name="toolbar_elevation">8dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="event_height">72dp</dimen>
+    <dimen name="event_date_width">64dp</dimen>
 </resources>

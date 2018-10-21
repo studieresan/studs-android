@@ -10,4 +10,14 @@
     <string name="invalid_email_or_password">Wrong email or password</string>
     <string name="reset_password">Reset password</string>
     <string name="forgot_your_password">Forgot your password?</string>
+    <string name="logout">Log out</string>
+    <string name="my_profile">My Profile</string>
+    <string name="my_resume">My Resume</string>
+    <string name="trip">Trip</string>
+    <string name="event">Event</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
 </resources>
