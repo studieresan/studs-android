@@ -11,7 +11,6 @@ import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.data.StudsPreferences
-import se.studieresan.studs.MainActivity
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
 

@@ -1,4 +1,4 @@
-package se.studieresan.studs.events
+package se.studieresan.studs.events.views
 
 import android.os.Bundle
 import android.view.LayoutInflater
