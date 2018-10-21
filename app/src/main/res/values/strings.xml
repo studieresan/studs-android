@@ -9,7 +9,7 @@
     <string name="invalid_password">Password is too short</string>
     <string name="invalid_email_or_password">Wrong email or password</string>
     <string name="reset_password">Reset password</string>
-    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="forgot_your_password">Get a new one!</string>
     <string name="logout">Log out</string>
     <string name="my_profile">My Profile</string>
     <string name="my_resume">My Resume</string>
