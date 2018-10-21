@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryDark"
     tools:context=".login.views.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             android:layout_marginStart="@dimen/default_margin_giant"
             android:layout_marginEnd="@dimen/default_margin_giant"
             android:layout_marginTop="@dimen/default_margin_giant"
-            />
+            android:contentDescription="@string/app_name" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -33,8 +33,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_logo"
-            app:cardCornerRadius="10dp"
-            android:elevation="8dp">
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:id="@+id/login_container"
@@ -49,6 +50,7 @@
                     android:id="@+id/til_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:theme="@style/WhiteTextField"
                     app:errorEnabled="true">
 
                     <EditText
@@ -58,6 +60,7 @@
                         android:autofillHints="email"
                         android:hint="@string/email"
                         android:inputType="textEmailAddress"
+                        android:textColor="@color/colorAccent"
                         tools:targetApi="o" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,6 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
+                    android:theme="@style/WhiteTextField"
                     app:errorEnabled="true">
 
                     <EditText
@@ -75,6 +79,7 @@
                         android:layout_height="wrap_content"
                         android:autofillHints="password"
                         android:hint="@string/password"
+                        android:textColor="@color/colorAccent"
                         android:inputType="textPassword"
                         tools:targetApi="o" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -90,6 +95,7 @@
                 <Button
                     android:id="@+id/btn_forgot_password"
                     style="@style/FlatButton"
+                    android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/forgot_password" />
