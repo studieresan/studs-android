@@ -15,6 +15,7 @@ import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 import se.studieresan.studs.login.presenters.ForgotPasswordPresenter
 
+
 private val MESSAGES = listOf(
         "You should keep better track of your passwords",
         "Don't wear out the forgot password button",

@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
-import se.studieresan.studs.MainActivity
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication
-import se.studieresan.studs.events.EventsActivity
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
 
@@ -54,8 +52,7 @@ class LoginActivity : StudsActivity(), LoginContract.View {
     }
 
     override fun presentMainView() {
-        startActivity(EventsActivity.makeIntent(this, true))
-        finish()
+        // todo, present event view
     }
 
     override fun onDestroy() {
