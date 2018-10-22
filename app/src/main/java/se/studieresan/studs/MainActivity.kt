@@ -16,6 +16,7 @@ import se.studieresan.studs.util.inTransaction
 class MainActivity : StudsActivity() {
 
     companion object {
+        @JvmStatic
         fun makeIntent(context: Context, newTask: Boolean = false): Intent {
             val intent = Intent(context, MainActivity::class.java)
             if (newTask) {
@@ -68,7 +69,7 @@ class MainActivity : StudsActivity() {
 
     private fun logOut() {
         StudsPreferences.setIsLoggedOut(this)
-        startActivity(LauncherActivity.makeIntent(this))
+        startActivity(LauncherActivityImpl.makeIntent(this))
         finish()
     }
 

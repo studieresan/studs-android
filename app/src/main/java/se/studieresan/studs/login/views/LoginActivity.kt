@@ -19,6 +19,7 @@ class LoginActivity : StudsActivity(), LoginContract.View {
     private lateinit var presenter: LoginContract.Presenter
 
     companion object {
+        @JvmStatic
         fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
     }
 
