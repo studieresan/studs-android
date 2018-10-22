@@ -3,10 +3,11 @@ package se.studieresan.studs
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
 import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.events.views.EventFragment
 import se.studieresan.studs.trip.TripFragment
@@ -33,6 +34,12 @@ class MainActivity : StudsActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Add hamburger
+        addToolbar()
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.drawer_event -> consume { replaceFragment(EventFragment()) }
@@ -44,13 +51,6 @@ class MainActivity : StudsActivity() {
             true
         }
 
-
-        // Add hamburger
-        addToolbar()
-        supportActionBar?.apply {
-            setHomeAsUpIndicator(R.drawable.ic_menu)
-        }
-
         // If we don't have a current Fragment from the bundle, jump to Events
         if (savedInstanceState == null) {
             replaceFragment(EventFragment())
@@ -58,12 +58,11 @@ class MainActivity : StudsActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        android.R.id.home -> {
-            drawer_layout.openDrawer(GravityCompat.START)
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START))
+            drawer_layout.closeDrawer(GravityCompat.START)
+        else
+            super.onBackPressed()
     }
 
     private fun logOut() {
