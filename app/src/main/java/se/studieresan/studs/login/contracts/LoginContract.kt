@@ -5,14 +5,14 @@ import se.studieresan.studs.BaseView
 
 interface LoginContract {
 
-    interface View : BaseView {
-        fun showEmailErrorMessage(show: Boolean)
-        fun showPasswordErrorMessage(show: Boolean)
-        fun showLoginFailedMessage()
-        fun loginSuccessful()
-    }
+  interface View : BaseView {
+    fun showEmailErrorMessage(show: Boolean)
+    fun showPasswordErrorMessage(show: Boolean)
+    fun showLoginFailedMessage()
+    fun loginSuccessful()
+  }
 
-    interface Presenter : BasePresenter {
-        fun onLoginClicked(email: String, password: String)
-    }
+  interface Presenter : BasePresenter {
+    fun onLoginClicked(email: String, password: String)
+  }
 }

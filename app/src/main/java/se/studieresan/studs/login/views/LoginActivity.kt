@@ -16,50 +16,50 @@ import se.studieresan.studs.login.presenters.LoginPresenter
 
 class LoginActivity : StudsActivity(), LoginContract.View {
 
-    private lateinit var presenter: LoginContract.Presenter
+  private lateinit var presenter: LoginContract.Presenter
 
-    companion object {
-        fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
-    }
+  companion object {
+    fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
+  }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        setupClickListeners()
-        val studsService = (application as StudsApplication).studsService
-        presenter = LoginPresenter(this, studsService)
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_login)
+    setupClickListeners()
+    val studsService = (application as StudsApplication).studsService
+    presenter = LoginPresenter(this, studsService)
+  }
 
-    private fun setupClickListeners() {
-        btn_login.setOnClickListener { login() }
-        btn_forgot_password.setOnClickListener { showForgotPassword() }
-    }
+  private fun setupClickListeners() {
+    btn_login.setOnClickListener { login() }
+    btn_forgot_password.setOnClickListener { showForgotPassword() }
+  }
 
-    private fun showForgotPassword() = startActivity(ForgotPasswordActivity.makeIntent(this, et_email.text.toString()))
+  private fun showForgotPassword() = startActivity(ForgotPasswordActivity.makeIntent(this, et_email.text.toString()))
 
-    private fun login() = presenter.onLoginClicked(et_email.text.toString(), et_password.text.toString())
+  private fun login() = presenter.onLoginClicked(et_email.text.toString(), et_password.text.toString())
 
-    override fun showEmailErrorMessage(show: Boolean) {
-        til_email.error = if (show) getString(R.string.invalid_email) else null
-    }
+  override fun showEmailErrorMessage(show: Boolean) {
+    til_email.error = if (show) getString(R.string.invalid_email) else null
+  }
 
-    override fun showPasswordErrorMessage(show: Boolean) {
-        til_password.error = if (show) getString(R.string.invalid_password) else null
-    }
+  override fun showPasswordErrorMessage(show: Boolean) {
+    til_password.error = if (show) getString(R.string.invalid_password) else null
+  }
 
-    override fun showLoginFailedMessage() {
-        btn_login.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake))
-        Snackbar.make(view, getString(R.string.invalid_email_or_password), Snackbar.LENGTH_SHORT).show()
-    }
+  override fun showLoginFailedMessage() {
+    btn_login.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake))
+    Snackbar.make(view, getString(R.string.invalid_email_or_password), Snackbar.LENGTH_SHORT).show()
+  }
 
-    override fun loginSuccessful() {
-        StudsPreferences.setIsLoggedIn(this)
-        startActivity(MainActivity.makeIntent(this, true))
-        finish()
-    }
+  override fun loginSuccessful() {
+    StudsPreferences.logIn(this)
+    startActivity(MainActivity.makeIntent(this, true))
+    finish()
+  }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onCleanup()
-    }
+  override fun onDestroy() {
+    super.onDestroy()
+    presenter.onCleanup()
+  }
 }
