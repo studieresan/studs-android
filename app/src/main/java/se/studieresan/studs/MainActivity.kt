@@ -66,7 +66,8 @@ class MainActivity : StudsActivity() {
     }
 
     private fun logOut() {
-        StudsPreferences.setIsLoggedOut(this)
+        StudsPreferences.logOut(this)
+
         startActivity(LauncherActivity.makeIntent(this))
         finish()
     }

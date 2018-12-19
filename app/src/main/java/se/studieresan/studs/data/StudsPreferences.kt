@@ -14,23 +14,25 @@ object StudsPreferences {
             PreferenceManager.getDefaultSharedPreferences(context)
                     .getBoolean(LOGGED_IN, false)
 
-    fun setIsLoggedIn(context: Context) =
+    fun logIn(context: Context) =
             PreferenceManager.getDefaultSharedPreferences(context)
                     .edit()
                     .putBoolean(LOGGED_IN, true)
-                    .commit()
+                    .apply()
 
-    fun setIsLoggedOut(context: Context) =
-            PreferenceManager.getDefaultSharedPreferences(context)
-                    .edit()
-                    .putBoolean(LOGGED_IN, false)
-                    .commit()
+    fun logOut(context: Context) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putBoolean(LOGGED_IN, false)
+                .putString(JWT_TOKEN, "")
+                .apply()
+    }
 
     fun setJwtToken(context: Context, token: String) =
             PreferenceManager.getDefaultSharedPreferences(context)
                     .edit()
                     .putString(JWT_TOKEN, token)
-                    .commit()
+                    .apply()
 
     fun getJwtToken(context: Context) =
         checkNotNull(PreferenceManager.getDefaultSharedPreferences(context)

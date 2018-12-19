@@ -15,7 +15,9 @@ class AddJwtInterceptor(private val context: Context) : Interceptor {
         val token = StudsPreferences
                 .getJwtToken(context)
         builder.run {
-            addHeader(AUTHORIZATION, token)
+            if (token != "") {
+                addHeader(AUTHORIZATION, token)
+            }
             addHeader(CONTENT_TYPE, "application/graphql")
         }
         return chain.proceed(builder.build())

@@ -53,7 +53,7 @@ class LoginActivity : StudsActivity(), LoginContract.View {
     }
 
     override fun loginSuccessful() {
-        StudsPreferences.setIsLoggedIn(this)
+        StudsPreferences.logIn(this)
         startActivity(MainActivity.makeIntent(this, true))
         finish()
     }
