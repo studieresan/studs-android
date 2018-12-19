@@ -16,36 +16,36 @@ import timber.log.Timber
 private const val STUDS_URL = "https://studs18-overlord.herokuapp.com/"
 
 class StudsApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-        if (BuildConfig.DEBUG) {
-            // Plant Timber
-            Timber.plant(Timber.DebugTree())
-        } else {
-            // Setup Instabug for feedback and bugs
-            Instabug.Builder(this, BuildConfig.INSTABUG_KEY)
-                    .setInvocationEvents(InstabugInvocationEvent.SCREENSHOT)
-                    .build()
-        }
+    if (BuildConfig.DEBUG) {
+      // Plant Timber
+      Timber.plant(Timber.DebugTree())
+    } else {
+      // Setup Instabug for feedback and bugs
+      Instabug.Builder(this, BuildConfig.INSTABUG_KEY)
+          .setInvocationEvents(InstabugInvocationEvent.SCREENSHOT)
+          .build()
     }
+  }
 
-    private val retrofit by lazy {
-        val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(AddJwtInterceptor(this))
-                .addInterceptor(ReceivedJwtInterceptor(this))
-                .build()
+  private val retrofit by lazy {
+    val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addInterceptor(AddJwtInterceptor(this))
+        .addInterceptor(ReceivedJwtInterceptor(this))
+        .build()
 
-        Retrofit.Builder()
-                .baseUrl(STUDS_URL)
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-    }
+    Retrofit.Builder()
+        .baseUrl(STUDS_URL)
+        .client(okHttpClient)
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+  }
 
-    val studsService: StudsService by lazy {
-        retrofit.create(StudsService::class.java)
-    }
+  val studsService: StudsService by lazy {
+    retrofit.create(StudsService::class.java)
+  }
 }

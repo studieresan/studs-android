@@ -10,19 +10,19 @@ import se.studieresan.studs.login.views.LoginActivity
 
 class LauncherActivity : AppCompatActivity() {
 
-    companion object {
-        fun makeIntent(context: Context) = Intent(context, LauncherActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+  companion object {
+    fun makeIntent(context: Context) = Intent(context, LauncherActivity::class.java).apply {
+      flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
+  }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
 
-        if (StudsPreferences.isLoggedIn(this))
-            startActivity(MainActivity.makeIntent(this))
-        else
-            startActivity(LoginActivity.makeIntent(this))
-        finish()
-    }
+    if (StudsPreferences.isLoggedIn(this))
+      startActivity(MainActivity.makeIntent(this))
+    else
+      startActivity(LoginActivity.makeIntent(this))
+    finish()
+  }
 }

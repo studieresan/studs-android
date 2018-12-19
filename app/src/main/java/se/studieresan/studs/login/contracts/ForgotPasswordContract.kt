@@ -5,13 +5,13 @@ import se.studieresan.studs.BaseView
 
 interface ForgotPasswordContract {
 
-    interface View : BaseView {
-        fun showEmailSentVerification()
-        fun showGenericErrorMessage()
-        fun showInvalidEmailError()
-    }
+  interface View : BaseView {
+    fun showEmailSentVerification()
+    fun showGenericErrorMessage()
+    fun showInvalidEmailError()
+  }
 
-    interface Presenter : BasePresenter {
-        fun forgotEmail(email: String)
-    }
+  interface Presenter : BasePresenter {
+    fun forgotEmail(email: String)
+  }
 }

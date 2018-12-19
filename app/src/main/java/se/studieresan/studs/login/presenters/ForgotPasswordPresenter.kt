@@ -8,31 +8,31 @@ import se.studieresan.studs.data.StudsService
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 
 class ForgotPasswordPresenter(
-        private val view: ForgotPasswordContract.View,
-        private val studsService: StudsService
+    private val view: ForgotPasswordContract.View,
+    private val studsService: StudsService
 ) : ForgotPasswordContract.Presenter {
-    private var disposable: Disposable? = null
+  private var disposable: Disposable? = null
 
-    override fun forgotEmail(email: String) {
-        when {
-            email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() -> resetPassword(email)
-            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> view.showInvalidEmailError()
-            else -> view.showInvalidEmailError()
-        }
+  override fun forgotEmail(email: String) {
+    when {
+      email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() -> resetPassword(email)
+      !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> view.showInvalidEmailError()
+      else -> view.showInvalidEmailError()
     }
+  }
 
-    private fun resetPassword(email: String) {
-        disposable?.dispose()
-        disposable = studsService.forgotPassword(ForgotPasswordRequest(email))
-                .subscribeOn(Schedulers.io())
-                .observeOn(view.mainScheduler)
-                .subscribe({
-                    view.showEmailSentVerification()
-                }, { view.showGenericErrorMessage() })
-    }
+  private fun resetPassword(email: String) {
+    disposable?.dispose()
+    disposable = studsService.forgotPassword(ForgotPasswordRequest(email))
+        .subscribeOn(Schedulers.io())
+        .observeOn(view.mainScheduler)
+        .subscribe({
+          view.showEmailSentVerification()
+        }, { view.showGenericErrorMessage() })
+  }
 
-    override fun onCleanup() {
-        disposable?.dispose()
-        disposable = null
-    }
+  override fun onCleanup() {
+    disposable?.dispose()
+    disposable = null
+  }
 }
