@@ -1,11 +1,11 @@
 package se.studieresan.studs.data
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
 
 private const val LOGGED_IN = "logged_in"
+private const val JWT_TOKEN = "jwt_token"
 
 // Abstraction over SharedPrefs
 object StudsPreferences {
@@ -25,4 +25,14 @@ object StudsPreferences {
                     .edit()
                     .putBoolean(LOGGED_IN, false)
                     .commit()
+
+    fun setJwtToken(context: Context, token: String) =
+            PreferenceManager.getDefaultSharedPreferences(context)
+                    .edit()
+                    .putString(JWT_TOKEN, token)
+                    .commit()
+
+    fun getJwtToken(context: Context) =
+        checkNotNull(PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(JWT_TOKEN, ""))
 }

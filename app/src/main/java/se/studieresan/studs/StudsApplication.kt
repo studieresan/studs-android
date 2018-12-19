@@ -8,6 +8,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import se.studieresan.studs.data.AddJwtInterceptor
+import se.studieresan.studs.data.ReceivedJwtInterceptor
 import se.studieresan.studs.data.StudsService
 import timber.log.Timber
 
@@ -31,6 +33,8 @@ class StudsApplication : Application() {
     private val retrofit by lazy {
         val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(AddJwtInterceptor(this))
+                .addInterceptor(ReceivedJwtInterceptor(this))
                 .build()
 
         Retrofit.Builder()
