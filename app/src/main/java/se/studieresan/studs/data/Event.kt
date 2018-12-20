@@ -1,11 +1,10 @@
 package se.studieresan.studs.data
 
-import com.google.gson.annotations.SerializedName
+import androidx.recyclerview.widget.DiffUtil
 
 data class Event(
     val id: String,
     val companyName: String = "",
-    @SerializedName("privateDescription")
     val privateDescription: String? = null,
     val publicDescription: String? = null,
     val date: String? = null,
@@ -14,4 +13,12 @@ data class Event(
     val location: String = "",
     val pictures: List<String> = emptyList(),
     val responsible: String = ""
-)
+) {
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Event>() {
+            override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean = oldItem == newItem
+        }
+    }
+}
