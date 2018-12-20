@@ -6,8 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import se.studieresan.studs.data.StudsPreferences
@@ -15,7 +13,6 @@ import se.studieresan.studs.events.views.EventFragment
 import se.studieresan.studs.trip.TripFragment
 import se.studieresan.studs.util.consume
 import se.studieresan.studs.util.inTransaction
-import timber.log.Timber
 
 class MainActivity : StudsActivity() {
 
@@ -32,8 +29,6 @@ class MainActivity : StudsActivity() {
 
     private const val FRAGMENT_ID = R.id.fragment_container
   }
-
-  private var disposable: Disposable? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -61,12 +56,6 @@ class MainActivity : StudsActivity() {
       replaceFragment(EventFragment())
       drawer.setCheckedItem(R.id.drawer_event)
     }
-
-    // Just for testing
-    val service = (application as StudsApplication).studsService
-    disposable = service.getEvents()
-        .subscribeOn(Schedulers.io())
-        .subscribe({ events -> Timber.d(events.toString()) }, { err -> Timber.e(err) })
   }
 
   override fun onBackPressed() {
@@ -87,11 +76,5 @@ class MainActivity : StudsActivity() {
     supportFragmentManager.inTransaction {
       replace(FRAGMENT_ID, fragment)
     }
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    disposable?.dispose()
-    disposable = null
   }
 }
