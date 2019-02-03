@@ -4,7 +4,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import se.studieresan.studs.data.StudsService
 import se.studieresan.studs.data.LoginUserRequest
-import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.login.contracts.LoginContract
 
 class LoginPresenter(

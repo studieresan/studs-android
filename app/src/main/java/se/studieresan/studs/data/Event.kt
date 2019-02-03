@@ -1,6 +1,7 @@
 package se.studieresan.studs.data
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class Event(
     val id: String,
@@ -8,7 +9,7 @@ data class Event(
     @SerializedName("privateDescription")
     val privateDescription: String? = null,
     val publicDescription: String? = null,
-    val date: String? = null,
+    val date: Date,
     val beforeSurveys: List<String> = emptyList(),
     val afterSurveys: List<String> = emptyList(),
     val location: String = "",
