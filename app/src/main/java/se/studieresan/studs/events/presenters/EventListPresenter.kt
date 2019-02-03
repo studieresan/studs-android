@@ -11,13 +11,13 @@ class EventListPresenter(
     private val studsService: StudsService
 ) : EventListContract.Presenter {
 
-    private var eventsDisposable: Disposable? = null
+    private var disposable: Disposable? = null
 
     override fun loadEvents() {
         view.showEventListLoading()
 
-        eventsDisposable?.dispose()
-        eventsDisposable = studsService.getEvents()
+        disposable?.dispose()
+        disposable = studsService.getEvents()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -28,7 +28,7 @@ class EventListPresenter(
     }
 
     override fun onCleanup() {
-        eventsDisposable?.dispose()
-        eventsDisposable = null
+        disposable?.dispose()
+        disposable = null
     }
 }
