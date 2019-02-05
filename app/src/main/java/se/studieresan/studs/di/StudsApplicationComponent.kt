@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class, NetModule::class, ServiceModule::class])
 interface StudsApplicationComponent {
-  fun inject(forgotPasswordActivity: ForgotPasswordActivity)
-  fun inject(loginActivity: LoginActivity)
-  fun inject(upcomingEventsFragment: UpcomingEventsFragment)
+    fun inject(forgotPasswordActivity: ForgotPasswordActivity)
+    fun inject(loginActivity: LoginActivity)
+    fun inject(upcomingEventsFragment: UpcomingEventsFragment)
 }

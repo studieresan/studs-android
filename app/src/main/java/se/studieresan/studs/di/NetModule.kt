@@ -15,24 +15,24 @@ import javax.inject.Singleton
 @Module
 class NetModule(private val baseUrl: String) {
 
-  @Provides
-  @Singleton
-  fun provideOkHttpClient(application: StudsApplication): OkHttpClient {
-    return OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-        .addInterceptor(AddJwtInterceptor(application))
-        .addInterceptor(ReceivedJwtInterceptor(application))
-        .build()
-  }
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(application: StudsApplication): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(AddJwtInterceptor(application))
+            .addInterceptor(ReceivedJwtInterceptor(application))
+            .build()
+    }
 
-  @Provides
-  @Singleton
-  fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-    return Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(okHttpClient)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-  }
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }

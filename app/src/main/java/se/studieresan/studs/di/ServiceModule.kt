@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Module
 class ServiceModule {
 
-  @Provides
-  @Singleton
-  fun provideStudsService(retrofit: Retrofit): StudsService = retrofit.create(StudsService::class.java)
+    @Provides
+    @Singleton
+    fun provideStudsService(retrofit: Retrofit): StudsService = retrofit.create(StudsService::class.java)
 }
