@@ -37,5 +37,5 @@ interface StudsService {
 
 data class Events(val data: AllEvents)
 data class AllEvents(val allEvents: List<Event>)
-data class ForgotPasswordRequest(val email: String)
-data class LoginUserRequest(val email: String, val password: String)
+data class ForgotPasswordRequest(val email: Email)
+data class LoginUserRequest(val email: Email, val password: Password)

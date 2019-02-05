@@ -22,3 +22,6 @@ data class Event(
         }
     }
 }
+
+inline class Email(val value: String)
+inline class Password(val value: String)

@@ -5,20 +5,22 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
+import se.studieresan.studs.data.Email
 import se.studieresan.studs.data.Events
 import se.studieresan.studs.data.ForgotPasswordRequest
 import se.studieresan.studs.data.LoginUserRequest
+import se.studieresan.studs.data.Password
 import se.studieresan.studs.data.StudsService
 import javax.inject.Inject
 
 class StudsRepository @Inject constructor(private val studsService: StudsService) {
 
-  fun login(email: String, password: String): Observable<ResponseBody> =
+  fun login(email: Email, password: Password): Observable<ResponseBody> =
       studsService
           .login(LoginUserRequest(email, password))
           .compose(applySchedulers())
 
-  fun forgotPassword(email: String): Observable<ResponseBody> =
+  fun forgotPassword(email: Email): Observable<ResponseBody> =
       studsService
           .forgotPassword(ForgotPasswordRequest(email))
           .compose(applySchedulers())

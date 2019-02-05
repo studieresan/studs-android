@@ -3,6 +3,7 @@ package se.studieresan.studs.login.presenters
 import android.util.Patterns
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import se.studieresan.studs.data.Email
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 import se.studieresan.studs.net.StudsRepository
 
@@ -22,7 +23,7 @@ class ForgotPasswordPresenter(
 
   private fun resetPassword(email: String) {
     disposable?.dispose()
-    disposable = studsRepository.forgotPassword(email)
+    disposable = studsRepository.forgotPassword(Email(email))
         .subscribeOn(Schedulers.io())
         .observeOn(view.mainScheduler)
         .subscribe({
