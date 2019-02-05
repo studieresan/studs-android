@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_events"
+        android:icon="@drawable/ic_business_center_black_24dp"
+        android:title="@string/event" />
+    <item
+        android:id="@+id/navigation_trip"
+        android:icon="@drawable/ic_flight_takeoff_black_24dp"
+        android:title="@string/trip" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/my_profile" />
+</menu>
