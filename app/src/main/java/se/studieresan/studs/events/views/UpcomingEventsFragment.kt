@@ -13,12 +13,17 @@ import kotlinx.android.synthetic.main.fragment_upcoming.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.events.adapters.EventAdapter
+import se.studieresan.studs.net.StudsRepository
 import timber.log.Timber
+import javax.inject.Inject
 
 class UpcomingEventsFragment : Fragment() {
 
   private var adapter: EventAdapter = EventAdapter()
   private var disposable: Disposable? = null
+
+  @Inject
+  lateinit var studsRepository: StudsRepository
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(R.layout.fragment_upcoming, container, false)
@@ -26,6 +31,7 @@ class UpcomingEventsFragment : Fragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
+    StudsApplication.applicationComponent.inject(this)
     fetchEvents()
     swipe_refresh.setOnRefreshListener { fetchEvents() }
     rv_events.layoutManager = LinearLayoutManager(requireContext())
@@ -34,8 +40,7 @@ class UpcomingEventsFragment : Fragment() {
 
   private fun fetchEvents() {
     disposable?.dispose()
-    val service = (requireActivity().application as StudsApplication).studsService
-    disposable = service
+    disposable = studsRepository
             .getEvents()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

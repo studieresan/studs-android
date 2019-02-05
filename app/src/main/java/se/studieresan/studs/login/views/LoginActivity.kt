@@ -13,10 +13,15 @@ import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
+import se.studieresan.studs.net.StudsRepository
+import javax.inject.Inject
 
 class LoginActivity : StudsActivity(), LoginContract.View {
 
   private lateinit var presenter: LoginContract.Presenter
+
+  @Inject
+  lateinit var studsRepository: StudsRepository
 
   companion object {
     fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
@@ -24,10 +29,10 @@ class LoginActivity : StudsActivity(), LoginContract.View {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    StudsApplication.applicationComponent.inject(this)
     setContentView(R.layout.activity_login)
     setupClickListeners()
-    val studsService = (application as StudsApplication).studsService
-    presenter = LoginPresenter(this, studsService)
+    presenter = LoginPresenter(this, studsRepository)
   }
 
   private fun setupClickListeners() {
