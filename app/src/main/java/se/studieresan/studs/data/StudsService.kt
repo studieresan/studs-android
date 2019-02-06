@@ -1,7 +1,7 @@
 package se.studieresan.studs.data
 
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.Observable
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -26,16 +26,16 @@ private const val eventQuery =
 
 interface StudsService {
   @POST("login")
-  fun login(@Body loginUserRequest: LoginUserRequest): Completable
+  fun login(@Body loginUserRequest: LoginUserRequest): Observable<ResponseBody>
 
   @POST("forgot")
-  fun forgotPassword(@Body forgotPasswordRequest: ForgotPasswordRequest): Completable
+  fun forgotPassword(@Body forgotPasswordRequest: ForgotPasswordRequest): Observable<ResponseBody>
 
   @GET("graphql?query=$eventQuery")
-  fun getEvents(): Single<Events>
+  fun getEvents(): Observable<Events>
 }
 
 data class Events(val data: AllEvents)
 data class AllEvents(val allEvents: List<Event>)
-data class ForgotPasswordRequest(val email: String)
-data class LoginUserRequest(val email: String, val password: String)
+data class ForgotPasswordRequest(val email: Email)
+data class LoginUserRequest(val email: Email, val password: Password)

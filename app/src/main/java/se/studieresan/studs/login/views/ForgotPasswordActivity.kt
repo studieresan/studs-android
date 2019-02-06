@@ -8,12 +8,14 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_forgot_password.*
-import se.studieresan.studs.data.IntentExtra
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication
+import se.studieresan.studs.data.IntentExtra
 import se.studieresan.studs.login.contracts.ForgotPasswordContract
 import se.studieresan.studs.login.presenters.ForgotPasswordPresenter
+import se.studieresan.studs.net.StudsRepository
+import javax.inject.Inject
 
 
 private val MESSAGES = listOf(
@@ -23,8 +25,12 @@ private val MESSAGES = listOf(
 )
 
 class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
+
   private lateinit var presenter: ForgotPasswordContract.Presenter
   private var toast: Toast? = null
+
+  @Inject
+  lateinit var studsRepository: StudsRepository
 
   companion object {
     fun makeIntent(context: Context, email: String) = Intent(context, ForgotPasswordActivity::class.java).apply {
@@ -34,14 +40,14 @@ class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    StudsApplication.applicationComponent.inject(this)
     setContentView(R.layout.activity_forgot_password)
     addToolbar()
     setupClickListeners()
 
     val email = intent.getStringExtra(IntentExtra.EMAIL)
     et_email.setText(email, TextView.BufferType.EDITABLE)
-    val studsService = (application as StudsApplication).studsService
-    presenter = ForgotPasswordPresenter(this, studsService)
+    presenter = ForgotPasswordPresenter(this, studsRepository)
   }
 
   private fun setupClickListeners() {

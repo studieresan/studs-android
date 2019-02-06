@@ -2,14 +2,14 @@ package se.studieresan.studs.login.presenters
 
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import se.studieresan.studs.data.StudsService
-import se.studieresan.studs.data.LoginUserRequest
-import se.studieresan.studs.data.StudsPreferences
+import se.studieresan.studs.data.Email
+import se.studieresan.studs.data.Password
 import se.studieresan.studs.login.contracts.LoginContract
+import se.studieresan.studs.net.StudsRepository
 
 class LoginPresenter(
     private val view: LoginContract.View,
-    private val studsService: StudsService
+    private val studsRepository: StudsRepository
 ) : LoginContract.Presenter {
 
   private var loginDisposable: Disposable? = null
@@ -21,8 +21,8 @@ class LoginPresenter(
 
     if (validCredentialFormat) {
       loginDisposable?.dispose()
-      loginDisposable = studsService
-          .login(LoginUserRequest(email, password))
+      loginDisposable = studsRepository
+          .login(Email(email), Password(password))
           .subscribeOn(Schedulers.io())
           .observeOn(view.mainScheduler)
           .subscribe({
