@@ -13,6 +13,8 @@ import se.studieresan.studs.util.inTransaction
 
 class MainActivity : StudsActivity() {
 
+    private var currentFragmentId: Int = 0
+
     companion object {
         fun makeIntent(context: Context, newTask: Boolean = false): Intent {
             val intent = Intent(context, MainActivity::class.java)
@@ -35,24 +37,29 @@ class MainActivity : StudsActivity() {
 
         // If we don't have a current Fragment from the bundle, jump to Events
         if (savedInstanceState == null) {
-            replaceFragment(EventsFragment())
+            replaceFragment(R.id.navigation_events, EventsFragment())
         }
     }
 
     private val navItemSelectListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        if (currentFragmentId == item.itemId) {
+            return@OnNavigationItemSelectedListener true
+        }
+
         when (item.itemId) {
             R.id.navigation_events -> {
                 toolbar.title = "Events"
-                replaceFragment(EventsFragment())
+                replaceFragment(R.id.navigation_events, EventsFragment())
             }
             R.id.navigation_trip -> {
                 toolbar.title = "Trip"
-                replaceFragment(TripFragment())
+                replaceFragment(R.id.navigation_trip, TripFragment())
             }
             R.id.navigation_profile -> {
                 toolbar.title = "Profile"
             }
         }
+
         return@OnNavigationItemSelectedListener true
     }
 
@@ -63,7 +70,9 @@ class MainActivity : StudsActivity() {
         finish()
     }
 
-    private fun <F> replaceFragment(fragment: F) where F : Fragment {
+    private fun <F> replaceFragment(id: Int, fragment: F) where F : Fragment {
+        currentFragmentId = id
+
         supportFragmentManager.inTransaction {
             replace(FRAGMENT_ID, fragment)
         }
