@@ -25,14 +25,14 @@ private const val eventQuery =
     }"""
 
 interface StudsService {
-  @POST("login")
-  fun login(@Body loginUserRequest: LoginUserRequest): Observable<ResponseBody>
+    @POST("login")
+    fun login(@Body loginUserRequest: LoginUserRequest): Observable<ResponseBody>
 
-  @POST("forgot")
-  fun forgotPassword(@Body forgotPasswordRequest: ForgotPasswordRequest): Observable<ResponseBody>
+    @POST("forgot")
+    fun forgotPassword(@Body forgotPasswordRequest: ForgotPasswordRequest): Observable<ResponseBody>
 
-  @GET("graphql?query=$eventQuery")
-  fun getEvents(): Observable<Events>
+    @GET("graphql?query=$eventQuery")
+    fun getEvents(): Observable<Events>
 }
 
 data class Events(val data: AllEvents)

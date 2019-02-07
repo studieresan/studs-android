@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/drawer_selector"
+    <group
+        android:id="@+id/drawer_selector"
         android:checkableBehavior="single">
-        <item android:id="@+id/drawer_event"
-            android:title="@string/event"
-            android:icon="@drawable/ic_business_center_black_24dp" />
+        <item
+            android:id="@+id/drawer_event"
+            android:icon="@drawable/ic_business_center_black_24dp"
+            android:title="@string/event" />
 
-        <item android:id="@+id/drawer_trip"
-            android:title="@string/trip"
-            android:icon="@drawable/ic_flight_takeoff_black_24dp" />
+        <item
+            android:id="@+id/drawer_trip"
+            android:icon="@drawable/ic_flight_takeoff_black_24dp"
+            android:title="@string/trip" />
     </group>
 
-    <group android:id="@+id/drawer_extras"
+    <group
+        android:id="@+id/drawer_extras"
         android:checkableBehavior="single">
-        <item android:id="@+id/drawer_my_profile"
-            android:title="@string/my_profile"
-            android:icon="@drawable/ic_person_black_24dp" />
+        <item
+            android:id="@+id/drawer_my_profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/my_profile" />
 
-        <item android:id="@+id/drawer_my_resume"
-            android:title="@string/my_resume"
-            android:icon="@drawable/ic_insert_drive_file_black_24dp" />
+        <item
+            android:id="@+id/drawer_my_resume"
+            android:icon="@drawable/ic_insert_drive_file_black_24dp"
+            android:title="@string/my_resume" />
 
-        <item android:id="@+id/drawer_logout"
-            android:title="@string/logout"
-            android:icon="@drawable/ic_exit_to_app_black_24dp" />
+        <item
+            android:id="@+id/drawer_logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="@string/logout" />
     </group>
 
 </menu>
