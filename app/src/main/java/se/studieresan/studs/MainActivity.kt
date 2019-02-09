@@ -3,18 +3,17 @@ package se.studieresan.studs
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.toolbar.*
 import se.studieresan.studs.data.StudsPreferences
-import se.studieresan.studs.events.views.EventFragment
+import se.studieresan.studs.events.views.EventsFragment
 import se.studieresan.studs.trip.TripFragment
-import se.studieresan.studs.util.consume
 import se.studieresan.studs.util.inTransaction
 
 class MainActivity : StudsActivity() {
+
+    private var currentFragmentId = 0
 
     companion object {
         fun makeIntent(context: Context, newTask: Boolean = false): Intent {
@@ -33,42 +32,35 @@ class MainActivity : StudsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Add hamburger
         addToolbar()
-        val toggle = ActionBarDrawerToggle(
-            this,
-            drawer_layout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        drawer.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.drawer_event -> consume { replaceFragment(EventFragment()) }
-                R.id.drawer_trip -> consume { replaceFragment(TripFragment()) }
-                R.id.drawer_logout -> logOut()
-            }
-            it.isChecked = true
-            drawer_layout.closeDrawers()
-            true
-        }
+        bottom_navigation.setOnNavigationItemSelectedListener(navItemSelectListener)
 
         // If we don't have a current Fragment from the bundle, jump to Events
         if (savedInstanceState == null) {
-            replaceFragment(EventFragment())
-            drawer.setCheckedItem(R.id.drawer_event)
+            replaceFragment(R.id.navigation_events, EventsFragment())
         }
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START))
-            drawer_layout.closeDrawer(GravityCompat.START)
-        else
-            super.onBackPressed()
+    private val navItemSelectListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        if (currentFragmentId == item.itemId) {
+            return@OnNavigationItemSelectedListener true
+        }
+
+        when (item.itemId) {
+            R.id.navigation_events -> {
+                toolbar.title = getString(R.string.event)
+                replaceFragment(R.id.navigation_events, EventsFragment())
+            }
+            R.id.navigation_trip -> {
+                toolbar.title = getString(R.string.trip)
+                replaceFragment(R.id.navigation_trip, TripFragment())
+            }
+            R.id.navigation_profile -> {
+                toolbar.title = getString(R.string.profile)
+            }
+        }
+
+        return@OnNavigationItemSelectedListener true
     }
 
     private fun logOut() {
@@ -78,7 +70,9 @@ class MainActivity : StudsActivity() {
         finish()
     }
 
-    private fun <F> replaceFragment(fragment: F) where F : Fragment {
+    private fun <F> replaceFragment(id: Int, fragment: F) where F : Fragment {
+        currentFragmentId = id
+
         supportFragmentManager.inTransaction {
             replace(FRAGMENT_ID, fragment)
         }

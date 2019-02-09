@@ -34,7 +34,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".login.views.LoginActivity"
-            android:label=""
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
     </application>
 

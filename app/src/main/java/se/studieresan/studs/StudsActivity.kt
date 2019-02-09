@@ -19,7 +19,6 @@ abstract class StudsActivity : AppCompatActivity(), BaseView {
         checkNotNull(toolbar) { "Toolbar must not be null" }
 
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

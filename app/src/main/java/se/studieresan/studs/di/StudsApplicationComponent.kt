@@ -1,7 +1,7 @@
 package se.studieresan.studs.di
 
 import dagger.Component
-import se.studieresan.studs.events.views.UpcomingEventsFragment
+import se.studieresan.studs.events.views.EventsFragment
 import se.studieresan.studs.login.views.ForgotPasswordActivity
 import se.studieresan.studs.login.views.LoginActivity
 import javax.inject.Singleton
@@ -11,5 +11,5 @@ import javax.inject.Singleton
 interface StudsApplicationComponent {
     fun inject(forgotPasswordActivity: ForgotPasswordActivity)
     fun inject(loginActivity: LoginActivity)
-    fun inject(upcomingEventsFragment: UpcomingEventsFragment)
+    fun inject(eventsFragment: EventsFragment)
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_upcoming.*
+import kotlinx.android.synthetic.main.fragment_events.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.events.adapters.EventAdapter
@@ -17,7 +17,7 @@ import se.studieresan.studs.net.StudsRepository
 import timber.log.Timber
 import javax.inject.Inject
 
-class UpcomingEventsFragment : Fragment() {
+class EventsFragment : Fragment() {
 
   private var adapter: EventAdapter = EventAdapter()
   private var disposable: Disposable? = null
@@ -26,7 +26,7 @@ class UpcomingEventsFragment : Fragment() {
   lateinit var studsRepository: StudsRepository
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_upcoming, container, false)
+    return inflater.inflate(R.layout.fragment_events, container, false)
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
