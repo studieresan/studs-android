@@ -50,15 +50,15 @@ class EventsFragment : Fragment() {
         disposable?.dispose()
         disposable = studsRepository
                 .getEvents()
-                .doOnSubscribe {
-                    progressBar?.visibility = View.VISIBLE
-                }
                 .doFinally {
                     swipe_refresh?.isRefreshing = false
                     progressBar?.visibility = View.GONE
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    progressBar?.visibility = View.VISIBLE
+                }
                 .doOnNext { events ->
                     events.data.allEvents.forEach {
                         it.latLng = MapUtils.getLatLngFromAddress(requireContext(), it.location)
