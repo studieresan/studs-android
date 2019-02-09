@@ -1,7 +1,10 @@
 package se.studieresan.studs.data
 
+import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Event(
     val id: String,
     val companyName: String = "",
@@ -13,7 +16,7 @@ data class Event(
     val location: String = "",
     val pictures: List<String> = emptyList(),
     val responsible: String = ""
-) {
+) : Parcelable {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Event>() {
             override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean = oldItem.id == newItem.id

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,9 +61,7 @@ class EventsFragment : Fragment() {
                 .subscribe({ adapter.submitList(it.data.allEvents) }, { t -> Timber.d(t) })
     }
 
-    private fun displayEventDetails(event: Event) {
-        Toast.makeText(requireContext(), "Selected ${event.companyName}", Toast.LENGTH_SHORT).show()
-    }
+    private fun displayEventDetails(event: Event) = startActivity(EventDetailActivity.makeIntent(requireContext(), event))
 
     private val recycleListener = RecyclerView.RecyclerListener { holder ->
         val eventHolder = holder as? EventAdapter.EventViewHolder
