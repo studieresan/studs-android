@@ -13,7 +13,7 @@ import se.studieresan.studs.util.inTransaction
 
 class MainActivity : StudsActivity() {
 
-    private var currentFragmentId: Int = 0
+    private var currentFragmentId = 0
 
     companion object {
         fun makeIntent(context: Context, newTask: Boolean = false): Intent {
@@ -48,15 +48,15 @@ class MainActivity : StudsActivity() {
 
         when (item.itemId) {
             R.id.navigation_events -> {
-                toolbar.title = "Events"
+                toolbar.title = getString(R.string.event)
                 replaceFragment(R.id.navigation_events, EventsFragment())
             }
             R.id.navigation_trip -> {
-                toolbar.title = "Trip"
+                toolbar.title = getString(R.string.trip)
                 replaceFragment(R.id.navigation_trip, TripFragment())
             }
             R.id.navigation_profile -> {
-                toolbar.title = "Profile"
+                toolbar.title = getString(R.string.profile)
             }
         }
 
