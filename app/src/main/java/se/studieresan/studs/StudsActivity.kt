@@ -40,7 +40,7 @@ abstract class StudsActivity : AppCompatActivity(), BaseView {
         toolbar.title = title
     }
 
-    fun openBrowser(url: String) {
+    override fun openBrowser(url: String) {
         val uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)

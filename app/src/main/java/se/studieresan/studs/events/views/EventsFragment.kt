@@ -57,7 +57,7 @@ class EventsFragment : Fragment() {
                     swipe_refresh?.isRefreshing = false
                     progressBar?.visibility = View.GONE
                 }
-                .subscribe({ adapter.submitList(it.data.allEvents.sortedBy { event -> event.getDate() }.reversed()) }, { t -> Timber.d(t) })
+                .subscribe({ adapter.submitList(it.data.allEvents.sortedByDescending { event -> event.getDate() }) }, { t -> Timber.d(t) })
     }
 
     private fun displayEventDetails(event: Event) = startActivity(EventDetailActivity.makeIntent(requireContext(), event))

@@ -15,22 +15,27 @@ import kotlinx.android.synthetic.main.activity_event_detail.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.data.Event
+import se.studieresan.studs.data.IntentExtra
+import se.studieresan.studs.events.contracts.EventDetailContract
+import se.studieresan.studs.events.presenters.EventDetailPresenter
 import se.studieresan.studs.util.MapUtils
 
-class EventDetailActivity : StudsActivity(), OnMapReadyCallback {
+class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapReadyCallback {
     companion object {
         fun makeIntent(context: Context, event: Event) = Intent(context, EventDetailActivity::class.java).apply {
-            putExtra("Event", event)
+            putExtra(IntentExtra.EVENT, event)
         }
+        private const val ZOOM_FACTOR = 13f
     }
 
     private lateinit var event: Event
+    private lateinit var presenter: EventDetailContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail)
-        event = intent.getParcelableExtra("Event")
-        with (event) {
+        event = intent.getParcelableExtra(IntentExtra.EVENT)
+        with(event) {
             tv_company_name.text = companyName
             tv_company_location.text = location
             tv_private_description.text = privateDescription
@@ -41,32 +46,37 @@ class EventDetailActivity : StudsActivity(), OnMapReadyCallback {
             }
         }
 
+        presenter = EventDetailPresenter(this, event)
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        tv_company_location.setOnClickListener { navigateToAddressForEvent(event) }
-        btn_pre_event.setOnClickListener {
-            event.getPreEventForm()?.let {form ->
-                openBrowser(form)
-            }
+
+        tv_company_location.setOnClickListener {
+            presenter.didPressCompanyLocation()
         }
+
+        btn_pre_event.setOnClickListener {
+            presenter.didClickPreEventFormButton()
+        }
+
         btn_post_event.setOnClickListener {
-            event.getPostEventForm()?.let {form ->
-                openBrowser(form)
-            }
+            presenter.didClickPostEventFormButton()
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         val position = MapUtils.getLatLngFromAddress(this, event.location)
-        googleMap.addMarker(MarkerOptions().position(position).title(event.location))
-        googleMap.uiSettings.isZoomGesturesEnabled = false
-        googleMap.uiSettings.isScrollGesturesEnabled = false
-        googleMap.uiSettings.isMapToolbarEnabled = true
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 13f))
+        googleMap.run {
+            addMarker(MarkerOptions().position(position).title(event.location))
+            uiSettings.isZoomGesturesEnabled = false
+            uiSettings.isScrollGesturesEnabled = false
+            uiSettings.isMapToolbarEnabled = true
+            moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_FACTOR))
+        }
     }
 
-    private fun navigateToAddressForEvent(event: Event) {
-        val gmmIntentUri = Uri.parse("geo:0,0?q=${event.location}")
+    override fun openGoogleMapsNavigation(address: String) {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=$address")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
             setPackage("com.google.android.apps.maps")
         }
@@ -74,7 +84,7 @@ class EventDetailActivity : StudsActivity(), OnMapReadyCallback {
         if (mapIntent.resolveActivity(packageManager) != null) {
             startActivity(mapIntent)
         } else {
-            Toast.makeText(this, "You need to have Google Maps installed.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.google_maps_unavailable), Toast.LENGTH_LONG).show()
         }
     }
 }
