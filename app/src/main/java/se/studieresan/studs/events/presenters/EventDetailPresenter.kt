@@ -10,7 +10,7 @@ class EventDetailPresenter(
 ) : EventDetailContract.Presenter {
     private var view: EventDetailContract.View? = view
 
-    override fun didPressCompanyLocation() = view!!.openGoogleMapsNavigation(Address( event.location))
+    override fun didPressCompanyLocation() = view!!.openGoogleMapsNavigation(Address(event.location))
 
     override fun didClickPreEventFormButton() {
         event.getPreEventForm()?.let { form ->
