@@ -2,6 +2,7 @@ package se.studieresan.studs.data
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
@@ -17,7 +18,8 @@ data class Event(
         val afterSurveys: List<String> = emptyList(),
         val location: String = "",
         val pictures: List<String> = emptyList(),
-        val responsible: String = ""
+        val responsible: String = "",
+        var latLng: LatLng? = null
 ) : Parcelable {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Event>() {

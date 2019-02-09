@@ -11,7 +11,6 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.MarkerOptions
 import se.studieresan.studs.R
 import se.studieresan.studs.data.Event
-import se.studieresan.studs.util.MapUtils
 
 private const val ZOOM_FACTOR = 13f
 
@@ -59,9 +58,8 @@ class EventAdapter(
 
         private fun setMapLocation() {
             val data = mapView.tag as Event
-            val position = MapUtils.getLatLngFromAddress(applicationContext, data.location)
-            map?.addMarker(MarkerOptions().position(position).title(data.location))
-            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_FACTOR))
+            map?.addMarker(MarkerOptions().position(data.latLng!!).title(data.location))
+            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(data.latLng!!, ZOOM_FACTOR))
         }
     }
 }

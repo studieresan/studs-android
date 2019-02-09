@@ -16,6 +16,7 @@ import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.data.Event
 import se.studieresan.studs.events.adapters.EventAdapter
 import se.studieresan.studs.net.StudsRepository
+import se.studieresan.studs.util.MapUtils
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -40,6 +41,7 @@ class EventsFragment : Fragment() {
         rv_events.run {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@EventsFragment.adapter
+            setHasFixedSize(true)
             setRecyclerListener(recycleListener)
         }
     }
@@ -48,14 +50,19 @@ class EventsFragment : Fragment() {
         disposable?.dispose()
         disposable = studsRepository
                 .getEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressBar?.visibility = View.VISIBLE
                 }
                 .doFinally {
                     swipe_refresh?.isRefreshing = false
                     progressBar?.visibility = View.GONE
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { events ->
+                    events.data.allEvents.forEach {
+                        it.latLng = MapUtils.getLatLngFromAddress(requireContext(), it.location)
+                    }
                 }
                 .subscribe({ adapter.submitList(it.data.allEvents.sortedByDescending { event -> event.getDate() }) }, { t -> Timber.d(t) })
     }
