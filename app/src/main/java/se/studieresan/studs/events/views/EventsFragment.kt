@@ -49,11 +49,11 @@ class EventsFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    progressBar.visibility = View.VISIBLE
+                    progressBar?.visibility = View.VISIBLE
                 }
                 .doFinally {
-                    swipe_refresh.isRefreshing = false
-                    progressBar.visibility = View.GONE
+                    swipe_refresh?.isRefreshing = false
+                    progressBar?.visibility = View.GONE
                 }
                 .subscribe({ adapter.submitList(it.data.allEvents) }, { t -> Timber.d(t) })
     }
