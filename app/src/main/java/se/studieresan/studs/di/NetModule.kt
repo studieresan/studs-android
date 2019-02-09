@@ -2,6 +2,7 @@ package se.studieresan.studs.di
 
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,22 +18,27 @@ class NetModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(application: StudsApplication): OkHttpClient {
+    fun provideOkHttpClient(application: StudsApplication, cache: Cache): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor(AddJwtInterceptor(application))
-            .addInterceptor(ReceivedJwtInterceptor(application))
-            .build()
+                .cache(cache)
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(AddJwtInterceptor(application))
+                .addInterceptor(ReceivedJwtInterceptor(application))
+                .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideHttpCache(application: StudsApplication) = Cache(application.cacheDir, 5 * 1024 * 1024)
 
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(okHttpClient)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+                .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
     }
 }

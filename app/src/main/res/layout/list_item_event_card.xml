@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:layout_marginBottom="16dp"
+    android:layout_marginStart="@dimen/default_margin_small"
+    android:layout_marginEnd="@dimen/default_margin_small"
+    android:layout_marginTop="@dimen/default_margin_mini"
+    android:layout_marginBottom="@dimen/default_margin_mini"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
