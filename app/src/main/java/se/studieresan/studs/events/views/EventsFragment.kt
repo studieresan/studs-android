@@ -40,7 +40,6 @@ class EventsFragment : Fragment() {
         rv_events.run {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@EventsFragment.adapter
-            setHasFixedSize(true)
             setRecyclerListener(recycleListener)
         }
     }
@@ -58,7 +57,7 @@ class EventsFragment : Fragment() {
                     swipe_refresh?.isRefreshing = false
                     progressBar?.visibility = View.GONE
                 }
-                .subscribe({ adapter.submitList(it.data.allEvents) }, { t -> Timber.d(t) })
+                .subscribe({ adapter.submitList(it.data.allEvents.sortedBy { event -> event.getDate() }.reversed()) }, { t -> Timber.d(t) })
     }
 
     private fun displayEventDetails(event: Event) = startActivity(EventDetailActivity.makeIntent(requireContext(), event))

@@ -17,4 +17,8 @@
 
     <dimen name="event_height">72dp</dimen>
     <dimen name="event_date_width">64dp</dimen>
+
+    <dimen name="standard_55">55dp</dimen>
+    <dimen name="standard_105">105dp</dimen>
+    <dimen name="standard_155">155dp</dimen>
 </resources>

@@ -41,6 +41,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".events.views.EventDetailActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="KEY" />

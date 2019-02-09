@@ -23,4 +23,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
+    <string name="date_string">%d %s</string>
+    <string name="pre_event_form">Pre Event Form</string>
+    <string name="post_event_form">Post Event Form</string>
 </resources>
