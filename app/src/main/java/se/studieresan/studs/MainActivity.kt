@@ -57,6 +57,7 @@ class MainActivity : StudsActivity() {
             }
             R.id.navigation_profile -> {
                 toolbar.title = getString(R.string.profile)
+                replaceFragment(R.id.navigation_profile, TripFragment())
             }
         }
 
