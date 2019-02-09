@@ -36,10 +36,12 @@ class EventsFragment : Fragment() {
         adapter = EventAdapter(requireActivity().applicationContext)
         fetchEvents()
         swipe_refresh.setOnRefreshListener { fetchEvents() }
-        rv_events.layoutManager = LinearLayoutManager(requireContext())
-        rv_events.adapter = adapter
-        rv_events.setHasFixedSize(true)
-        rv_events.setRecyclerListener(recycleListener)
+        rv_events.run {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@EventsFragment.adapter
+            setHasFixedSize(true)
+            setRecyclerListener(recycleListener)
+        }
     }
 
     private fun fetchEvents() {
