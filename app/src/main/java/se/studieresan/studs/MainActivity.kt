@@ -3,6 +3,7 @@ package se.studieresan.studs
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.IdRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import se.studieresan.studs.data.StudsPreferences
@@ -76,7 +77,7 @@ class MainActivity : StudsActivity() {
         finish()
     }
 
-    private fun replaceFragment(id: Int) {
+    private fun replaceFragment(@IdRes id: Int) {
         currentFragmentId = id
 
         supportFragmentManager.inTransaction {
