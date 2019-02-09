@@ -36,5 +36,6 @@ data class Event(
     fun getPostEventForm(): String? = afterSurveys.getOrNull(0)
 }
 
+inline class Address(val value: String)
 inline class Email(val value: String)
 inline class Password(val value: String)

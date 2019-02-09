@@ -1,5 +1,6 @@
 package se.studieresan.studs.events.presenters
 
+import se.studieresan.studs.data.Address
 import se.studieresan.studs.data.Event
 import se.studieresan.studs.events.contracts.EventDetailContract
 
@@ -9,7 +10,7 @@ class EventDetailPresenter(
 ) : EventDetailContract.Presenter {
     private var view: EventDetailContract.View? = view
 
-    override fun didPressCompanyLocation() = view!!.openGoogleMapsNavigation(event.location)
+    override fun didPressCompanyLocation() = view!!.openGoogleMapsNavigation(Address( event.location))
 
     override fun didClickPreEventFormButton() {
         event.getPreEventForm()?.let { form ->

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
+import se.studieresan.studs.data.Address
 import se.studieresan.studs.data.Event
 import se.studieresan.studs.data.IntentExtra
 import se.studieresan.studs.events.contracts.EventDetailContract
@@ -75,8 +76,8 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
         }
     }
 
-    override fun openGoogleMapsNavigation(address: String) {
-        val gmmIntentUri = Uri.parse("geo:0,0?q=$address")
+    override fun openGoogleMapsNavigation(address: Address) {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=${address.value}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
             setPackage("com.google.android.apps.maps")
         }

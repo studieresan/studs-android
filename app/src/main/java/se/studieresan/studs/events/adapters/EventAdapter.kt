@@ -50,7 +50,7 @@ class EventAdapter(
 
         fun bind(event: Event) {
             view.tag = this
-            view.setOnClickListener { didSelectEventCallback(event) }
+            view.setOnClickListener { didSelectEventCallback.invoke(event) }
             mapView.tag = event
             setMapLocation()
             companyName.text = event.companyName
