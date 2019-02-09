@@ -11,11 +11,13 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.MarkerOptions
 import se.studieresan.studs.R
 import se.studieresan.studs.data.Event
-import se.studieresan.studs.util.MapUtils
 
 private const val ZOOM_FACTOR = 13f
 
-class EventAdapter(private val applicationContext: Context): ListAdapter<Event, EventAdapter.EventViewHolder>(Event.DIFF_CALLBACK) {
+class EventAdapter(
+        private val applicationContext: Context,
+        private val didSelectEventCallback: (Event) -> Unit
+) : ListAdapter<Event, EventAdapter.EventViewHolder>(Event.DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater
                 .from(parent.context)
@@ -47,6 +49,7 @@ class EventAdapter(private val applicationContext: Context): ListAdapter<Event, 
 
         fun bind(event: Event) {
             view.tag = this
+            view.setOnClickListener { didSelectEventCallback.invoke(event) }
             mapView.tag = event
             setMapLocation()
             companyName.text = event.companyName
@@ -55,9 +58,8 @@ class EventAdapter(private val applicationContext: Context): ListAdapter<Event, 
 
         private fun setMapLocation() {
             val data = mapView.tag as Event
-            val position = MapUtils.getLatLngFromAddress(applicationContext, data.location)
-            map?.addMarker(MarkerOptions().position(position).title(data.location))
-            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_FACTOR))
+            map?.addMarker(MarkerOptions().position(data.latLng!!).title(data.location))
+            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(data.latLng!!, ZOOM_FACTOR))
         }
     }
 }

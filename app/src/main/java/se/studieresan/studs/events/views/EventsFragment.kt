@@ -13,8 +13,10 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_events.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsApplication
+import se.studieresan.studs.data.Event
 import se.studieresan.studs.events.adapters.EventAdapter
 import se.studieresan.studs.net.StudsRepository
+import se.studieresan.studs.util.MapUtils
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,7 +35,7 @@ class EventsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         StudsApplication.applicationComponent.inject(this)
-        adapter = EventAdapter(requireActivity().applicationContext)
+        adapter = EventAdapter(requireActivity().applicationContext) { event -> displayEventDetails(event) }
         fetchEvents()
         swipe_refresh.setOnRefreshListener { fetchEvents() }
         rv_events.run {
@@ -48,17 +50,24 @@ class EventsFragment : Fragment() {
         disposable?.dispose()
         disposable = studsRepository
                 .getEvents()
+                .doFinally {
+                    swipe_refresh?.isRefreshing = false
+                    progressBar?.visibility = View.GONE
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     progressBar?.visibility = View.VISIBLE
                 }
-                .doFinally {
-                    swipe_refresh?.isRefreshing = false
-                    progressBar?.visibility = View.GONE
+                .doOnNext { events ->
+                    events.data.allEvents.forEach {
+                        it.latLng = MapUtils.getLatLngFromAddress(requireContext(), it.location)
+                    }
                 }
-                .subscribe({ adapter.submitList(it.data.allEvents) }, { t -> Timber.d(t) })
+                .subscribe({ adapter.submitList(it.data.allEvents.sortedByDescending { event -> event.getDate() }) }, { t -> Timber.d(t) })
     }
+
+    private fun displayEventDetails(event: Event) = startActivity(EventDetailActivity.makeIntent(requireContext(), event))
 
     private val recycleListener = RecyclerView.RecyclerListener { holder ->
         val eventHolder = holder as? EventAdapter.EventViewHolder

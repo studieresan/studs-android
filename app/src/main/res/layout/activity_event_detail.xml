@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="160dp">
+
+        <LinearLayout
+            android:id="@+id/ll_meta_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin_small"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/default_margin">
+
+                    <TextView
+                        android:id="@+id/tv_company_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/default_margin_mini"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        tools:hint="Spotify" />
+
+                    <TextView
+                        android:id="@+id/tv_company_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/default_margin_mini"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/baseline_location_on_24"
+                        android:drawablePadding="@dimen/default_margin_mini"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        tools:hint="Cool Street 123" />
+
+                    <TextView
+                        android:id="@+id/tv_event_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/default_margin_mini"
+                        android:drawableStart="@drawable/baseline_calendar_today_24"
+                        android:drawablePadding="@dimen/default_margin_mini"
+                        android:gravity="center_vertical"
+                        tools:hint="Cool Street 123" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/default_margin_small"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/default_margin_mini"
+                android:padding="@dimen/default_margin_small"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:layout_marginEnd="@dimen/default_margin_mini"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_pre_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/default_margin_small"
+                    android:text="@string/pre_event_form"
+                    android:textColor="@android:color/black"
+                    tools:hint="Pre Event Form" />
+
+                <Button
+                    android:id="@+id/btn_post_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:text="@string/post_event_form"
+                    android:textColor="@android:color/black"
+                    tools:hint="Post Event Form" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_small"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/tv_private_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/default_margin_small"
+                    android:textIsSelectable="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

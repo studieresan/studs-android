@@ -89,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:layout_marginTop="@dimen/default_margin_small"
+                    android:textColor="@android:color/black"
                     android:backgroundTint="@color/colorAccent"
                     android:text="@string/login" />
 
@@ -98,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/forgot_password"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/black" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
