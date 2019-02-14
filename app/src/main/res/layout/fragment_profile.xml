@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
         android:layout_margin="@dimen/default_margin"
         android:backgroundTint="@color/colorAccent"

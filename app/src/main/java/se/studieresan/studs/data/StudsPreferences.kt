@@ -22,9 +22,9 @@ object StudsPreferences {
                     .putString(EMAIL, email.value)
                     .apply()
 
-    fun getEmail(context: Context): String =
-            PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString(EMAIL, "")!!
+    fun getEmail(context: Context) =
+            checkNotNull(PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString(EMAIL, ""))
 
     fun logOut(context: Context) {
         PreferenceManager.getDefaultSharedPreferences(context)
@@ -41,8 +41,6 @@ object StudsPreferences {
                     .apply()
 
     fun getJwtToken(context: Context) =
-            checkNotNull(
-                    PreferenceManager.getDefaultSharedPreferences(context)
-                            .getString(JWT_TOKEN, "")
-            )
+            checkNotNull(PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString(JWT_TOKEN, ""))
 }
