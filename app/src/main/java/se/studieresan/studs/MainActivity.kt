@@ -6,9 +6,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.events.views.EventsFragment
 import se.studieresan.studs.fcm.StudsFirebaseMessagingService
+import se.studieresan.studs.profile.ProfileFragment
 import se.studieresan.studs.trip.TripFragment
 import se.studieresan.studs.util.inTransaction
 
@@ -60,18 +60,11 @@ class MainActivity : StudsActivity() {
             }
             R.id.navigation_profile -> {
                 toolbar.title = getString(R.string.profile)
-                replaceFragment(R.id.navigation_profile, TripFragment())
+                replaceFragment(R.id.navigation_profile, ProfileFragment())
             }
         }
 
         return@OnNavigationItemSelectedListener true
-    }
-
-    private fun logOut() {
-        StudsPreferences.logOut(this)
-
-        startActivity(LauncherActivity.makeIntent(this))
-        finish()
     }
 
     private fun <F> replaceFragment(id: Int, fragment: F) where F : Fragment {
