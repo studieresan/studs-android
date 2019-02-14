@@ -27,4 +27,5 @@
     <string name="pre_event_form">Pre Event Form</string>
     <string name="post_event_form">Post Event Form</string>
     <string name="google_maps_unavailable">You need to have Google Maps installed.</string>
+    <string name="notification_channel_id">fcm-notifications</string>
 </resources>
