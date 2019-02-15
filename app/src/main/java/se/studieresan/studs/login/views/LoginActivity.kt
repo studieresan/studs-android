@@ -10,6 +10,7 @@ import se.studieresan.studs.MainActivity
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication
+import se.studieresan.studs.data.Email
 import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
@@ -18,53 +19,58 @@ import javax.inject.Inject
 
 class LoginActivity : StudsActivity(), LoginContract.View {
 
-  private lateinit var presenter: LoginContract.Presenter
+    private lateinit var presenter: LoginContract.Presenter
 
-  @Inject
-  lateinit var studsRepository: StudsRepository
+    @Inject
+    lateinit var studsRepository: StudsRepository
 
-  companion object {
-    fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
-  }
+    companion object {
+        fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
+    }
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    StudsApplication.applicationComponent.inject(this)
-    setContentView(R.layout.activity_login)
-    setupClickListeners()
-    presenter = LoginPresenter(this, studsRepository)
-  }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        StudsApplication.applicationComponent.inject(this)
+        setContentView(R.layout.activity_login)
+        setupClickListeners()
+        presenter = LoginPresenter(this, studsRepository)
 
-  private fun setupClickListeners() {
-    btn_login.setOnClickListener { login() }
-    btn_forgot_password.setOnClickListener { showForgotPassword() }
-  }
+        val currentEmail = StudsPreferences.getEmail(this)
+        if (currentEmail.isNotEmpty()) {
+            et_email.setText(currentEmail)
+        }
+    }
 
-  private fun showForgotPassword() = startActivity(ForgotPasswordActivity.makeIntent(this, et_email.text.toString()))
+    private fun setupClickListeners() {
+        btn_login.setOnClickListener { login() }
+        btn_forgot_password.setOnClickListener { showForgotPassword() }
+    }
 
-  private fun login() = presenter.onLoginClicked(et_email.text.toString(), et_password.text.toString())
+    private fun showForgotPassword() = startActivity(ForgotPasswordActivity.makeIntent(this, et_email.text.toString()))
 
-  override fun showEmailErrorMessage(show: Boolean) {
-    til_email.error = if (show) getString(R.string.invalid_email) else null
-  }
+    private fun login() = presenter.onLoginClicked(et_email.text.toString(), et_password.text.toString())
 
-  override fun showPasswordErrorMessage(show: Boolean) {
-    til_password.error = if (show) getString(R.string.invalid_password) else null
-  }
+    override fun showEmailErrorMessage(show: Boolean) {
+        til_email.error = if (show) getString(R.string.invalid_email) else null
+    }
 
-  override fun showLoginFailedMessage() {
-    btn_login.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake))
-    Snackbar.make(view, getString(R.string.invalid_email_or_password), Snackbar.LENGTH_SHORT).show()
-  }
+    override fun showPasswordErrorMessage(show: Boolean) {
+        til_password.error = if (show) getString(R.string.invalid_password) else null
+    }
 
-  override fun loginSuccessful() {
-    StudsPreferences.logIn(this)
-    startActivity(MainActivity.makeIntent(this, true))
-    finish()
-  }
+    override fun showLoginFailedMessage() {
+        btn_login.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake))
+        Snackbar.make(view, getString(R.string.invalid_email_or_password), Snackbar.LENGTH_SHORT).show()
+    }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    presenter.onCleanup()
-  }
+    override fun loginSuccessful() {
+        StudsPreferences.logIn(this, Email(et_email.text.toString()))
+        startActivity(MainActivity.makeIntent(this, true))
+        finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onCleanup()
+    }
 }
