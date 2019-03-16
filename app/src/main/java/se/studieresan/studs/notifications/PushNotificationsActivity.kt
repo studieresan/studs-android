@@ -37,11 +37,12 @@ class PushNotificationsActivity : StudsActivity() {
         OkHttpClient
                 .Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build()
     }
 
     private val retrofit by lazy {
         Retrofit.Builder()
-                .client(okHttpClient.build())
+                .client(okHttpClient)
                 .baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
