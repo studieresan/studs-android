@@ -39,6 +39,7 @@ class MainActivity : StudsActivity() {
         // If we don't have a current Fragment from the bundle, jump to Events
         if (savedInstanceState == null) {
             replaceFragment(R.id.navigation_events, EventsFragment())
+            setToolbarTitle(R.string.event)
         }
 
         StudsFirebaseMessagingService.setup(this)
@@ -51,15 +52,15 @@ class MainActivity : StudsActivity() {
 
         when (item.itemId) {
             R.id.navigation_events -> {
-                toolbar.title = getString(R.string.event)
+                setToolbarTitle(R.string.event)
                 replaceFragment(R.id.navigation_events, EventsFragment())
             }
             R.id.navigation_trip -> {
-                toolbar.title = getString(R.string.trip)
+                setToolbarTitle(R.string.trip)
                 replaceFragment(R.id.navigation_trip, TripFragment())
             }
             R.id.navigation_profile -> {
-                toolbar.title = getString(R.string.profile)
+                setToolbarTitle(R.string.profile)
                 replaceFragment(R.id.navigation_profile, ProfileFragment())
             }
         }

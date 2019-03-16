@@ -19,10 +19,13 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false
+            debuggable true
             buildConfigField 'String', "INSTABUG_KEY", instabug_apiKey
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "INSTABUG_KEY", instabug_apiKey
         }
@@ -65,6 +68,8 @@ dependencies {
     // FCM
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCore"
     implementation "com.google.firebase:firebase-messaging:$rootProject.ext.firebaseMessagingVersion"
+
+    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.ext.threetenabpVersion"
 
     // Testing
     implementation 'androidx.appcompat:appcompat:1.0.2'

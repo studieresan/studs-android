@@ -17,6 +17,7 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme)
 
         if (StudsPreferences.isLoggedIn(this))
             startActivity(MainActivity.makeIntent(this))

@@ -3,7 +3,6 @@ package se.studieresan.studs.data
 import android.content.Context
 import android.preference.PreferenceManager
 
-
 private const val LOGGED_IN = "logged_in"
 private const val EMAIL = "email"
 private const val JWT_TOKEN = "jwt_token"

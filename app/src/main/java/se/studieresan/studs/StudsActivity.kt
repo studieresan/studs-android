@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -39,6 +40,8 @@ abstract class StudsActivity : AppCompatActivity(), BaseView {
         checkNotNull(toolbar) { "Can't set title on a non-existent toolbar" }
         toolbar.title = title
     }
+
+    fun setToolbarTitle(@StringRes titleRes: Int) = setToolbarTitle(getString(titleRes))
 
     override fun openBrowser(url: String) {
         val uri = Uri.parse(url)

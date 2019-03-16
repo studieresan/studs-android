@@ -31,7 +31,7 @@ ext {
     gsonVersion = "2.4.0"
 
     rxKotlinVersion = "2.3.0"
-    rxAndroidVersion = "2.0.2"
+    rxAndroidVersion = "2.1.1"
     rxJava2Version = "2.3.0"
 
     mapsVersion = "16.0.0"
@@ -43,7 +43,9 @@ ext {
 
     daggerVersion = "2.19"
     firebaseCore = "16.0.7"
-    firebaseMessagingVersion = "17.3.4"
+    firebaseMessagingVersion = "17.4.0"
+
+    threetenabpVersion = "1.2.0"
 }
 
 allprojects {

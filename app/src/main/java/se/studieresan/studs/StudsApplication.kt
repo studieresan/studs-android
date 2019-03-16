@@ -3,6 +3,7 @@ package se.studieresan.studs
 import android.app.Application
 import com.instabug.library.Instabug
 import com.instabug.library.invocation.InstabugInvocationEvent
+import com.jakewharton.threetenabp.AndroidThreeTen
 import se.studieresan.studs.di.*
 import timber.log.Timber
 
@@ -17,6 +18,7 @@ class StudsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
 
         if (BuildConfig.DEBUG) {
             // Plant Timber
