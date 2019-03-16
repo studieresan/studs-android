@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -23,13 +24,18 @@ import se.studieresan.studs.util.MapUtils
 
 class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapReadyCallback {
 
+    private lateinit var remoteConfig: FirebaseRemoteConfig
+
     private lateinit var event: Event
     private lateinit var presenter: EventDetailContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail)
+        remoteConfig = FirebaseRemoteConfig.getInstance()
+
         event = intent.getParcelableExtra(IntentExtra.EVENT)
+
         with(event) {
             tv_company_name.text = companyName
             tv_company_location.text = location
@@ -48,7 +54,7 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
             tv_event_time.text = getString(R.string.event_time_placeholder, startTime, endTime)
         }
 
-        presenter = EventDetailPresenter(this, event)
+        presenter = EventDetailPresenter(this, event, remoteConfig)
 
         (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).run {
             getMapAsync(this@EventDetailActivity)
@@ -92,6 +98,10 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
             Toast.makeText(this, getString(R.string.google_maps_unavailable), Toast.LENGTH_LONG).show()
         }
     }
+
+    override fun showPreEventForm(event: Event) = startActivity(PreEventFormActivity.makeIntent(this, event))
+
+    override fun showPostEventForm(event: Event) = startActivity(PostEventFormActivity.makeIntent(this, event))
 
     companion object {
         fun makeIntent(context: Context, event: Event) = Intent(context, EventDetailActivity::class.java).apply {

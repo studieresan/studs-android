@@ -4,4 +4,8 @@
         <key>send_notifications_enabled</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>in_app_forms_enabled</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>
