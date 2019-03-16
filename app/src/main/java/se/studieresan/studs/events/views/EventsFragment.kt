@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_events.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsApplication
-import se.studieresan.studs.data.Event
+import se.studieresan.studs.data.models.Event
 import se.studieresan.studs.events.adapters.EventAdapter
 import se.studieresan.studs.net.StudsRepository
 import se.studieresan.studs.util.MapUtils

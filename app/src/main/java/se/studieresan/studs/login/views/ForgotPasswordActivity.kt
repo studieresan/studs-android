@@ -31,12 +31,6 @@ class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
     @Inject
     lateinit var studsRepository: StudsRepository
 
-    companion object {
-        fun makeIntent(context: Context, email: String) = Intent(context, ForgotPasswordActivity::class.java).apply {
-            putExtra(IntentExtra.EMAIL, email)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         StudsApplication.applicationComponent.inject(this)
@@ -69,4 +63,10 @@ class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
 
     override fun showInvalidEmailError() =
             Snackbar.make(view, getString(R.string.enter_valid_email), Snackbar.LENGTH_LONG).show()
+
+    companion object {
+        fun makeIntent(context: Context, email: String) = Intent(context, ForgotPasswordActivity::class.java).apply {
+            putExtra(IntentExtra.EMAIL, email)
+        }
+    }
 }

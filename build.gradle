@@ -39,8 +39,6 @@ ext {
     timberVersion = "4.7.1"
     okhttpVersion = "3.11.0"
 
-    instabugVersion = "8.0.11"
-
     daggerVersion = "2.19"
     firebaseCore = "16.0.7"
     firebaseMessagingVersion = "17.4.0"

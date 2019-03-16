@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import se.studieresan.studs.R
-import se.studieresan.studs.data.Event
+import se.studieresan.studs.data.models.Event
 
 private const val ZOOM_FACTOR = 13f
 

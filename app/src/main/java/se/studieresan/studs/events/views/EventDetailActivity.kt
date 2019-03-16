@@ -15,9 +15,8 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
-import se.studieresan.studs.data.Address
-import se.studieresan.studs.data.Event
 import se.studieresan.studs.data.IntentExtra
+import se.studieresan.studs.data.models.Event
 import se.studieresan.studs.events.contracts.EventDetailContract
 import se.studieresan.studs.events.presenters.EventDetailPresenter
 import se.studieresan.studs.util.MapUtils
@@ -81,8 +80,8 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
         }
     }
 
-    override fun openGoogleMapsNavigation(address: Address) {
-        val gmmIntentUri = Uri.parse("geo:0,0?q=${address.value}")
+    override fun openGoogleMapsNavigation(address: String) {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=$address")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
             setPackage("com.google.android.apps.maps")
         }

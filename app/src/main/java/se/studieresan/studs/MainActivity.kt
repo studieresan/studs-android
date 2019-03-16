@@ -16,20 +16,6 @@ class MainActivity : StudsActivity() {
 
     private var currentFragmentId = 0
 
-    companion object {
-        fun makeIntent(context: Context, newTask: Boolean = false): Intent {
-            val intent = Intent(context, MainActivity::class.java)
-            if (newTask) {
-                intent.run {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-            }
-            return intent
-        }
-
-        private const val FRAGMENT_ID = R.id.fragment_container
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -74,5 +60,19 @@ class MainActivity : StudsActivity() {
         supportFragmentManager.inTransaction {
             replace(FRAGMENT_ID, fragment)
         }
+    }
+
+    companion object {
+        fun makeIntent(context: Context, newTask: Boolean = false): Intent {
+            val intent = Intent(context, MainActivity::class.java)
+            if (newTask) {
+                intent.run {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            }
+            return intent
+        }
+
+        private const val FRAGMENT_ID = R.id.fragment_container
     }
 }

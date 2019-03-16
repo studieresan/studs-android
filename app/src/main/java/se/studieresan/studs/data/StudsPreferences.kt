@@ -14,11 +14,11 @@ object StudsPreferences {
             PreferenceManager.getDefaultSharedPreferences(context)
                     .getBoolean(LOGGED_IN, false)
 
-    fun logIn(context: Context, email: Email) =
+    fun logIn(context: Context, email: String) =
             PreferenceManager.getDefaultSharedPreferences(context)
                     .edit()
                     .putBoolean(LOGGED_IN, true)
-                    .putString(EMAIL, email.value)
+                    .putString(EMAIL, email)
                     .apply()
 
     fun getEmail(context: Context) =
