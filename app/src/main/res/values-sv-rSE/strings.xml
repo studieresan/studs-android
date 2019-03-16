@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Studs</string>
+    <string name="password">Lösenord</string>
+    <string name="login">Logga in</string>
+    <string name="forgot_password">Glömt lösenord</string>
+    <string name="invalid_email">Fyll i en giltig emailadress</string>
+    <string name="invalid_password">Lösenordet är för kort</string>
+    <string name="invalid_email_or_password">Fel email eller lösenord</string>
+    <string name="reset_password">Återställ lösenord</string>
+    <string name="forgot_your_password">Få ett nytt!</string>
+    <string name="logout">Logga ut</string>
+    <string name="profile">Profil</string>
+    <string name="trip">Resa</string>
+    <string name="event">Event</string>
+    <string name="pre_event_form">Pre-Event Formulär</string>
+    <string name="post_event_form">Post-Event Formulär</string>
+    <string name="google_maps_unavailable">Du behöver ha Google Maps installerat.</string>
+    <string name="reset_password_message">Ett återställningsmail har skickats</string>
+    <string name="generic_error_message">Hmm, något gick fel. Försök igen.</string>
+    <string name="enter_valid_email">Var god fyll i en giltig emailadress</string>
+    <string name="no_description_available">Ingen beskrivning tillgänglig.</string>
+</resources>

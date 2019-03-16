@@ -13,18 +13,18 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            buildConfigField 'String', "INSTABUG_KEY", instabug_apiKey
+            minifyEnabled false
+            debuggable true
         }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "INSTABUG_KEY", instabug_apiKey
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -54,7 +54,6 @@ dependencies {
     // Logging
     implementation "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttpVersion"
-    implementation "com.instabug.library:instabug:$rootProject.ext.instabugVersion"
 
     implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
@@ -65,6 +64,8 @@ dependencies {
     // FCM
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCore"
     implementation "com.google.firebase:firebase-messaging:$rootProject.ext.firebaseMessagingVersion"
+
+    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.ext.threetenabpVersion"
 
     // Testing
     implementation 'androidx.appcompat:appcompat:1.0.2'

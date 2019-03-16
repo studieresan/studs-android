@@ -1,4 +1,4 @@
-package se.studieresan.studs.data
+package se.studieresan.studs.data.models
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
@@ -38,6 +38,7 @@ data class Event(
     fun getPostEventForm(): String? = afterSurveys.getOrNull(0)
 }
 
-inline class Address(val value: String)
-inline class Email(val value: String)
-inline class Password(val value: String)
+data class Events(val data: AllEvents)
+data class AllEvents(val allEvents: List<Event>)
+data class ForgotPasswordRequest(val email: String)
+data class LoginUserRequest(val email: String, val password: String)

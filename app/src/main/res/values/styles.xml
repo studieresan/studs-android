@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorBackground">@android:color/white</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -54,10 +58,6 @@
     <style name="TextAppearance.Studs.BottomNavigationView.Active">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="AppTheme.Launcher" parent="AppTheme.LightNav">
-        <item name="android:windowBackground">@drawable/preview_window</item>
     </style>
 
     <style name="AppTheme.LightNav" parent="AppTheme.NoActionBar" />

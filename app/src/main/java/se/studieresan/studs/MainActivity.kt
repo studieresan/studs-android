@@ -16,20 +16,6 @@ class MainActivity : StudsActivity() {
 
     private var currentFragmentId = 0
 
-    companion object {
-        fun makeIntent(context: Context, newTask: Boolean = false): Intent {
-            val intent = Intent(context, MainActivity::class.java)
-            if (newTask) {
-                intent.run {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-            }
-            return intent
-        }
-
-        private const val FRAGMENT_ID = R.id.fragment_container
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +25,7 @@ class MainActivity : StudsActivity() {
         // If we don't have a current Fragment from the bundle, jump to Events
         if (savedInstanceState == null) {
             replaceFragment(R.id.navigation_events, EventsFragment())
+            setToolbarTitle(R.string.event)
         }
 
         StudsFirebaseMessagingService.setup(this)
@@ -51,15 +38,15 @@ class MainActivity : StudsActivity() {
 
         when (item.itemId) {
             R.id.navigation_events -> {
-                toolbar.title = getString(R.string.event)
+                setToolbarTitle(R.string.event)
                 replaceFragment(R.id.navigation_events, EventsFragment())
             }
             R.id.navigation_trip -> {
-                toolbar.title = getString(R.string.trip)
+                setToolbarTitle(R.string.trip)
                 replaceFragment(R.id.navigation_trip, TripFragment())
             }
             R.id.navigation_profile -> {
-                toolbar.title = getString(R.string.profile)
+                setToolbarTitle(R.string.profile)
                 replaceFragment(R.id.navigation_profile, ProfileFragment())
             }
         }
@@ -73,5 +60,19 @@ class MainActivity : StudsActivity() {
         supportFragmentManager.inTransaction {
             replace(FRAGMENT_ID, fragment)
         }
+    }
+
+    companion object {
+        fun makeIntent(context: Context, newTask: Boolean = false): Intent {
+            val intent = Intent(context, MainActivity::class.java)
+            if (newTask) {
+                intent.run {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            }
+            return intent
+        }
+
+        private const val FRAGMENT_ID = R.id.fragment_container
     }
 }

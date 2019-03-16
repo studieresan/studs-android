@@ -3,7 +3,6 @@ package se.studieresan.studs.data
 import android.content.Context
 import android.preference.PreferenceManager
 
-
 private const val LOGGED_IN = "logged_in"
 private const val EMAIL = "email"
 private const val JWT_TOKEN = "jwt_token"
@@ -15,11 +14,11 @@ object StudsPreferences {
             PreferenceManager.getDefaultSharedPreferences(context)
                     .getBoolean(LOGGED_IN, false)
 
-    fun logIn(context: Context, email: Email) =
+    fun logIn(context: Context, email: String) =
             PreferenceManager.getDefaultSharedPreferences(context)
                     .edit()
                     .putBoolean(LOGGED_IN, true)
-                    .putString(EMAIL, email.value)
+                    .putString(EMAIL, email)
                     .apply()
 
     fun getEmail(context: Context) =

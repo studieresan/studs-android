@@ -10,7 +10,6 @@ import se.studieresan.studs.MainActivity
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication
-import se.studieresan.studs.data.Email
 import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
@@ -23,10 +22,6 @@ class LoginActivity : StudsActivity(), LoginContract.View {
 
     @Inject
     lateinit var studsRepository: StudsRepository
-
-    companion object {
-        fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +59,7 @@ class LoginActivity : StudsActivity(), LoginContract.View {
     }
 
     override fun loginSuccessful() {
-        StudsPreferences.logIn(this, Email(et_email.text.toString()))
+        StudsPreferences.logIn(this, et_email.text.toString())
         startActivity(MainActivity.makeIntent(this, true))
         finish()
     }
@@ -72,5 +67,9 @@ class LoginActivity : StudsActivity(), LoginContract.View {
     override fun onDestroy() {
         super.onDestroy()
         presenter.onCleanup()
+    }
+
+    companion object {
+        fun makeIntent(context: Context) = Intent(context, LoginActivity::class.java)
     }
 }

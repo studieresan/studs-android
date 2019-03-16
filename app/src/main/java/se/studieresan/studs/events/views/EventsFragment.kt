@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_events.*
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsApplication
-import se.studieresan.studs.data.Event
+import se.studieresan.studs.data.models.Event
 import se.studieresan.studs.events.adapters.EventAdapter
 import se.studieresan.studs.net.StudsRepository
 import se.studieresan.studs.util.MapUtils
@@ -50,21 +50,21 @@ class EventsFragment : Fragment() {
         disposable?.dispose()
         disposable = studsRepository
                 .getEvents()
-                .doFinally {
-                    swipe_refresh?.isRefreshing = false
-                    progressBar?.visibility = View.GONE
-                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    progressBar?.visibility = View.VISIBLE
-                }
                 .doOnNext { events ->
                     events.data.allEvents.forEach {
                         it.latLng = MapUtils.getLatLngFromAddress(requireContext(), it.location)
                     }
                 }
-                .subscribe({ adapter.submitList(it.data.allEvents.sortedByDescending { event -> event.getDate() }) }, { t -> Timber.d(t) })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    swipe_refresh.isRefreshing = false
+                    adapter.submitList(it.data.allEvents.sortedByDescending { event -> event.getDate() })
+                }, { t ->
+                    swipe_refresh.isRefreshing = false
+                    Timber.e(t)
+                })
     }
 
     private fun displayEventDetails(event: Event) = startActivity(EventDetailActivity.makeIntent(requireContext(), event))

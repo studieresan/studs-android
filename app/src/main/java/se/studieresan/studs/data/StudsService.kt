@@ -5,6 +5,9 @@ import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import se.studieresan.studs.data.models.Events
+import se.studieresan.studs.data.models.ForgotPasswordRequest
+import se.studieresan.studs.data.models.LoginUserRequest
 
 private const val eventQuery =
     """query {
@@ -35,7 +38,3 @@ interface StudsService {
     fun getEvents(): Observable<Events>
 }
 
-data class Events(val data: AllEvents)
-data class AllEvents(val allEvents: List<Event>)
-data class ForgotPasswordRequest(val email: Email)
-data class LoginUserRequest(val email: Email, val password: Password)

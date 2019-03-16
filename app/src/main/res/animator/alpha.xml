@@ -4,7 +4,7 @@
         android:state_enabled="true"
         android:state_pressed="true">
         <objectAnimator
-            android:duration="750"
+            android:duration="450"
             android:interpolator="@android:anim/linear_interpolator"
             android:propertyName="alpha"
             android:valueTo="0.5"
@@ -12,7 +12,7 @@
     </item>
     <item android:state_enabled="true">
         <objectAnimator
-            android:duration="500"
+            android:duration="300"
             android:interpolator="@android:anim/linear_interpolator"
             android:propertyName="alpha"
             android:valueTo="1"
