@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.android.synthetic.main.activity_main.*
 import se.studieresan.studs.events.views.EventsFragment
 import se.studieresan.studs.fcm.StudsFirebaseMessagingService
@@ -12,9 +15,12 @@ import se.studieresan.studs.profile.ProfileFragment
 import se.studieresan.studs.trip.TripFragment
 import se.studieresan.studs.util.inTransaction
 
+private const val TOPIC_ALL = "all"
+
 class MainActivity : StudsActivity() {
 
     private var currentFragmentId = 0
+    private lateinit var remoteConfig: FirebaseRemoteConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +34,21 @@ class MainActivity : StudsActivity() {
             setToolbarTitle(R.string.event)
         }
 
+        remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build()
+        remoteConfig.setConfigSettings(configSettings)
+        remoteConfig.setDefaults(R.xml.remote_config_defaults)
+
+        remoteConfig.fetch()
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        remoteConfig.activateFetched()
+                    }
+                }
+
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC_ALL)
         StudsFirebaseMessagingService.setup(this)
     }
 

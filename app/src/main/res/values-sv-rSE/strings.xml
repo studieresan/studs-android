@@ -20,4 +20,5 @@
     <string name="generic_error_message">Hmm, något gick fel. Försök igen.</string>
     <string name="enter_valid_email">Var god fyll i en giltig emailadress</string>
     <string name="no_description_available">Ingen beskrivning tillgänglig.</string>
+    <string name="send_notifications">Skicka pushnotiser</string>
 </resources>
