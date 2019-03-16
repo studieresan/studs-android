@@ -26,7 +26,4 @@
     <string name="generic_error_message">Hmm, something went wrong. Please try again.</string>
     <string name="enter_valid_email">Please enter a valid email</string>
     <string name="no_description_available">No description available</string>
-
-    <!-- API Keys -->
-    <string name="maps_api_key" translatable="false">Enter key here</string>
 </resources>

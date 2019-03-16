@@ -6,6 +6,12 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -66,6 +72,10 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:$rootProject.ext.firebaseMessagingVersion"
 
     implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.ext.threetenabpVersion"
+
+    implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.ext.crashlyticsVersion") {
+        transitive = true
+    }
 
     // Testing
     implementation 'androidx.appcompat:appcompat:1.0.2'

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.login.views.LoginActivity
 
@@ -12,6 +14,7 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
+        Fabric.with(this, Crashlytics())
 
         if (StudsPreferences.isLoggedIn(this))
             startActivity(MainActivity.makeIntent(this))
