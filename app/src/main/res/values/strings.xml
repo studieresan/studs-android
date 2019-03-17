@@ -14,6 +14,8 @@
     <string name="profile">Profile</string>
     <string name="trip">Trip</string>
     <string name="event">Events</string>
+    <string name="upcoming_events">Upcoming events</string>
+    <string name="past_events">Past events</string>
 
     <string name="date_string" translatable="false">%d %s</string>
     <string name="pre_event_form">Pre Event Form</string>
