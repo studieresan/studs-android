@@ -1,6 +1,7 @@
 package se.studieresan.studs.events.adapters
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,8 @@ private const val FUTURE_EVENT_TITLE = 0
 private const val PAST_EVENT_TITLE = 1
 private const val FUTURE_EVENT = 2
 private const val PAST_EVENT = 3
+private const val NEXT_EVENT_TITLE = 4
+private const val NEXT_EVENT = 5
 
 class EventAdapter(
         private val applicationContext: Context,
@@ -30,23 +33,26 @@ class EventAdapter(
 
     private var pastEvents = emptyList<Event>()
     private var futureEvents = emptyList<Event>()
-    private var nextUpcomingEvent: Event? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         fun inflate(@LayoutRes view: Int) = LayoutInflater.from(parent.context).inflate(view, parent, false)
 
         return when (viewType) {
-            FUTURE_EVENT_TITLE, PAST_EVENT_TITLE -> EventTitleViewHolder(inflate(R.layout.list_item_event_title), viewType)
-            FUTURE_EVENT -> EventViewHolder(inflate(R.layout.list_item_event_card))
+            FUTURE_EVENT_TITLE, PAST_EVENT_TITLE, NEXT_EVENT_TITLE -> EventTitleViewHolder(inflate(R.layout.list_item_event_title), viewType)
+            FUTURE_EVENT, NEXT_EVENT -> EventViewHolder(inflate(R.layout.list_item_event_card))
             PAST_EVENT -> PastEventViewHolder(inflate(R.layout.list_item_past_event_card))
             else -> throw IllegalStateException("Unsupported view type")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val type = getItemViewType(position)
         when (holder) {
-            is PastEventViewHolder -> holder.bind(pastEvents[position - 2 - futureEvents.size])
-            is EventViewHolder -> holder.bind(futureEvents[position - 1])
+            is PastEventViewHolder -> holder.bind(pastEvents[position - 4 - futureEvents.size])
+            is EventViewHolder -> if (type == FUTURE_EVENT)
+                holder.bind(futureEvents[position - 3])
+            else
+                holder.bind(futureEvents.first())
             is EventTitleViewHolder -> holder.bind()
         }
     }
@@ -58,18 +64,28 @@ class EventAdapter(
         super.submitList(list)
     }
 
+    override fun getItemCount(): Int {
+        val size = super.getItemCount()
+        return if (size == 0) {
+            0
+        } else {
+            size + 4
+        }
+    }
+
     private fun partitionEvents(events: List<Event>) {
         val today: LocalDate = now()
         val (past, future) = events.partition { LocalDate.parse(it.date, DATE_FORMATTER) < today }
         pastEvents = past
         futureEvents = future
-        nextUpcomingEvent = futureEvents.firstOrNull()
     }
 
     override fun getItemViewType(position: Int) = when (position) {
-        0 -> FUTURE_EVENT_TITLE
-        in 1..futureEvents.size -> FUTURE_EVENT
-        futureEvents.size + 1 -> PAST_EVENT_TITLE
+        0 -> NEXT_EVENT_TITLE
+        1 -> NEXT_EVENT
+        2 -> FUTURE_EVENT_TITLE
+        in 2..futureEvents.size + 2 -> FUTURE_EVENT
+        futureEvents.size + 3 -> PAST_EVENT_TITLE
         else -> PAST_EVENT
     }
 
@@ -131,11 +147,12 @@ class EventAdapter(
         private val title: TextView = view.findViewById(R.id.tv_header)
 
         fun bind() {
-            title.text = view.context.getString(if (viewType == FUTURE_EVENT_TITLE) {
-                R.string.upcoming_events
-            } else {
-                R.string.past_events
+            title.text = view.context.getString(when (viewType) {
+                FUTURE_EVENT_TITLE -> R.string.upcoming_events
+                PAST_EVENT_TITLE -> R.string.past_events
+                else -> R.string.next_event
             })
+            title.setTypeface(title.typeface, if (viewType == NEXT_EVENT_TITLE) Typeface.BOLD else Typeface.NORMAL)
         }
     }
 

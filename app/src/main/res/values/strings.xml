@@ -16,6 +16,7 @@
     <string name="event">Events</string>
     <string name="upcoming_events">Upcoming events</string>
     <string name="past_events">Past events</string>
+    <string name="next_event">Next event</string>
 
     <string name="date_string" translatable="false">%d %s</string>
     <string name="pre_event_form">Pre Event Form</string>
