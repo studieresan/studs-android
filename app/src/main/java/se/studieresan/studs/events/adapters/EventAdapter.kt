@@ -39,8 +39,8 @@ class EventAdapter(
 
         return when (viewType) {
             FUTURE_EVENT_TITLE, PAST_EVENT_TITLE, NEXT_EVENT_TITLE -> EventTitleViewHolder(inflate(R.layout.list_item_event_title), viewType)
-            FUTURE_EVENT, NEXT_EVENT -> EventViewHolder(inflate(R.layout.list_item_event_card))
-            PAST_EVENT -> PastEventViewHolder(inflate(R.layout.list_item_past_event_card))
+            NEXT_EVENT -> NextEventViewHolder(inflate(R.layout.list_item_next_event_card))
+            PAST_EVENT, FUTURE_EVENT -> EventViewHolder(inflate(R.layout.list_item_event_card))
             else -> throw IllegalStateException("Unsupported view type")
         }
     }
@@ -48,11 +48,11 @@ class EventAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val type = getItemViewType(position)
         when (holder) {
-            is PastEventViewHolder -> holder.bind(pastEvents[position - 4 - futureEvents.size])
-            is EventViewHolder -> if (type == FUTURE_EVENT)
-                holder.bind(futureEvents[position - 3])
+            is EventViewHolder -> if (type == PAST_EVENT)
+                holder.bind(pastEvents[position - 4 - futureEvents.size])
             else
-                holder.bind(futureEvents.first())
+                holder.bind(futureEvents[position - 3])
+            is NextEventViewHolder -> holder.bind(futureEvents.first())
             is EventTitleViewHolder -> holder.bind()
         }
     }
@@ -89,7 +89,7 @@ class EventAdapter(
         else -> PAST_EVENT
     }
 
-    inner class EventViewHolder(private val view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
+    inner class NextEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
         private var mapView: MapView = view.findViewById(R.id.event_map_view)
         private val companyName: TextView = view.findViewById(R.id.tv_company_name)
         private val month: TextView = view.findViewById(R.id.tv_month)
@@ -101,7 +101,7 @@ class EventAdapter(
         init {
             mapView.run {
                 onCreate(null)
-                getMapAsync(this@EventViewHolder)
+                getMapAsync(this@NextEventViewHolder)
             }
         }
 
@@ -130,7 +130,7 @@ class EventAdapter(
         }
     }
 
-    inner class PastEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    inner class EventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val companyName: TextView = view.findViewById(R.id.tv_company_name)
         private val month: TextView = view.findViewById(R.id.tv_month)
         private val day: TextView = view.findViewById(R.id.tv_day)
