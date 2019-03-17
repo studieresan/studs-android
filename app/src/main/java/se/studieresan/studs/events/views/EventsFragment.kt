@@ -36,8 +36,8 @@ class EventsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         StudsApplication.applicationComponent.inject(this)
         adapter = EventAdapter(requireActivity().applicationContext) { event -> displayEventDetails(event) }
-        fetchEvents()
-        swipe_refresh.setOnRefreshListener { fetchEvents() }
+        fetchEvents(false)
+        swipe_refresh.setOnRefreshListener { fetchEvents(true) }
         rv_events.run {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@EventsFragment.adapter
@@ -46,7 +46,7 @@ class EventsFragment : Fragment() {
         }
     }
 
-    private fun fetchEvents() {
+    private fun fetchEvents(refresh: Boolean) {
         disposable?.dispose()
         disposable = studsRepository
                 .getEvents()
@@ -58,6 +58,8 @@ class EventsFragment : Fragment() {
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { if (!refresh) progress_bar.visibility = View.VISIBLE }
+                .doOnTerminate { if (!refresh) progress_bar.visibility = View.GONE }
                 .subscribe({
                     swipe_refresh.isRefreshing = false
                     adapter.submitList(it.data.allEvents.sortedByDescending { event -> event.getDate() })
