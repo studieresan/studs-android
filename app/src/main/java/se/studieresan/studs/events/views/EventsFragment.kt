@@ -72,7 +72,7 @@ class EventsFragment : Fragment() {
     private fun displayEventDetails(event: Event) = startActivity(EventDetailActivity.makeIntent(requireContext(), event))
 
     private val recycleListener = RecyclerView.RecyclerListener { holder ->
-        val eventHolder = holder as? EventAdapter.EventViewHolder
+        val eventHolder = holder as? EventAdapter.NextEventViewHolder
         eventHolder?.map?.clear()
     }
 

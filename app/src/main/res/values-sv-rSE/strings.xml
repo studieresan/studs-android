@@ -21,4 +21,7 @@
     <string name="enter_valid_email">Var god fyll i en giltig emailadress</string>
     <string name="no_description_available">Ingen beskrivning tillgänglig.</string>
     <string name="send_notifications">Skicka pushnotiser</string>
+    <string name="upcoming_events">Kommande event</string>
+    <string name="past_events">Tidigare event</string>
+    <string name="next_event">Nästa event</string>
 </resources>
