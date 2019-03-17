@@ -14,6 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -45,15 +46,24 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".notifications.PushNotificationsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/send_notifications" />
+            android:label="@string/send_notifications"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".events.views.PreEventFormActivity"
+            android:label=""
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".events.views.PostEventFormActivity"
+            android:label=""
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="API_KEY" />
+            android:value="" />
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="API_KEY" />
+            android:value="" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/notification_channel_id" />

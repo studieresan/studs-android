@@ -27,4 +27,29 @@
     <string name="enter_valid_email">Please enter a valid email</string>
     <string name="no_description_available">No description available</string>
     <string name="send_notifications">Send Push Notifications</string>
+    <string name="pre_event_form_title" translatable="false">PRE-Event %s</string>
+    <string name="after_event_form_title" translatable="false">AFTER-Event %s</string>
+    <string name="familiar_with_company" translatable="false">Are you familiar with the company and what they do?</string>
+    <string name="yes" translatable="false">Yes</string>
+    <string name="to_some_extent" translatable="false">To some extent</string>
+    <string name="no" translatable="false">No</string>
+    <string name="how_interested_working" translatable="false">How interested in working at this company are you?</string>
+    <string name="how_interested_working_now" translatable="false">How interested in working at this company are you now?</string>
+    <string name="motivate_interest_in_company" translatable="false">Please motivate why you are or aren\'t interested in working at this company.</string>
+    <string name="your_answer" translatable="false">Your answer</string>
+    <string name="describe_view_of_company" translatable="false">How would you describe your view of the company and what\'s your general opinion about them?</string>
+    <string name="submit" translatable="false">Submit</string>
+    <string name="required_answer" translatable="false">Answer is required</string>
+    <string name="event_impact_on_view" translatable="false">How did the event impact your opinion about the company?</string>
+    <string name="positive_impact" translatable="false">The event had a positive impact on my view of the company</string>
+    <string name="neutral_impact" translatable="false">It didn\'t change my view of the company</string>
+    <string name="negative_impact" translatable="false">The event had a negative impact on my view of the company</string>
+    <string name="feel_qualified_to_work" translatable="false">Do you feel qualified to work at this company?</string>
+    <string name="yes_i_do" translatable="false">Yes, I do</string>
+    <string name="no_i_don_t" translatable="false">No, I don\'t</string>
+    <string name="atmosphere_at_event" translatable="false">How did you experience the atmosphere at the event?</string>
+    <string name="activities_at_event" translatable="false">Did you enjoy the activities at the event?</string>
+    <string name="did_you_like_the_food" translatable="false">Did you like the food?</string>
+    <string name="enjoyed_the_most" translatable="false">What did you enjoy the most about the event and the company?</string>
+    <string name="what_could_have_been_improved" translatable="false">What could have been improved?</string>
 </resources>
