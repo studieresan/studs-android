@@ -16,6 +16,7 @@ import org.threeten.bp.LocalDate.now
 import org.threeten.bp.format.DateTimeFormatter
 import se.studieresan.studs.R
 import se.studieresan.studs.data.models.Event
+import se.studieresan.studs.util.exhaustive
 
 private const val ZOOM_FACTOR = 13f
 
@@ -25,6 +26,7 @@ private const val FUTURE_EVENT = 2
 private const val PAST_EVENT = 3
 private const val NEXT_EVENT_TITLE = 4
 private const val NEXT_EVENT = 5
+private const val EMPTY = 6
 
 class EventAdapter(
         private val applicationContext: Context,
@@ -41,6 +43,7 @@ class EventAdapter(
             FUTURE_EVENT_TITLE, PAST_EVENT_TITLE, NEXT_EVENT_TITLE -> EventTitleViewHolder(inflate(R.layout.list_item_event_title), viewType)
             NEXT_EVENT -> NextEventViewHolder(inflate(R.layout.list_item_next_event_card))
             PAST_EVENT, FUTURE_EVENT -> EventViewHolder(inflate(R.layout.list_item_event_card))
+            EMPTY -> EmptyViewHolder(inflate(R.layout.list_item_empty))
             else -> throw IllegalStateException("Unsupported view type")
         }
     }
@@ -48,13 +51,19 @@ class EventAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val type = getItemViewType(position)
         when (holder) {
-            is EventViewHolder -> if (type == PAST_EVENT)
-                holder.bind(pastEvents[position - 4 - futureEvents.size])
-            else
+            is EventViewHolder -> if (type == PAST_EVENT) {
+                if (futureEvents.isNotEmpty()) {
+                    holder.bind(pastEvents[position - 4 - futureEvents.size])
+                } else {
+                    holder.bind(getItem(position - 4))
+                }
+            } else {
                 holder.bind(futureEvents[position - 3])
+            }
             is NextEventViewHolder -> holder.bind(futureEvents.first())
             is EventTitleViewHolder -> holder.bind()
-        }
+            else -> Unit /* Do nothing */
+        }.exhaustive
     }
 
     override fun submitList(list: List<Event>?) {
@@ -77,16 +86,28 @@ class EventAdapter(
         val today: LocalDate = now()
         val (past, future) = events.partition { LocalDate.parse(it.date, DATE_FORMATTER) < today }
         pastEvents = past
-        futureEvents = future
+        futureEvents = future.reversed()
     }
 
     override fun getItemViewType(position: Int) = when (position) {
         0 -> NEXT_EVENT_TITLE
-        1 -> NEXT_EVENT
+        1 -> if (futureEvents.isNotEmpty()) {
+            NEXT_EVENT
+        } else {
+            EMPTY
+        }
         2 -> FUTURE_EVENT_TITLE
-        in 2..futureEvents.size + 2 -> FUTURE_EVENT
+        in 2..futureEvents.size + 2 -> if (futureEvents.isNotEmpty()) {
+            FUTURE_EVENT
+        } else {
+            EMPTY
+        }
         futureEvents.size + 3 -> PAST_EVENT_TITLE
-        else -> PAST_EVENT
+        else -> if (pastEvents.isNotEmpty()) {
+            PAST_EVENT
+        } else {
+            EMPTY
+        }
     }
 
     inner class NextEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
@@ -155,6 +176,8 @@ class EventAdapter(
             title.setTypeface(title.typeface, if (viewType == NEXT_EVENT_TITLE) Typeface.BOLD else Typeface.NORMAL)
         }
     }
+
+    inner class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     companion object {
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")

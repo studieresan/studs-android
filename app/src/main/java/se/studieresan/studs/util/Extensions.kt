@@ -8,6 +8,9 @@ inline fun consume(f: () -> Unit): Boolean {
     return true
 }
 
+val <T> T.exhaustive
+    get() = this
+
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     beginTransaction().func().commit()
 }
