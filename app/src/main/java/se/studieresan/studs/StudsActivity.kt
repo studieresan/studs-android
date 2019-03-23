@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 abstract class StudsActivity : AppCompatActivity(), BaseView {
 
@@ -66,4 +67,6 @@ abstract class StudsActivity : AppCompatActivity(), BaseView {
     }
 
     override val mainScheduler: Scheduler = AndroidSchedulers.mainThread()
+
+    override val ioScheduler: Scheduler = Schedulers.io()
 }
