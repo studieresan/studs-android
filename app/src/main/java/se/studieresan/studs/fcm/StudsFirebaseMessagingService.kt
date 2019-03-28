@@ -1,6 +1,5 @@
 package se.studieresan.studs.fcm
 
-import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -31,28 +30,30 @@ class StudsFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(notification.title ?: "")
-                .setContentText(notification.body ?: "")
-                .setAutoCancel(true)
-                .setSound(soundUri)
-                .setContentIntent(pendingIntent)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(notification.title ?: "")
+            .setContentText(notification.body ?: "")
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSound(soundUri)
+            .setContentIntent(pendingIntent)
         with(NotificationManagerCompat.from(this)) {
             notify(notificationId.getAndIncrement(), notificationBuilder.build())
         }
     }
 
     companion object {
-        @TargetApi(Build.VERSION_CODES.O)
         fun setup(context: Context) {
-            val channelId = context.getString(R.string.notification_channel_id)
-            val channel = NotificationChannel(channelId, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH).apply {
-                description = CHANNEL_DESC
-                enableLights(true)
-                enableVibration(true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channelId = context.getString(R.string.notification_channel_id)
+                val channel = NotificationChannel(channelId, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH).apply {
+                    description = CHANNEL_DESC
+                    enableLights(true)
+                    enableVibration(true)
+                }
+                val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channel)
             }
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
         }
 
         private val notificationId = AtomicInteger(0)
