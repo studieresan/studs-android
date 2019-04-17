@@ -10,8 +10,8 @@ object GraphQLHelper {
             |userId,
             |eventId,
         |... on PreEventForm {
-            |interestInRegularWork,
-            |interestInCompanyMotivation,
+            |interestInRegularWorkBefore,
+            |interestInCompanyMotivationBefore,
             |familiarWithCompany,
             |viewOfCompany,
         |},
