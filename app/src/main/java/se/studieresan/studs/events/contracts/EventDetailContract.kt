@@ -11,10 +11,12 @@ interface EventDetailContract {
         fun openGoogleMapsNavigation(address: String)
         fun showPreEventForm(event: Event, formData: CreatePreEventFormFields?)
         fun showPostEventForm(event: Event, formData: CreatePostEventFormFields?)
+        fun goToCheckIn(event: Event)
     }
 
     interface Presenter : BasePresenter {
         fun didPressCompanyLocation()
+        fun didPressCheckIn()
         fun didClickPreEventFormButton()
         fun didClickPostEventFormButton()
         fun fetchForms()

@@ -73,6 +73,10 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
             presenter.didPressCompanyLocation()
         }
 
+        tv_check_in.setOnClickListener {
+            presenter.didPressCheckIn()
+        }
+
         btn_pre_event.run {
             setOnClickListener { presenter.didClickPreEventFormButton() }
         }
@@ -105,6 +109,8 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
             Toast.makeText(this, getString(R.string.google_maps_unavailable), Toast.LENGTH_LONG).show()
         }
     }
+
+    override fun goToCheckIn(event: Event) = startActivity(EventCheckInActivity.makeIntent(this, event))
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == EVENT_FORM_REQUEST_CODE && resultCode == Activity.RESULT_OK) {

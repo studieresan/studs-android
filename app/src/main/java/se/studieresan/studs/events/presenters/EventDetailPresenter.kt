@@ -26,6 +26,8 @@ class EventDetailPresenter(
 
     override fun didPressCompanyLocation() = view!!.openGoogleMapsNavigation(event.location)
 
+    override fun didPressCheckIn() = view!!.goToCheckIn(event)
+
     override fun didClickPreEventFormButton() {
         event.getPreEventForm()?.let { form ->
             if (inAppFormsEnabled) {

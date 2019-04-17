@@ -70,6 +70,7 @@ dependencies {
     // FCM
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCore"
     implementation "com.google.firebase:firebase-messaging:$rootProject.ext.firebaseMessagingVersion"
+    implementation 'com.google.firebase:firebase-database:16.1.0'
 
     implementation 'com.google.firebase:firebase-config:16.3.0'
 

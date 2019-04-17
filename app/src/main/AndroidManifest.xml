@@ -52,7 +52,6 @@
             android:name=".events.views.PreEventFormActivity"
             android:label=""
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".events.views.PostEventFormActivity"
             android:label=""
@@ -67,6 +66,10 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/notification_channel_id" />
+
+        <activity
+            android:name=".events.views.EventCheckInActivity"
+            android:label="" />
 
         <service android:name=".fcm.StudsFirebaseMessagingService">
             <intent-filter>
