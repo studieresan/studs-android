@@ -48,8 +48,10 @@ enum class EventImpact {
 
 // God have mercy on my soul
 data class EventForm(
-    val interestInRegularWork: Int,
-    val interestInCompanyMotivation: String,
+    val interestInRegularWorkBefore: Int? = null,
+    val interestInCompanyMotivationBefore: String? = null,
+    val interestInRegularWork: Int? = null,
+    val interestInCompanyMotivation: String? = null,
     val familiarWithCompany: CompanyFamiliarity? = null,
     val viewOfCompany: String? = null,
     val eventImprovements: String? = null,
@@ -75,7 +77,7 @@ data class FirebaseRequest(val to: String = "/topics/all", val notification: Map
 private val createPreEventFormQuery =
     """mutation CreatePreEventForm(${"$"}eventId: String!, ${"$"}fields: PreEventFormInputType!) {
             |createPreEventForm(eventId: ${"$"}eventId, fields: ${"$"}fields) {
-            |interestInRegularWork, viewOfCompany, interestInCompanyMotivation, familiarWithCompany
+            |interestInRegularWorkBefore, viewOfCompany, interestInCompanyMotivationBefore, familiarWithCompany
             |}
             |}""".trimMargin()
 
@@ -89,9 +91,9 @@ private val createPostEventFormQuery =
 
 @Parcelize
 data class CreatePreEventFormFields(
-    val interestInRegularWork: Int,
+    val interestInRegularWorkBefore: Int,
     val viewOfCompany: String,
-    val interestInCompanyMotivation: String,
+    val interestInCompanyMotivationBefore: String,
     val familiarWithCompany: CompanyFamiliarity
 ): Parcelable
 

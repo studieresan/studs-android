@@ -53,7 +53,7 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
         else
             getString(R.string.no_description_available)
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        val parsedDate = LocalDateTime.parse(event.date, dateFormatter).plusHours(1)
+        val parsedDate = LocalDateTime.parse(event.date, dateFormatter).plusHours(2)
         tv_month.text = parsedDate.month.name.substring(0, 3)
         tv_day.text = parsedDate.dayOfMonth.toString()
 

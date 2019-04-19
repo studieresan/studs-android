@@ -54,7 +54,7 @@ class PreEventFormActivity : StudsActivity() {
         }
         rg_familiarity.children.forEach { it.isEnabled = false }
 
-        when (form.interestInRegularWork) {
+        when (form.interestInRegularWorkBefore) {
             1 -> rg_interest_in_company.check(R.id.rb_interest_1)
             2 -> rg_interest_in_company.check(R.id.rb_interest_2)
             3 -> rg_interest_in_company.check(R.id.rb_interest_3)
@@ -64,7 +64,7 @@ class PreEventFormActivity : StudsActivity() {
         rg_interest_in_company.children.forEach { it.isEnabled = false }
 
         et_motivate_interest.run {
-            setText(form.interestInCompanyMotivation)
+            setText(form.interestInCompanyMotivationBefore)
             isEnabled = false
         }
 

@@ -27,20 +27,20 @@ class EventDetailPresenter(
     override fun didPressCompanyLocation() = view!!.openGoogleMapsNavigation(event.location)
 
     override fun didClickPreEventFormButton() {
-        event.getPreEventForm()?.let { form ->
-            if (inAppFormsEnabled) {
-                view!!.showPreEventForm(event, preEventFormData)
-            } else {
+        if (inAppFormsEnabled) {
+            view!!.showPreEventForm(event, preEventFormData)
+        } else {
+            event.getPreEventForm()?.let { form ->
                 view!!.openBrowser(form)
             }
         }
     }
 
     override fun didClickPostEventFormButton() {
-        event.getPostEventForm()?.let { form ->
-            if (inAppFormsEnabled) {
-                view!!.showPostEventForm(event, postEventFormData)
-            } else {
+        if (inAppFormsEnabled) {
+            view!!.showPostEventForm(event, postEventFormData)
+        } else {
+            event.getPostEventForm()?.let { form ->
                 view!!.openBrowser(form)
             }
         }
@@ -63,14 +63,14 @@ class EventDetailPresenter(
                         val preEventForm = eventForms[0]
                         val postEventForm = eventForms[1]
                         preEventFormData = CreatePreEventFormFields(
-                            preEventForm.interestInRegularWork,
+                            preEventForm.interestInRegularWorkBefore!!,
                             preEventForm.viewOfCompany!!,
-                            preEventForm.interestInCompanyMotivation,
+                            preEventForm.interestInCompanyMotivationBefore!!,
                             preEventForm.familiarWithCompany!!
                         )
                         postEventFormData = CreatePostEventFormFields(
-                            postEventForm.interestInRegularWork,
-                            postEventForm.interestInCompanyMotivation,
+                            postEventForm.interestInRegularWork!!,
+                            postEventForm.interestInCompanyMotivation!!,
                             postEventForm.eventImprovements!!,
                             postEventForm.eventFeedback!!,
                             postEventForm.foodRating!!,
@@ -85,8 +85,8 @@ class EventDetailPresenter(
                         if (form.foodRating != null) {
                             // Post event form
                             postEventFormData = CreatePostEventFormFields(
-                                form.interestInRegularWork,
-                                form.interestInCompanyMotivation,
+                                form.interestInRegularWork!!,
+                                form.interestInCompanyMotivation!!,
                                 form.eventImprovements!!,
                                 form.eventFeedback!!,
                                 form.foodRating,
@@ -98,9 +98,9 @@ class EventDetailPresenter(
                         } else {
                             // Pre event form
                             preEventFormData = CreatePreEventFormFields(
-                                form.interestInRegularWork,
+                                form.interestInRegularWorkBefore!!,
                                 form.viewOfCompany!!,
-                                form.interestInCompanyMotivation,
+                                form.interestInCompanyMotivationBefore!!,
                                 form.familiarWithCompany!!
                             )
                         }
@@ -110,7 +110,9 @@ class EventDetailPresenter(
     }
 
     override fun onCleanup() {
-        disposable?.dispose().also { disposable = null }
+        disposable?.dispose().also {
+            disposable = null
+        }
         view = null
     }
 }
