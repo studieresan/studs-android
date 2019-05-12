@@ -62,7 +62,7 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View, OnMapRead
         val endTime = "${parsedDate.plusHours(3).hour}:$minutesDisplayFormat"
         tv_event_time.text = getString(R.string.event_time_placeholder, startTime, endTime)
 
-        presenter = EventDetailPresenter(this, event, remoteConfig, studsRepository)
+        presenter = EventDetailPresenter(this, event, studsRepository)
         presenter.fetchForms()
 
         (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).run {
