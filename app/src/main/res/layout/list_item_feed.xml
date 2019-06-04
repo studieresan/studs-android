@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            tools:text="Willy"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/default_margin_small"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_time_stamp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:text="5m"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:background="?attr/selectableItemBackground"
+        android:drawableStart="@drawable/ic_location_icon"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:layout_marginBottom="@dimen/default_margin_small"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        tools:text="Cool Street 123" />
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        tools:text="A message"
+        android:layout_height="wrap_content" />
+</LinearLayout>

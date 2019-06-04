@@ -55,4 +55,7 @@
     <string name="did_you_like_the_food" translatable="false">Did you like the food?</string>
     <string name="enjoyed_the_most" translatable="false">What did you enjoy the most about the event and the company?</string>
     <string name="what_could_have_been_improved" translatable="false">What could have been improved?</string>
+    <string name="travel_info">Travel Info</string>
+    <string name="share_current_location">Share current location</string>
+    <string name="enter_message">Enter message</string>
 </resources>

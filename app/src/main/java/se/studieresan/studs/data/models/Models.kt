@@ -38,6 +38,21 @@ data class Event(
     fun getPostEventForm(): String? = afterSurveys.getOrNull(0)
 }
 
+data class FeedItem(
+    val id: Int,
+    val user: String,
+    val message: String,
+    val location: String
+) {
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FeedItem>() {
+            override fun areItemsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean = oldItem == newItem
+        }
+    }
+}
+
 enum class CompanyFamiliarity {
     YES, SOMEWHAT, NO
 }
