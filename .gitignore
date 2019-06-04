@@ -226,6 +226,7 @@ Temporary Items
 /app/release
 
 .idea/codeStyles/
+.keys
 
 
 # End of https://www.gitignore.io/api/macos,kotlin,android,androidstudio
