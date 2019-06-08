@@ -58,7 +58,7 @@ class EventsFragment : Fragment() {
                 val today = now()
                 val orderedEvents = events.data.allEvents.sortedByDescending { it.getDate() }
                 val nextEvent =
-                    orderedEvents.firstOrNull { LocalDate.parse(it.date, EventAdapter.DATE_FORMATTER) > today }
+                    orderedEvents.firstOrNull { LocalDate.parse(it.date, EventAdapter.DATE_FORMATTER) >= today }
                 nextEvent?.let {
                     it.latLng = MapUtils.getLatLngFromAddress(requireContext(), it.location)
                 }

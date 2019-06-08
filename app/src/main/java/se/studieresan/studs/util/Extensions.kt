@@ -14,3 +14,4 @@ val <T> T.exhaustive
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     beginTransaction().func().commit()
 }
+

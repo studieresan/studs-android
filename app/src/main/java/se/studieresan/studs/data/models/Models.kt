@@ -33,9 +33,34 @@ data class Event(
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
         return format.parse(date!!)
     }
+}
 
-    fun getPreEventForm(): String? = beforeSurveys.getOrNull(0)
-    fun getPostEventForm(): String? = afterSurveys.getOrNull(0)
+data class FeedItem(
+    var key: String = "",
+    var user: String = "",
+    var lat: Double = 0.0,
+    var lng: Double = 0.0,
+    var message: String = "",
+    var timestamp: Long = 0,
+    var includeLocation: Boolean = true
+) {
+
+    fun getTimeAgo(): String {
+        val minutesAgo = (System.currentTimeMillis() / 1000 - timestamp) / 60
+        return when {
+            minutesAgo.toInt() == 0 -> "just now"
+            minutesAgo.toInt() == 1 -> "a minute ago"
+            else -> "$minutesAgo minutes ago"
+        }
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FeedItem>() {
+            override fun areItemsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean = oldItem.key == newItem.key
+
+            override fun areContentsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean = oldItem == newItem
+        }
+    }
 }
 
 enum class CompanyFamiliarity {
@@ -130,4 +155,10 @@ data class CreatePostEventFormRequest(
     val variables: CreatePostEventFormBody,
     val query: String = createPostEventFormQuery,
     val operationName: String = "CreatePostEventForm"
+)
+
+data class LoginResponse(
+    val email: String,
+    val token: String,
+    val name: String
 )

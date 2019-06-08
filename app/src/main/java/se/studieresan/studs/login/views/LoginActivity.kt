@@ -11,6 +11,7 @@ import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.data.StudsPreferences
+import se.studieresan.studs.data.models.LoginResponse
 import se.studieresan.studs.login.contracts.LoginContract
 import se.studieresan.studs.login.presenters.LoginPresenter
 import se.studieresan.studs.net.StudsRepository
@@ -58,8 +59,11 @@ class LoginActivity : StudsActivity(), LoginContract.View {
         Snackbar.make(view, getString(R.string.invalid_email_or_password), Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun loginSuccessful() {
-        StudsPreferences.logIn(this, et_email.text.toString())
+    override fun loginSuccessful(loginResponse: LoginResponse) {
+        StudsPreferences.run {
+            logIn(this@LoginActivity, et_email.text.toString())
+            setName(this@LoginActivity, loginResponse.name)
+        }
         startActivity(MainActivity.makeIntent(this, true))
         finish()
     }

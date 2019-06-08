@@ -17,6 +17,7 @@ import se.studieresan.studs.data.models.EventForms
 import se.studieresan.studs.data.models.EventImpact
 import se.studieresan.studs.data.models.Events
 import se.studieresan.studs.data.models.ForgotPasswordRequest
+import se.studieresan.studs.data.models.LoginResponse
 import se.studieresan.studs.data.models.LoginUserRequest
 import se.studieresan.studs.data.models.User
 import se.studieresan.studs.util.GraphQLHelper
@@ -24,7 +25,7 @@ import javax.inject.Inject
 
 class StudsRepository @Inject constructor(private val studsService: StudsService) {
 
-    fun login(email: String, password: String): Observable<ResponseBody> =
+    fun login(email: String, password: String): Observable<LoginResponse> =
         studsService
             .login(LoginUserRequest(email, password))
             .compose(applySchedulers())
