@@ -15,7 +15,6 @@ import se.studieresan.studs.LauncherActivity
 import se.studieresan.studs.R
 import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.notifications.PushNotificationsActivity
-import se.studieresan.studs.util.RemoteConfigKeys
 
 class ProfileFragment : Fragment() {
 
@@ -32,7 +31,8 @@ class ProfileFragment : Fragment() {
         btn_send_notification.setOnClickListener { goToPushNotificationsView() }
         btn_logout.setOnClickListener { logOut() }
 
-        btn_send_notification.visibility = if (remoteConfig.getBoolean(RemoteConfigKeys.SEND_NOTIFICATIONS_ENABLED)) {
+        val permissions = StudsPreferences.getPermissions(requireContext())
+        btn_send_notification.visibility = if (permissions.contains("admin_permission")) {
             View.VISIBLE
         } else {
             View.GONE

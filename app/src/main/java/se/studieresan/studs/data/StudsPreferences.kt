@@ -9,6 +9,7 @@ private const val PICTURE = "picture"
 private const val POSITION = "position"
 private const val LOGGED_IN = "logged_in"
 private const val EMAIL = "email"
+private const val PERMISSIONS = "permissions"
 private const val JWT_TOKEN = "jwt_token"
 
 // Abstraction over SharedPrefs
@@ -76,6 +77,18 @@ object StudsPreferences {
             .putString(POSITION, "")
             .apply()
     }
+
+    fun setPermissions(context: Context, permissions: List<String>) =
+        PreferenceManager.getDefaultSharedPreferences(context)
+            .edit()
+            .putStringSet(PERMISSIONS, permissions.toSet())
+            .apply()
+
+    fun getPermissions(context: Context) = checkNotNull(
+        PreferenceManager.getDefaultSharedPreferences(context).getStringSet(
+            PERMISSIONS, emptySet()
+        )
+    )
 
     fun setJwtToken(context: Context, token: String) =
         PreferenceManager.getDefaultSharedPreferences(context)
