@@ -1,6 +1,7 @@
 package se.studieresan.studs.trip
 
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,10 +22,13 @@ import timber.log.Timber
 class ShareLocationFragment : DialogFragment() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var geocoder: Geocoder
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_share_location, container, false) ?: return null
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        geocoder = Geocoder(requireContext())
+
         val messageView = v.findViewById<EditText>(R.id.et_message)
         val checkbox = v.findViewById<CheckBox>(R.id.checkbox_location)
 
@@ -49,6 +53,8 @@ class ShareLocationFragment : DialogFragment() {
                         lat = it.latitude,
                         lng = it.longitude,
                         message = message,
+                        picture = StudsPreferences.getPicture(requireContext()),
+                        locationName = getLocationForLatLng(it.latitude, it.longitude),
                         timestamp = System.currentTimeMillis() / 1000
                     )
                     db.push().setValue(data)
@@ -57,6 +63,7 @@ class ShareLocationFragment : DialogFragment() {
                 val data = FeedItem(
                     user = userName,
                     message = message,
+                    picture = StudsPreferences.getPicture(requireContext()),
                     timestamp = System.currentTimeMillis() / 1000,
                     includeLocation = false
                 )
@@ -66,6 +73,11 @@ class ShareLocationFragment : DialogFragment() {
         }
 
         return v
+    }
+
+    private fun getLocationForLatLng(latitude: Double, longitude: Double): String {
+        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+        return addresses.first().thoroughfare ?: addresses.first().getAddressLine(0)
     }
 
     companion object {

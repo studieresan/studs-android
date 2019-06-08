@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Parcelize
 data class Event(
@@ -42,15 +43,23 @@ data class FeedItem(
     var lng: Double = 0.0,
     var message: String = "",
     var timestamp: Long = 0,
+    var locationName: String = "",
+    var picture: String = "",
     var includeLocation: Boolean = true
 ) {
 
     fun getTimeAgo(): String {
         val minutesAgo = (System.currentTimeMillis() / 1000 - timestamp) / 60
+
         return when {
             minutesAgo.toInt() == 0 -> "just now"
             minutesAgo.toInt() == 1 -> "a minute ago"
-            else -> "$minutesAgo minutes ago"
+            minutesAgo.toInt() in 2..60 -> "$minutesAgo min ago"
+            else -> String.format(
+                "%01d h, %02d min ago",
+                TimeUnit.MINUTES.toHours(minutesAgo),
+                TimeUnit.MINUTES.toMinutes(minutesAgo) - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(minutesAgo))
+            )
         }
     }
 
@@ -120,7 +129,7 @@ data class CreatePreEventFormFields(
     val viewOfCompany: String,
     val interestInCompanyMotivationBefore: String,
     val familiarWithCompany: CompanyFamiliarity
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class CreatePostEventFormFields(
@@ -133,7 +142,7 @@ data class CreatePostEventFormFields(
     val atmosphereRating: Int,
     val qualifiedToWork: Boolean,
     val eventImpact: EventImpact
-): Parcelable
+) : Parcelable
 
 data class CreatePreEventFormBody(
     val eventId: String,
@@ -160,5 +169,7 @@ data class CreatePostEventFormRequest(
 data class LoginResponse(
     val email: String,
     val token: String,
-    val name: String
+    val name: String,
+    val picture: String,
+    val position: String
 )
