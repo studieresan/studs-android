@@ -3,6 +3,7 @@ package se.studieresan.studs.data.models
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.database.Exclude
 import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,6 +49,7 @@ data class FeedItem(
     var includeLocation: Boolean = true
 ) {
 
+    @Exclude
     fun getTimeAgo(): String {
         val minutesAgo = (System.currentTimeMillis() / 1000 - timestamp) / 60
 
