@@ -44,7 +44,8 @@ import timber.log.Timber
 private const val PERMISSION_FINE_LOCATION = 1
 private const val ERROR_MESSAGE_TEXT = "Location permission is required"
 
-class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, GoogleMap.OnPoiClickListener, GoogleMap.OnMarkerClickListener {
+class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, GoogleMap.OnPoiClickListener,
+    GoogleMap.OnMarkerClickListener {
 
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -82,7 +83,12 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
         feedRecyclerView = view.findViewById<RecyclerView>(R.id.rv_feed).apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@TripFragment.adapter
-            addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    (layoutManager as LinearLayoutManager).orientation
+                )
+            )
         }
         setupDbListener()
         view.findViewById<FloatingActionButton>(R.id.fab_share).setOnClickListener { showShareFragment() }
@@ -127,9 +133,11 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     }
 
     private fun requestLocationPermission() {
-        ActivityCompat.requestPermissions(requireActivity(),
+        ActivityCompat.requestPermissions(
+            requireActivity(),
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            PERMISSION_FINE_LOCATION)
+            PERMISSION_FINE_LOCATION
+        )
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -144,13 +152,17 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     }
 
     private fun showLocationPermissionRequired() {
-        val snackBar = Snackbar.make((requireActivity() as StudsActivity).view, ERROR_MESSAGE_TEXT, Snackbar.LENGTH_LONG)
+        val snackBar =
+            Snackbar.make((requireActivity() as StudsActivity).view, ERROR_MESSAGE_TEXT, Snackbar.LENGTH_LONG)
         snackBar.setAction("Prompt") { requestLocationPermission() }
         snackBar.show()
     }
 
     private fun hasLocationPermission() =
-        ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
 
     private fun showDeviceLocation() {
         if (hasLocationPermission()) {
@@ -248,7 +260,8 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
 
     private fun openNavigation(latLng: LatLng) {
         val navigationPreference = StudsPreferences.getNavigationPreference(requireContext())
-        val gmmIntentUri = Uri.parse("google.navigation:q=${latLng.latitude},${latLng.longitude}&mode=$navigationPreference")
+        val gmmIntentUri =
+            Uri.parse("google.navigation:q=${latLng.latitude},${latLng.longitude}&mode=$navigationPreference")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
             setPackage("com.google.android.apps.maps")
         }
