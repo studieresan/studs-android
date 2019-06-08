@@ -31,14 +31,16 @@ class FeedAdapter(
         private val userName: TextView = view.findViewById(R.id.tv_user_name)
         private val message: TextView = view.findViewById(R.id.tv_message)
         private val location: TextView = view.findViewById(R.id.tv_location)
+        private val time: TextView = view.findViewById(R.id.tv_time_stamp)
 
         fun bind(feedItem: FeedItem) {
             userName.text = feedItem.user
             message.text = feedItem.message
-            if (feedItem.location.isEmpty()) {
-                location.visibility = View.GONE
+            time.text = feedItem.getTimeAgo()
+            location.visibility = if (feedItem.includeLocation) {
+                View.VISIBLE
             } else {
-                location.text = feedItem.location
+                View.GONE
             }
         }
     }

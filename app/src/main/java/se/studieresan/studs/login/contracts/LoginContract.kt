@@ -2,6 +2,7 @@ package se.studieresan.studs.login.contracts
 
 import se.studieresan.studs.BasePresenter
 import se.studieresan.studs.BaseView
+import se.studieresan.studs.data.models.LoginResponse
 
 interface LoginContract {
 
@@ -9,7 +10,7 @@ interface LoginContract {
     fun showEmailErrorMessage(show: Boolean)
     fun showPasswordErrorMessage(show: Boolean)
     fun showLoginFailedMessage()
-    fun loginSuccessful()
+    fun loginSuccessful(loginResponse: LoginResponse)
   }
 
   interface Presenter : BasePresenter {

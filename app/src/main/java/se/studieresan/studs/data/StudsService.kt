@@ -12,6 +12,7 @@ import se.studieresan.studs.data.models.CreatePreEventFormRequest
 import se.studieresan.studs.data.models.EventForms
 import se.studieresan.studs.data.models.Events
 import se.studieresan.studs.data.models.ForgotPasswordRequest
+import se.studieresan.studs.data.models.LoginResponse
 import se.studieresan.studs.data.models.LoginUserRequest
 import se.studieresan.studs.data.models.UserResponse
 
@@ -41,7 +42,7 @@ private const val eventQuery =
 
 interface StudsService {
     @POST("login")
-    fun login(@Body loginUserRequest: LoginUserRequest): Observable<ResponseBody>
+    fun login(@Body loginUserRequest: LoginUserRequest): Observable<LoginResponse>
 
     @POST("forgot")
     fun forgotPassword(@Body forgotPasswordRequest: ForgotPasswordRequest): Observable<ResponseBody>

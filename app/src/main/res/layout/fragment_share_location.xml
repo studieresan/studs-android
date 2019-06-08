@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/et_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_message"
@@ -21,6 +22,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
+        android:id="@+id/checkbox_location"
+        android:checked="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"

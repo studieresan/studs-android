@@ -24,18 +24,26 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.data.models.FeedItem
+import timber.log.Timber
 
 private const val PERMISSION_FINE_LOCATION = 1
 private const val ERROR_MESSAGE_TEXT = "Location permission is required"
 
-class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, GoogleMap.OnPoiClickListener {
+class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, GoogleMap.OnPoiClickListener, GoogleMap.OnMarkerClickListener {
 
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -43,6 +51,10 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     private lateinit var feedRecyclerView: RecyclerView
     private lateinit var adapter: FeedAdapter
 
+    private lateinit var listener: ValueEventListener
+    private lateinit var reference: DatabaseReference
+
+    private val userToMarkerMap = mutableMapOf<String, MarkerOptions>()
     private var map: GoogleMap? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,7 +63,6 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
         mapFragment.getMapAsync(this)
 
         adapter = FeedAdapter(this)
-        addDummyData()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         showDeviceLocation()
@@ -72,17 +83,33 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
             adapter = this@TripFragment.adapter
             addItemDecoration(DividerItemDecoration(requireContext(), (layoutManager as LinearLayoutManager).orientation))
         }
-
+        setupDbListener()
         view.findViewById<FloatingActionButton>(R.id.fab_share).setOnClickListener { showShareFragment() }
         return view
     }
 
-    private fun addDummyData() {
-        val items = mutableListOf<FeedItem>()
-        for (i in 0..20) {
-            items.add(FeedItem(i, "Dummy $i", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at vestibulum ligula. Duis vitae lectus lacus. Nullam semper ipsum neque, a lobortis nulla mattis nec. Ut elementum rhoncus risus eget eleifend. Donec viverra purus at nulla porta pulvinar. Quisque vulputate sapien quam, id posuere risus imperdiet eget. Duis lobortis velit eu luctus convallis.", "A location"))
+    private fun setupDbListener() {
+        val postLifetime = 60 * 60 * 24 // Posts disappear after 24 hours
+        val oneHourAgo = System.currentTimeMillis() / 1000 - postLifetime
+        reference = FirebaseDatabase.getInstance().getReference("locations")
+        listener = object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val feedItems = p0.children.map {
+                    val feedItem = it.getValue(FeedItem::class.java)!!
+                    feedItem.key = requireNotNull(it.key)
+                    feedItem
+                }.asReversed()
+                adapter.submitList(feedItems)
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Timber.w(p0.toException())
+            }
         }
-        adapter.submitList(items)
+        reference
+            .orderByChild("timestamp")
+            .startAt(oneHourAgo.toDouble())
+            .addValueEventListener(listener)
     }
 
     override fun onStart() {
@@ -90,6 +117,11 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
         if (!hasLocationPermission()) {
             requestLocationPermission()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        reference.removeEventListener(listener)
     }
 
     private fun requestLocationPermission() {
@@ -101,7 +133,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             PERMISSION_FINE_LOCATION ->
-                if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {
                     showDeviceLocation()
                 } else {
                     showLocationPermissionRequired()
@@ -147,12 +179,22 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     }
 
     override fun onFeedItemClicked(feedItem: FeedItem) {
-        Toast.makeText(requireContext(), "Clicked $feedItem", Toast.LENGTH_SHORT).show()
+        if (feedItem.includeLocation) {
+            val alertDialogBuilder = AlertDialog.Builder(requireContext())
+                .setMessage("Would you like to add this to the map?")
+                .setNegativeButton("No") { d, _ -> d.dismiss() }
+                .setPositiveButton("Yes") { dialog, _ ->
+                    addMarker(feedItem)
+                    dialog?.dismiss()
+                }
+            alertDialogBuilder.create().show()
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
         map = googleMap
         map?.setOnPoiClickListener(this)
+        map?.setOnMarkerClickListener(this)
         showDeviceLocation()
     }
 
@@ -161,14 +203,49 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
             .setCancelable(true)
             .setTitle("Navigate")
             .setMessage("Would you like to navigate to ${p0.name}?")
-            .setPositiveButton("Yes") { _, _ -> openNavigation(p0) }
+            .setPositiveButton("Yes") { _, _ -> openNavigation(p0.latLng) }
             .setNegativeButton("Cancel") { d, _ -> d.dismiss() }
             .create()
             .show()
     }
 
-    private fun openNavigation(p0: PointOfInterest) {
-        val gmmIntentUri = Uri.parse("google.navigation:q=${p0.latLng.latitude},${p0.latLng.longitude}&mode=walking")
+    private fun addMarker(feedItem: FeedItem) {
+        map?.run {
+            if (!userToMarkerMap.containsKey(feedItem.key)) {
+                val marker = MarkerOptions()
+                    .position(LatLng(feedItem.lat, feedItem.lng))
+                    .title(feedItem.user)
+                    .snippet(feedItem.message)
+                addMarker(marker).run {
+                    tag = LatLng(feedItem.lat, feedItem.lng)
+                }
+                moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(feedItem.lat, feedItem.lng), 15f))
+                userToMarkerMap[feedItem.key] = marker
+            } else {
+                Toast.makeText(requireContext(), "This marker already exists", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onMarkerClick(p0: Marker): Boolean {
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+            .setTitle(p0.title)
+            .setMessage(p0.snippet)
+            .setNegativeButton("Close") { d, _ -> d.dismiss() }
+
+        if (p0.tag is LatLng) {
+            alertDialogBuilder
+                .setPositiveButton("Navigate to") { _, _ -> openNavigation(p0.tag as LatLng) }
+        }
+        alertDialogBuilder
+            .create()
+            .show()
+        map?.animateCamera(CameraUpdateFactory.newLatLng(p0.tag as LatLng))
+        return true
+    }
+
+    private fun openNavigation(latLng: LatLng) {
+        val gmmIntentUri = Uri.parse("google.navigation:q=${latLng.latitude},${latLng.longitude}&mode=walking")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
             setPackage("com.google.android.apps.maps")
         }

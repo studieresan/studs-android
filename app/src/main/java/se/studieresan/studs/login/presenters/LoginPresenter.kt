@@ -24,7 +24,7 @@ class LoginPresenter(
           .subscribeOn(Schedulers.io())
           .observeOn(view.mainScheduler)
           .subscribe({
-            view.loginSuccessful()
+            view.loginSuccessful(it)
           }, {
             view.showLoginFailedMessage()
           })
