@@ -75,6 +75,34 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_navigation_preferences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_preferences"
+                android:layout_width="match_parent"
+                android:text="@string/preferences"
+                android:paddingStart="@dimen/default_margin"
+                android:background="?attr/selectableItemBackground"
+                android:layout_height="60dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                tools:ignore="RtlSymmetry" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#1f000000" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/btn_send_notification"
             android:layout_width="match_parent"

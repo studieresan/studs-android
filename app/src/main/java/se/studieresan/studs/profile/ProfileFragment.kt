@@ -60,6 +60,10 @@ class ProfileFragment : Fragment() {
 
             requireActivity().startActivity(intent)
         }
+
+        tv_preferences.setOnClickListener {
+            requireActivity().startActivity(SettingsActivity.makeIntent(requireContext()))
+        }
     }
 
     private fun goToPushNotificationsView() = startActivity(PushNotificationsActivity.makeIntent(requireContext()))

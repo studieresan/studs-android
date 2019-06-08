@@ -2,6 +2,7 @@ package se.studieresan.studs.data
 
 import android.content.Context
 import android.preference.PreferenceManager
+import se.studieresan.studs.R
 
 private const val NAME = "name"
 private const val PICTURE = "picture"
@@ -87,4 +88,12 @@ object StudsPreferences {
             PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(JWT_TOKEN, "")
         )
+
+    fun getNavigationPreference(context: Context) = checkNotNull(
+        PreferenceManager.getDefaultSharedPreferences(context).getString(
+            context.getString(
+                R.string.navigation_preference
+            ), "walking"
+        )
+    )
 }

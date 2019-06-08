@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="@string/navigation_preference"
+        android:title="Navigation Preference"
+        android:entries="@array/navigation_way_array_names"
+        android:entryValues="@array/navigation_way_array_values"
+        android:summary="Choose a preferred navigation style"
+        />
+</PreferenceScreen>

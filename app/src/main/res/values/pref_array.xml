@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="navigation_way_array_names">
+        <item>Walking</item>
+        <item>Driving</item>
+        <item>Bicycling</item>
+        <item>Transit</item>
+    </string-array>
+
+    <string-array name="navigation_way_array_values">
+        <item>walking</item>
+        <item>driving</item>
+        <item>bicycling</item>
+        <item>transit</item>
+    </string-array>
+</resources>

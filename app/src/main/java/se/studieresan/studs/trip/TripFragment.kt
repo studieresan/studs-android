@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
+import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.data.models.FeedItem
 import timber.log.Timber
 
@@ -100,6 +101,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
                     feedItem
                 }.asReversed()
                 adapter.submitList(feedItems)
+                feedRecyclerView.scrollToPosition(0)
             }
 
             override fun onCancelled(p0: DatabaseError) {
@@ -245,7 +247,8 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     }
 
     private fun openNavigation(latLng: LatLng) {
-        val gmmIntentUri = Uri.parse("google.navigation:q=${latLng.latitude},${latLng.longitude}&mode=walking")
+        val navigationPreference = StudsPreferences.getNavigationPreference(requireContext())
+        val gmmIntentUri = Uri.parse("google.navigation:q=${latLng.latitude},${latLng.longitude}&mode=$navigationPreference")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
             setPackage("com.google.android.apps.maps")
         }

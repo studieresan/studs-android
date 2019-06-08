@@ -61,4 +61,7 @@
     <string name="notification_settings">Notification Settings</string>
     <string name="contacts">Contacts</string>
     <string name="housing">Housing</string>
+    <string name="preferences">Preferences</string>
+
+    <string name="navigation_preference">navigation_preference_key</string>
 </resources>
