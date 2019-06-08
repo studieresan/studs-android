@@ -1,12 +1,17 @@
 package se.studieresan.studs.trip
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import se.studieresan.studs.R
 import se.studieresan.studs.data.models.FeedItem
 
@@ -27,11 +32,12 @@ class FeedAdapter(
         holder.bind(feedItem)
     }
 
-    inner class FeedItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class FeedItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val userName: TextView = view.findViewById(R.id.tv_user_name)
         private val message: TextView = view.findViewById(R.id.tv_message)
         private val location: TextView = view.findViewById(R.id.tv_location)
         private val time: TextView = view.findViewById(R.id.tv_time_stamp)
+        private val picture: ImageView = view.findViewById(R.id.iv_feed_item)
 
         fun bind(feedItem: FeedItem) {
             userName.text = feedItem.user
@@ -42,6 +48,13 @@ class FeedAdapter(
             } else {
                 View.GONE
             }
+            location.text = feedItem.locationName
+
+            Glide.with(view.context)
+                .load(feedItem.picture)
+                .apply(RequestOptions.circleCropTransform())
+                .placeholder(ColorDrawable(Color.BLACK))
+                .into(picture)
         }
     }
 }

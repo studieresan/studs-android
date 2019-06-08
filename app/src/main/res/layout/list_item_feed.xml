@@ -43,9 +43,25 @@
         android:textSize="14sp"
         tools:text="Cool Street 123" />
 
-    <TextView
-        android:id="@+id/tv_message"
-        android:layout_width="wrap_content"
-        tools:text="A message"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_feed_item"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            tools:text="A message"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </LinearLayout>
