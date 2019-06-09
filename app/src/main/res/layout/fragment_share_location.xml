@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:minWidth="300dp"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:padding="@dimen/default_margin"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
