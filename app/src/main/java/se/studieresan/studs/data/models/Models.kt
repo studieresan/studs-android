@@ -37,6 +37,12 @@ data class Event(
     }
 }
 
+data class LastKnownLocation(
+    var user: String = "",
+    var lat: Double = 0.0,
+    var lng: Double = 0.0
+)
+
 data class FeedItem(
     var key: String = "",
     var user: String = "",

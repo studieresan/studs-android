@@ -64,4 +64,5 @@
     <string name="preferences">Preferences</string>
 
     <string name="navigation_preference">navigation_preference_key</string>
+    <string name="live_location_preference_key">share_live_location_key</string>
 </resources>

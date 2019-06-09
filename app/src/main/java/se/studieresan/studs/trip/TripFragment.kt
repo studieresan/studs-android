@@ -3,6 +3,7 @@ package se.studieresan.studs.trip
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -39,6 +41,7 @@ import se.studieresan.studs.R
 import se.studieresan.studs.StudsActivity
 import se.studieresan.studs.data.StudsPreferences
 import se.studieresan.studs.data.models.FeedItem
+import se.studieresan.studs.data.models.LastKnownLocation
 import timber.log.Timber
 
 private const val PERMISSION_FINE_LOCATION = 1
@@ -55,8 +58,12 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
 
     private lateinit var listener: ValueEventListener
     private lateinit var reference: DatabaseReference
+    private lateinit var liveLocationReference: DatabaseReference
+    private lateinit var liveLocationListener: ValueEventListener
 
-    private val userToMarkerMap = mutableMapOf<String, MarkerOptions>()
+    private lateinit var user: String
+
+    private val userToMarkerMap = mutableMapOf<String, Pair<FeedItem, MarkerOptions>>()
     private var map: GoogleMap? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -91,8 +98,50 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
             )
         }
         setupDbListener()
+        setupLocationListener()
         view.findViewById<FloatingActionButton>(R.id.fab_share).setOnClickListener { showShareFragment() }
+        user = StudsPreferences.getName(requireContext())
         return view
+    }
+
+    private fun setupLocationListener() {
+        liveLocationReference = FirebaseDatabase.getInstance().getReference("live-locations")
+        liveLocationListener = object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                map?.clear()
+                p0.children
+                    .asSequence()
+                    .map { it.getValue(LastKnownLocation::class.java)!! }
+                    .filter { it.user != user }
+                    .forEach { addLastKnownLocationMarker(it) }
+                    .also {
+                        userToMarkerMap.values.forEach { (feedItem, markerOpt) ->
+                            map?.addMarker(markerOpt).run {
+                                this?.tag = LatLng(feedItem.lat, feedItem.lng)
+                            }
+                        }
+                    }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Timber.w(p0.toException())
+            }
+        }
+
+        liveLocationReference.addValueEventListener(liveLocationListener)
+    }
+
+    private fun addLastKnownLocationMarker(lastKnownLocation: LastKnownLocation) {
+        val marker = MarkerOptions()
+            .position(LatLng(lastKnownLocation.lat, lastKnownLocation.lng))
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+            .title(lastKnownLocation.user)
+            .snippet("Last known location of ${lastKnownLocation.user}")
+        map?.run {
+            addMarker(marker).run {
+                tag = LatLng(lastKnownLocation.lat, lastKnownLocation.lng)
+            }
+        }
     }
 
     private fun setupDbListener() {
@@ -130,6 +179,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     override fun onDestroy() {
         super.onDestroy()
         reference.removeEventListener(listener)
+        liveLocationReference.removeEventListener(liveLocationListener)
     }
 
     private fun requestLocationPermission() {
@@ -207,8 +257,15 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
 
     override fun onMapReady(googleMap: GoogleMap?) {
         map = googleMap
-        map?.setOnPoiClickListener(this)
-        map?.setOnMarkerClickListener(this)
+        map?.run {
+            setOnPoiClickListener(this@TripFragment)
+            setOnMarkerClickListener(this@TripFragment)
+            if (StudsPreferences.liveLocationSharingIsAllowed(requireContext())) {
+                setOnMyLocationChangeListener {
+                    uploadCurrentLocation(it)
+                }
+            }
+        }
         showDeviceLocation()
     }
 
@@ -223,6 +280,11 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
             .show()
     }
 
+    private fun uploadCurrentLocation(location: Location) {
+        val lastKnownLocation = LastKnownLocation(user, location.latitude, location.longitude)
+        liveLocationReference.child(user).setValue(lastKnownLocation)
+    }
+
     private fun addMarker(feedItem: FeedItem) {
         map?.run {
             if (!userToMarkerMap.containsKey(feedItem.key)) {
@@ -234,7 +296,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
                     tag = LatLng(feedItem.lat, feedItem.lng)
                 }
                 moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(feedItem.lat, feedItem.lng), 15f))
-                userToMarkerMap[feedItem.key] = marker
+                userToMarkerMap[feedItem.key] = Pair(feedItem, marker)
             } else {
                 Toast.makeText(requireContext(), "This marker already exists", Toast.LENGTH_SHORT).show()
             }
