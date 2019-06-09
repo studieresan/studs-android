@@ -84,11 +84,17 @@ object StudsPreferences {
             .putStringSet(PERMISSIONS, permissions.toSet())
             .apply()
 
-    fun getPermissions(context: Context) = checkNotNull(
+    fun getPermissions(context: Context): Set<String> = checkNotNull(
         PreferenceManager.getDefaultSharedPreferences(context).getStringSet(
             PERMISSIONS, emptySet()
         )
     )
+
+    fun liveLocationSharingIsAllowed(context: Context): Boolean =
+        PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+            context.getString(R.string.live_location_preference_key),
+            true
+        )
 
     fun setJwtToken(context: Context, token: String) =
         PreferenceManager.getDefaultSharedPreferences(context)
