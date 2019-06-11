@@ -136,10 +136,10 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
             .position(LatLng(lastKnownLocation.lat, lastKnownLocation.lng))
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
             .title(lastKnownLocation.user)
-            .snippet("Last known location of ${lastKnownLocation.user}")
         map?.run {
             addMarker(marker).run {
                 tag = LatLng(lastKnownLocation.lat, lastKnownLocation.lng)
+                showInfoWindow()
             }
         }
     }
