@@ -73,7 +73,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        adapter = FeedAdapter(this)
+        adapter = FeedAdapter(emptyList(), this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         showDeviceLocation()

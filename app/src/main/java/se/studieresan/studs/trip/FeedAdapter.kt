@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -16,8 +15,9 @@ import se.studieresan.studs.R
 import se.studieresan.studs.data.models.FeedItem
 
 class FeedAdapter(
+    private var items: List<FeedItem>,
     private val listener: OnFeedItemClickedListener
-) : ListAdapter<FeedItem, FeedAdapter.FeedItemViewHolder>(FeedItem.DIFF_CALLBACK) {
+) : RecyclerView.Adapter<FeedAdapter.FeedItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedItemViewHolder {
         fun inflate(@LayoutRes view: Int) = LayoutInflater.from(parent.context).inflate(view, parent, false)
@@ -25,11 +25,18 @@ class FeedAdapter(
     }
 
     override fun onBindViewHolder(holder: FeedItemViewHolder, position: Int) {
-        val feedItem = getItem(position)
+        val feedItem = items[position]
         holder.itemView.setOnClickListener {
             listener.onFeedItemClicked(feedItem)
         }
         holder.bind(feedItem)
+    }
+
+    override fun getItemCount(): Int = items.size
+
+    fun submitList(newItems: List<FeedItem>) {
+        items = newItems
+        notifyDataSetChanged()
     }
 
     inner class FeedItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
