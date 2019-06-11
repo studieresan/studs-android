@@ -144,7 +144,6 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
             val m = addMarker(marker)
             locationToUserMap[lastKnownLocation.user] = m
             m.tag = LatLng(lastKnownLocation.lat, lastKnownLocation.lng)
-            m.showInfoWindow()
         }
     }
 
