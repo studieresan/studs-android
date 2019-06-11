@@ -149,7 +149,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
 
     private fun setupDbListener() {
         val postLifetime = 60 * 60 * 24 // Posts disappear after 24 hours
-        val oneHourAgo = System.currentTimeMillis() / 1000 - postLifetime
+        val oneDayAgo = System.currentTimeMillis() / 1000 - postLifetime
         reference = FirebaseDatabase.getInstance().getReference("locations")
         listener = object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -168,7 +168,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
         }
         reference
             .orderByChild("timestamp")
-            .startAt(oneHourAgo.toDouble())
+            .startAt(oneDayAgo.toDouble())
             .addValueEventListener(listener)
     }
 

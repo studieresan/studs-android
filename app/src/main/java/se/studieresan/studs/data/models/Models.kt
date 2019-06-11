@@ -70,14 +70,6 @@ data class FeedItem(
             )
         }
     }
-
-    companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FeedItem>() {
-            override fun areItemsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean = oldItem.key == newItem.key
-
-            override fun areContentsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean = oldItem == newItem
-        }
-    }
 }
 
 enum class CompanyFamiliarity {
