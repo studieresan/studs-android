@@ -327,7 +327,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
             .create()
             .show()
         map?.animateCamera(CameraUpdateFactory.newLatLng(p0.tag as LatLng))
-        return true
+        return false
     }
 
     private fun openNavigation(latLng: LatLng) {
