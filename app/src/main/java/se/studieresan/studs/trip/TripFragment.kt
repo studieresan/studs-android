@@ -64,7 +64,8 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
 
     private lateinit var user: String
 
-    private val userToMarkerMap = mutableMapOf<String, Pair<FeedItem, MarkerOptions>>()
+    private val feedItemToMarkerMap = mutableMapOf<String, MarkerOptions>()
+    private val locationToUserMap = mutableMapOf<String, Marker>()
     private var map: GoogleMap? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -118,19 +119,11 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
         liveLocationReference = FirebaseDatabase.getInstance().getReference("live-locations")
         liveLocationListener = object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                map?.clear()
                 p0.children
                     .asSequence()
                     .map { it.getValue(LastKnownLocation::class.java)!! }
                     .filter { it.user != user }
                     .forEach { addLastKnownLocationMarker(it) }
-                    .also {
-                        userToMarkerMap.values.forEach { (feedItem, markerOpt) ->
-                            map?.addMarker(markerOpt).run {
-                                this?.tag = LatLng(feedItem.lat, feedItem.lng)
-                            }
-                        }
-                    }
             }
 
             override fun onCancelled(p0: DatabaseError) {
@@ -142,15 +135,16 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
     }
 
     private fun addLastKnownLocationMarker(lastKnownLocation: LastKnownLocation) {
+        locationToUserMap[lastKnownLocation.user]?.remove()
         val marker = MarkerOptions()
             .position(LatLng(lastKnownLocation.lat, lastKnownLocation.lng))
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
             .title(lastKnownLocation.user)
         map?.run {
-            addMarker(marker).run {
-                tag = LatLng(lastKnownLocation.lat, lastKnownLocation.lng)
-                showInfoWindow()
-            }
+            val m = addMarker(marker)
+            locationToUserMap[lastKnownLocation.user] = m
+            m.tag = LatLng(lastKnownLocation.lat, lastKnownLocation.lng)
+            m.showInfoWindow()
         }
     }
 
@@ -297,7 +291,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
 
     private fun addMarker(feedItem: FeedItem) {
         map?.run {
-            if (!userToMarkerMap.containsKey(feedItem.key)) {
+            if (!feedItemToMarkerMap.containsKey(feedItem.key)) {
                 val marker = MarkerOptions()
                     .position(LatLng(feedItem.lat, feedItem.lng))
                     .title(feedItem.user)
@@ -306,7 +300,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
                     tag = LatLng(feedItem.lat, feedItem.lng)
                 }
                 moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(feedItem.lat, feedItem.lng), 15f))
-                userToMarkerMap[feedItem.key] = Pair(feedItem, marker)
+                feedItemToMarkerMap[feedItem.key] = marker
             } else {
                 Toast.makeText(requireContext(), "This marker already exists", Toast.LENGTH_SHORT).show()
             }
