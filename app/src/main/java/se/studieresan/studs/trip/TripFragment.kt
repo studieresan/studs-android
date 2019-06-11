@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -87,6 +88,15 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
+
+        view.findViewById<Button>(R.id.btn_contacts).setOnClickListener {
+            startActivity(TripInfoActivity.makeIntent(requireContext(), TripInfoActivity.Companion.InfoType.CONTACTS))
+        }
+
+        view.findViewById<Button>(R.id.btn_housing).setOnClickListener {
+            startActivity(TripInfoActivity.makeIntent(requireContext(), TripInfoActivity.Companion.InfoType.HOUSING))
+        }
+
         feedRecyclerView = view.findViewById<RecyclerView>(R.id.rv_feed).apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@TripFragment.adapter

@@ -54,7 +54,7 @@
 
                 <Button
                     style="?android:buttonBarButtonStyle"
-                    android:id="@+id/btn_pre_event"
+                    android:id="@+id/btn_housing"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="@dimen/button_height"
@@ -65,7 +65,7 @@
 
                 <Button
                     style="?android:buttonBarButtonStyle"
-                    android:id="@+id/btn_post_event"
+                    android:id="@+id/btn_contacts"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="@dimen/button_height"

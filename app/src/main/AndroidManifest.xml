@@ -62,6 +62,10 @@
         <activity android:name=".profile.SettingsActivity"
             android:label=""
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".trip.TripInfoActivity"
+            android:label=""
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
