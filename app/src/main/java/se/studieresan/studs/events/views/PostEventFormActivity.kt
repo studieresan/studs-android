@@ -23,7 +23,7 @@ class PostEventFormActivity : StudsActivity() {
     @Inject
     lateinit var studsRepository: StudsRepository
 
-    lateinit var event: Event
+    private lateinit var event: Event
 
     private var disposable: Disposable? = null
 

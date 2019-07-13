@@ -7,6 +7,7 @@ import se.studieresan.studs.data.models.CreatePreEventFormFields
 import se.studieresan.studs.data.models.Event
 
 interface EventDetailContract {
+
     interface View : BaseView {
         fun openGoogleMapsNavigation(address: String)
         fun showPreEventForm(event: Event, formData: CreatePreEventFormFields?)

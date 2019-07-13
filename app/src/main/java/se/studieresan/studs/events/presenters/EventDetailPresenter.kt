@@ -12,6 +12,7 @@ class EventDetailPresenter(
     private val event: Event,
     private val studsRepository: StudsRepository
 ) : EventDetailContract.Presenter {
+
     private var view: EventDetailContract.View? = view
 
     private var disposable: Disposable? = null

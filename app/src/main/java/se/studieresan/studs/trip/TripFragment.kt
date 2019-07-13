@@ -82,6 +82,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
         bottomSheetBehavior.run {
             state = BottomSheetBehavior.STATE_COLLAPSED
         }
+
         view.findViewById<TextView>(R.id.tv_bottom_sheet_title).setOnClickListener {
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -159,7 +160,7 @@ class TripFragment : Fragment(), OnMapReadyCallback, OnFeedItemClickedListener, 
                     feedItem
                 }.asReversed()
                 adapter.submitList(feedItems)
-                feedRecyclerView.scrollToPosition(0)
+                feedRecyclerView.smoothScrollToPosition(0)
             }
 
             override fun onCancelled(p0: DatabaseError) {

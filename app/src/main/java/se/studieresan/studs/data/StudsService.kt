@@ -41,6 +41,7 @@ private const val eventQuery =
     }"""
 
 interface StudsService {
+
     @POST("login")
     fun login(@Body loginUserRequest: LoginUserRequest): Observable<LoginResponse>
 

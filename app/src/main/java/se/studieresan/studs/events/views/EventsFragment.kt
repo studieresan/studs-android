@@ -86,7 +86,8 @@ class EventsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable?.dispose()
-        disposable = null
+        disposable?.dispose().also {
+            disposable = null
+        }
     }
 }

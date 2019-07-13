@@ -43,4 +43,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_navigation" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/shadow"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

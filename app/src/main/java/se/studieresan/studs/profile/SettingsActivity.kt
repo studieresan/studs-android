@@ -12,7 +12,7 @@ class SettingsActivity : StudsActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         addToolbar()
-        setToolbarTitle("Preferences")
+        setToolbarTitle(getString(R.string.preferences))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager
             .beginTransaction()

@@ -13,8 +13,11 @@ import se.studieresan.studs.data.AddJwtInterceptor
 import se.studieresan.studs.data.ReceivedJwtInterceptor
 import javax.inject.Singleton
 
+private const val STUDS_URL = "https://studs18-overlord.herokuapp.com/"
+private const val CACHE_SIZE: Long = 5 * 1024 * 1024
+
 @Module
-class NetModule(private val baseUrl: String) {
+class NetModule {
 
     @Provides
     @Singleton
@@ -29,13 +32,13 @@ class NetModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideHttpCache(application: StudsApplication) = Cache(application.cacheDir, 5 * 1024 * 1024)
+    fun provideHttpCache(application: StudsApplication) = Cache(application.cacheDir, CACHE_SIZE)
 
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(STUDS_URL)
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

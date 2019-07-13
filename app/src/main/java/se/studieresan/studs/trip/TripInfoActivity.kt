@@ -24,9 +24,9 @@ class TripInfoActivity : StudsActivity() {
 
         setToolbarTitle(
             if (infoType == InfoType.HOUSING)
-                "Housing"
+                getString(R.string.housing)
             else
-                "Contacts"
+                getString(R.string.contacts)
         )
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 

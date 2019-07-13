@@ -2,10 +2,12 @@ package se.studieresan.studs
 
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
-import se.studieresan.studs.di.*
+import se.studieresan.studs.di.AppModule
+import se.studieresan.studs.di.DaggerStudsApplicationComponent
+import se.studieresan.studs.di.NetModule
+import se.studieresan.studs.di.ServiceModule
+import se.studieresan.studs.di.StudsApplicationComponent
 import timber.log.Timber
-
-private const val STUDS_URL = "https://studs18-overlord.herokuapp.com/"
 
 class StudsApplication : Application() {
 
@@ -24,7 +26,7 @@ class StudsApplication : Application() {
         return DaggerStudsApplicationComponent
             .builder()
             .appModule(AppModule(this))
-            .netModule(NetModule(STUDS_URL))
+            .netModule(NetModule())
             .serviceModule(ServiceModule())
             .build()
     }
