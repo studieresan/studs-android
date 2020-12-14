@@ -39,7 +39,7 @@ class TripFragment : Fragment() {
     }
 
     private fun getRandomExcitedEmoji(): String {
-        val emojis = listOf("🥳", "🤯", "😍", "✨", "🎂", "☀️", "💃", "🍻", "😇", "🤩", "🥰", "🐳")
+        val emojis = listOf("🥳", "🤯", "😍", "✨", "🎂", "☀️", "💃", "🍻", "😇", "🤩", "🥰", "🐳", "🇮🇸", "🇩🇪", "🇮🇹")
         return emojis.random()
     }
 
