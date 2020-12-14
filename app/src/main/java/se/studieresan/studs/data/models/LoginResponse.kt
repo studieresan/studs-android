@@ -6,5 +6,6 @@ data class LoginResponse(
     val name: String,
     val picture: String,
     val position: String,
+    val role: String,
     val permissions: List<String>
 )

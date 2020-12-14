@@ -1,13 +1,29 @@
 package se.studieresan.studs.profile
 
-
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import se.studieresan.studs.R
+import se.studieresan.studs.data.StudsPreferences
 
 class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
+        val darkModeSwitch = findPreference<SwitchPreference>("darkmode_preference")
+
+        darkModeSwitch?.setOnPreferenceChangeListener() { _, isChecked ->
+            if (isChecked as Boolean) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                darkModeSwitch.isChecked = true
+                true
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                darkModeSwitch.isChecked = false
+                false
+            }
+        }
     }
 
     companion object {

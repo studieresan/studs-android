@@ -13,7 +13,7 @@ import se.studieresan.studs.data.AddJwtInterceptor
 import se.studieresan.studs.data.ReceivedJwtInterceptor
 import javax.inject.Singleton
 
-private const val STUDS_URL = "https://studs18-overlord.herokuapp.com/"
+private const val STUDS_URL = "https://studs-overlord.herokuapp.com"
 private const val CACHE_SIZE: Long = 5 * 1024 * 1024
 
 @Module

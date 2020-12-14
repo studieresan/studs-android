@@ -55,10 +55,10 @@ object StudsPreferences {
         )
     )
 
-    fun setPosition(context: Context, position: String) =
+    fun setPosition(context: Context, position: String?) =
         PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .putString(POSITION, position)
+            .putString(POSITION, if (position != null) position else "")
             .apply()
 
     fun getPosition(context: Context) = checkNotNull(
@@ -78,10 +78,10 @@ object StudsPreferences {
             .apply()
     }
 
-    fun setPermissions(context: Context, permissions: List<String>) =
+    fun setPermissions(context: Context, permissions: List<String>?) =
         PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .putStringSet(PERMISSIONS, permissions.toSet())
+            .putStringSet(PERMISSIONS, if (permissions != null) permissions.toSet() else listOf<String>().toSet())
             .apply()
 
     fun getPermissions(context: Context): Set<String> = checkNotNull(
@@ -108,11 +108,9 @@ object StudsPreferences {
                 .getString(JWT_TOKEN, "")
         )
 
-    fun getNavigationPreference(context: Context) = checkNotNull(
-        PreferenceManager.getDefaultSharedPreferences(context).getString(
-            context.getString(
-                R.string.navigation_preference
-            ), "walking"
-        )
+    fun getDarkModePreferences(context: Context): Boolean =
+    PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+            context.getString(R.string.darkmode_preference),
+            false
     )
 }

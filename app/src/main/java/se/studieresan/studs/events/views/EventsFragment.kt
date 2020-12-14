@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDate.now
@@ -18,9 +19,7 @@ import se.studieresan.studs.StudsApplication
 import se.studieresan.studs.data.models.Event
 import se.studieresan.studs.events.adapters.EventAdapter
 import se.studieresan.studs.net.StudsRepository
-import se.studieresan.studs.util.MapUtils
 import timber.log.Timber
-import javax.inject.Inject
 
 class EventsFragment : Fragment() {
 
@@ -56,12 +55,9 @@ class EventsFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .map { events ->
                 val today = now()
-                val orderedEvents = events.data.allEvents.sortedByDescending { it.getDate() }
+                val orderedEvents = events.data.events.sortedByDescending { it.getDate() }
                 val nextEvent =
                     orderedEvents.firstOrNull { LocalDate.parse(it.date, EventAdapter.DATE_FORMATTER) >= today }
-                nextEvent?.let {
-                    it.latLng = MapUtils.getLatLngFromAddress(requireContext(), it.location)
-                }
                 orderedEvents
             }
             .observeOn(AndroidSchedulers.mainThread())
@@ -81,7 +77,6 @@ class EventsFragment : Fragment() {
 
     private val recycleListener = RecyclerView.RecyclerListener { holder ->
         val eventHolder = holder as? EventAdapter.NextEventViewHolder
-        eventHolder?.map?.clear()
     }
 
     override fun onDestroy() {

@@ -64,7 +64,7 @@ class LoginActivity : StudsActivity(), LoginContract.View {
             logIn(this@LoginActivity, et_email.text.toString())
             setName(this@LoginActivity, loginResponse.name)
             setPicture(this@LoginActivity, loginResponse.picture)
-            setPosition(this@LoginActivity, loginResponse.position)
+            setPosition(this@LoginActivity, loginResponse.role)
             setPermissions(this@LoginActivity, loginResponse.permissions)
         }
         startActivity(MainActivity.makeIntent(this, true))

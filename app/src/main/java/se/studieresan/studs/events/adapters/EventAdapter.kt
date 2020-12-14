@@ -9,8 +9,6 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.MarkerOptions
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDate.now
 import org.threeten.bp.format.DateTimeFormatter
@@ -110,45 +108,19 @@ class EventAdapter(
         }
     }
 
-    inner class NextEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view), OnMapReadyCallback {
-        private var mapView: MapView = view.findViewById(R.id.event_map_view)
+    inner class NextEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val companyName: TextView = view.findViewById(R.id.tv_company_name)
         private val month: TextView = view.findViewById(R.id.tv_month)
         private val day: TextView = view.findViewById(R.id.tv_day)
 
-        var map: GoogleMap? = null
-            private set
-
-        init {
-            mapView.run {
-                onCreate(null)
-                getMapAsync(this@NextEventViewHolder)
-            }
-        }
-
-        override fun onMapReady(googleMap: GoogleMap) {
-            MapsInitializer.initialize(applicationContext)
-            map = googleMap
-            setMapLocation()
-        }
-
         fun bind(event: Event) {
             view.tag = this
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
-            mapView.tag = event
-            setMapLocation()
-            companyName.text = event.companyName
+            companyName.text = event.company?.name
             month.text = LocalDate.parse(event.date, DATE_FORMATTER).month.name.substring(0, 3)
             day.text = LocalDate.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
         }
 
-        private fun setMapLocation() {
-            val data = mapView.tag as Event
-            map?.run {
-                addMarker(MarkerOptions().position(data.latLng!!).title(data.location))
-                moveCamera(CameraUpdateFactory.newLatLngZoom(data.latLng!!, ZOOM_FACTOR))
-            }
-        }
     }
 
     inner class EventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -158,7 +130,7 @@ class EventAdapter(
 
         fun bind(event: Event) {
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
-            companyName.text = event.companyName
+            companyName.text = event.company?.name
             month.text = LocalDate.parse(event.date, DATE_FORMATTER).month.name.substring(0, 3)
             day.text = LocalDate.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
         }

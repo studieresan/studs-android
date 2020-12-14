@@ -62,7 +62,7 @@ class ForgotPasswordActivity : StudsActivity(), ForgotPasswordContract.View {
             Snackbar.make(view, getString(R.string.generic_error_message), Snackbar.LENGTH_LONG).show()
 
     override fun showInvalidEmailError() =
-            Snackbar.make(view, getString(R.string.enter_valid_email), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view, getString(R.string.invalid_email), Snackbar.LENGTH_LONG).show()
 
     companion object {
         fun makeIntent(context: Context, email: String) = Intent(context, ForgotPasswordActivity::class.java).apply {

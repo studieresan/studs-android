@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:entries="@array/navigation_way_array_names"
-        android:entryValues="@array/navigation_way_array_values"
-        android:key="@string/navigation_preference"
-        android:summary="Choose a preferred navigation style"
-        android:title="Navigation Preference" />
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="@string/live_location_preference_key"
         android:summary="Allow live location sharing"
-        android:title="Live Location Sharing" />
+        android:title="Live Location Sharing"
+        app:isPreferenceVisible="false" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/darkmode_preference"
+        android:title="@string/dark_mode" />
 </PreferenceScreen>

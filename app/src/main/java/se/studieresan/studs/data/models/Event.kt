@@ -3,22 +3,19 @@ package se.studieresan.studs.data.models
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Event(
     val id: String,
-    val companyName: String = "",
+    val company: Company? = null,
     val privateDescription: String? = null,
     val publicDescription: String? = null,
     val date: String?,
-    val beforeSurveys: List<String> = emptyList(),
-    val afterSurveys: List<String> = emptyList(),
-    val location: String = "",
+    val location: String? = "",
     val pictures: List<String> = emptyList(),
-    val responsible: String = "",
     var latLng: LatLng? = null
 ) : Parcelable {
     companion object {

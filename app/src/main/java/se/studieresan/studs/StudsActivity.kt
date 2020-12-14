@@ -50,14 +50,6 @@ abstract class StudsActivity : AppCompatActivity(), BaseView {
         startActivity(intent)
     }
 
-    fun setStatusBarColor(@ColorRes color: Int) = window.run {
-        statusBarColor = ContextCompat.getColor(this@StudsActivity, color)
-    }
-
-    fun setTranslucentStatusBar() = window.run {
-        statusBarColor = ContextCompat.getColor(this@StudsActivity, android.R.color.transparent)
-    }
-
     fun setFullscreenLayout() = window.decorView.run {
         systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_FULLSCREEN
     }

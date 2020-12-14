@@ -39,7 +39,7 @@
         android:drawableStart="@drawable/ic_location_icon"
         android:drawablePadding="@dimen/default_margin_small"
         android:layout_marginBottom="@dimen/default_margin_small"
-        android:textColor="@android:color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
         tools:text="Cool Street 123" />
 

@@ -5,7 +5,6 @@
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fcfcfc"
     tools:context=".events.views.EventsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout

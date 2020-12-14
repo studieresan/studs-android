@@ -1,6 +1,5 @@
 package se.studieresan.studs.data.models
 
-import com.google.firebase.database.Exclude
 import java.util.concurrent.TimeUnit
 
 data class FeedItem(
@@ -15,7 +14,6 @@ data class FeedItem(
     var includeLocation: Boolean = true
 ) {
 
-    @Exclude
     fun getTimeAgo(): String {
         val minutesAgo = (System.currentTimeMillis() / 1000 - timestamp) / 60
 
