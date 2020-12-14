@@ -9,14 +9,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Event(
-    val id: String,
-    val company: Company? = null,
-    val privateDescription: String? = null,
-    val publicDescription: String? = null,
-    val date: String?,
-    val location: String? = "",
-    val pictures: List<String> = emptyList(),
-    var latLng: LatLng? = null
+        val id: String,
+        val company: Company? = null,
+        val privateDescription: String? = null,
+        val publicDescription: String? = null,
+        val date: String?,
+        val location: String? = "",
+        val pictures: List<String> = emptyList(),
+        var latLng: LatLng? = null
 ) : Parcelable {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Event>() {
@@ -28,7 +28,7 @@ data class Event(
 
     fun getDate(): Date {
         val format =
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
+                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
         return format.parse(date!!)
     }
 }

@@ -7,7 +7,7 @@ import se.studieresan.studs.data.models.Event
 interface EventDetailContract {
 
     interface View : BaseView {
-        
+
     }
 
     interface Presenter : BasePresenter {

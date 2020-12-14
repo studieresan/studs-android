@@ -6,14 +6,14 @@ import se.studieresan.studs.data.models.LoginResponse
 
 interface LoginContract {
 
-  interface View : BaseView {
-    fun showEmailErrorMessage(show: Boolean)
-    fun showPasswordErrorMessage(show: Boolean)
-    fun showLoginFailedMessage()
-    fun loginSuccessful(loginResponse: LoginResponse)
-  }
+    interface View : BaseView {
+        fun showEmailErrorMessage(show: Boolean)
+        fun showPasswordErrorMessage(show: Boolean)
+        fun showLoginFailedMessage()
+        fun loginSuccessful(loginResponse: LoginResponse)
+    }
 
-  interface Presenter : BasePresenter {
-    fun onLoginClicked(email: String, password: String)
-  }
+    interface Presenter : BasePresenter {
+        fun onLoginClicked(email: String, password: String)
+    }
 }

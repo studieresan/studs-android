@@ -12,13 +12,13 @@ import se.studieresan.studs.data.models.LoginUserRequest
 import se.studieresan.studs.data.models.UserResponse
 
 private const val userQuery =
-    """query {
+        """query {
           user { id }
         }
     """
 
 private const val eventQuery =
-    """query {
+        """query {
         events(studsYear:2021) {
             id
             company {

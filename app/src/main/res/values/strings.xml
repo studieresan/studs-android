@@ -1,6 +1,6 @@
 <resources>
     <!-- General-->
-    <string name="app_name">Studs</string>
+    <string name="app_name" translatable="false">Studs</string>
     <string name="email" translatable="false">Email</string>
     <string name="studs" translatable="false">Studs</string>
     <string name="password">Password</string>
@@ -40,7 +40,7 @@
     <string name="tr_emoji_placeholder" translatable="false">X X</string>
     <string name="tr_countdown_placeholder" translatable="false">XXX</string>
 
-      <!-- Preference keys-->
+    <!-- Preference keys-->
     <string name="live_location_preference_key" translatable="false">share_live_location_key</string>
     <string name="darkmode_preference" translatable="false">darkmode_preference</string>
 </resources>

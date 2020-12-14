@@ -11,10 +11,10 @@ private const val CONTENT_TYPE_VALUE = "application/graphql"
 class AddJwtInterceptor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder = chain
-            .request()
-            .newBuilder()
+                .request()
+                .newBuilder()
         val token = StudsPreferences
-            .getJwtToken(context)
+                .getJwtToken(context)
         builder.run {
             if (token.isNotEmpty()) {
                 addHeader(AUTHORIZATION, token)

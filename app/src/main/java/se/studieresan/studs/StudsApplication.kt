@@ -24,11 +24,11 @@ class StudsApplication : Application() {
 
     private fun createApplicationComponent(): StudsApplicationComponent {
         return DaggerStudsApplicationComponent
-            .builder()
-            .appModule(AppModule(this))
-            .netModule(NetModule())
-            .serviceModule(ServiceModule())
-            .build()
+                .builder()
+                .appModule(AppModule(this))
+                .netModule(NetModule())
+                .serviceModule(ServiceModule())
+                .build()
     }
 
     companion object {

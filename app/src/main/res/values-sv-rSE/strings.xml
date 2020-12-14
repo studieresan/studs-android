@@ -21,14 +21,11 @@
 
     <!-- Profile/Settings-->
     <string name="profile">Profil</string>
-    <string name="dark_mode">Dark mode</string>
     <string name="notification_settings">Aviseringar</string>
     <string name="preferences">Inställningar</string>
 
     <!-- Trip -->
     <string name="trip">Resa</string>
-    <string name="tr_omg">Omg!</string>
     <string name="tr_countdown1">Det är endast</string>
     <string name="tr_countdown2">dagar kvar till livets resa!</string>
-    <string name="tr_datemargin">(± 10)</string>
 </resources>

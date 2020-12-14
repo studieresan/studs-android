@@ -34,8 +34,7 @@ class MainActivity : StudsActivity() {
 
         if (StudsPreferences.getDarkModePreferences(this)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
-        else {
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 

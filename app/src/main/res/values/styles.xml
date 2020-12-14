@@ -37,8 +37,11 @@
 
     <style name="Widget.Studs.BottomNav" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="itemIconTint">@android:color/holo_green_light</item>
-        <item name="itemTextAppearanceActive">@style/TextAppearance.Studs.BottomNavigationView.Active</item>
-        <item name="itemTextAppearanceInactive">@style/TextAppearance.Studs.BottomNavigationView</item>
+        <item name="itemTextAppearanceActive">
+            @style/TextAppearance.Studs.BottomNavigationView.Active
+        </item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Studs.BottomNavigationView
+        </item>
         <item name="labelVisibilityMode">labeled</item>
         <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>
     </style>

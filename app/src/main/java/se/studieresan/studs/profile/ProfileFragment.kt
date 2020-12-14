@@ -38,9 +38,9 @@ class ProfileFragment : Fragment() {
     private fun configureView() {
         // Set the image
         Glide.with(requireContext())
-            .load(StudsPreferences.getPicture(requireContext()))
-            .apply(RequestOptions.circleCropTransform())
-            .into(iv_profile)
+                .load(StudsPreferences.getPicture(requireContext()))
+                .apply(RequestOptions.circleCropTransform())
+                .into(iv_profile)
 
         // Set the name
         tv_member_name.text = StudsPreferences.getName(requireContext())

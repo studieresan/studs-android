@@ -15,9 +15,9 @@ class SettingsActivity : StudsActivity() {
         setToolbarTitle(getString(R.string.preferences))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_container, SettingsFragment.newInstance())
-            .commit()
+                .beginTransaction()
+                .replace(R.id.settings_container, SettingsFragment.newInstance())
+                .commit()
     }
 
     companion object {
