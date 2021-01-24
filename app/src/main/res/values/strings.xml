@@ -1,68 +1,46 @@
 <resources>
-    <string name="app_name">Studs</string>
+    <!-- General-->
+    <string name="app_name" translatable="false">Studs</string>
     <string name="email" translatable="false">Email</string>
     <string name="studs" translatable="false">Studs</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="login">Log in</string>
     <string name="forgot_password">Forgot password</string>
     <string name="invalid_email">Enter a valid email address</string>
     <string name="invalid_password">Password is too short</string>
     <string name="invalid_email_or_password">Wrong email or password</string>
     <string name="reset_password">Reset password</string>
+    <string name="reset_password_message">Reset password email has been sent</string>
     <string name="forgot_your_password">Get a new one!</string>
     <string name="logout">Log out</string>
-    <string name="profile">Profile</string>
-    <string name="trip">Trip</string>
-    <string name="event">Events</string>
+    <string name="generic_error_message">Hmm, something went wrong. Please try again.</string>
+    <string name="enter_valid_email">Please enter a valid email</string>
+
+
+    <!-- Event -->
+    <string name="event" translatable="false">Events</string>
     <string name="upcoming_events">Upcoming events</string>
     <string name="past_events">Past events</string>
     <string name="next_event">Next event</string>
-
-    <string name="date_string" translatable="false">%d %s</string>
-    <string name="pre_event_form">Pre Event Form</string>
-    <string name="post_event_form">Post Event Form</string>
-    <string name="google_maps_unavailable">You need to have Google Maps installed.</string>
-    <string name="notification_channel_id" translatable="false">fcm-notifications</string>
-
     <string name="event_time_placeholder" translatable="false">%s - %s</string>
-    <string name="reset_password_message">Reset password email has been sent</string>
-    <string name="generic_error_message">Hmm, something went wrong. Please try again.</string>
-    <string name="enter_valid_email">Please enter a valid email</string>
     <string name="no_description_available">No description available</string>
-    <string name="send_notifications">Send Push Notifications</string>
-    <string name="pre_event_form_title" translatable="false">PRE-Event %s</string>
-    <string name="after_event_form_title" translatable="false">AFTER-Event %s</string>
-    <string name="familiar_with_company" translatable="false">Are you familiar with the company and what they do?</string>
-    <string name="yes" translatable="false">Yes</string>
-    <string name="to_some_extent" translatable="false">To some extent</string>
-    <string name="no" translatable="false">No</string>
-    <string name="how_interested_working" translatable="false">How interested in working at this company are you?</string>
-    <string name="how_interested_working_now" translatable="false">How interested in working at this company are you now?</string>
-    <string name="motivate_interest_in_company" translatable="false">Please motivate why you are or aren\'t interested in working at this company.</string>
-    <string name="your_answer" translatable="false">Your answer</string>
-    <string name="describe_view_of_company" translatable="false">How would you describe your view of the company and what\'s your general opinion about them?</string>
-    <string name="submit" translatable="false">Submit</string>
-    <string name="required_answer" translatable="false">Answer is required</string>
-    <string name="event_impact_on_view" translatable="false">How did the event impact your opinion about the company?</string>
-    <string name="positive_impact" translatable="false">The event had a positive impact on my view of the company</string>
-    <string name="neutral_impact" translatable="false">It didn\'t change my view of the company</string>
-    <string name="negative_impact" translatable="false">The event had a negative impact on my view of the company</string>
-    <string name="feel_qualified_to_work" translatable="false">Do you feel qualified to work at this company?</string>
-    <string name="yes_i_do" translatable="false">Yes, I do</string>
-    <string name="no_i_don_t" translatable="false">No, I don\'t</string>
-    <string name="atmosphere_at_event" translatable="false">How did you experience the atmosphere at the event?</string>
-    <string name="activities_at_event" translatable="false">Did you enjoy the activities at the event?</string>
-    <string name="did_you_like_the_food" translatable="false">Did you like the food?</string>
-    <string name="enjoyed_the_most" translatable="false">What did you enjoy the most about the event and the company?</string>
-    <string name="what_could_have_been_improved" translatable="false">What could have been improved?</string>
-    <string name="travel_info">Travel Info</string>
-    <string name="share_current_location">Share current location</string>
-    <string name="enter_message">Enter message</string>
-    <string name="notification_settings">Notification Settings</string>
-    <string name="contacts">Contacts</string>
-    <string name="housing">Housing</string>
+
+    <!-- Profile/Settings-->
+    <string name="profile">Profile</string>
+    <string name="dark_mode" translatable="false">Dark mode</string>
+    <string name="notification_settings">Notification settings</string>
     <string name="preferences">Preferences</string>
 
-    <string name="navigation_preference">navigation_preference_key</string>
-    <string name="live_location_preference_key">share_live_location_key</string>
+    <!-- Trip -->
+    <string name="trip">Trip</string>
+    <string name="tr_omg" translatable="false">Omg!</string>
+    <string name="tr_countdown1">There are only</string>
+    <string name="tr_countdown2">days left until the trip of a lifetime!</string>
+    <string name="tr_datemargin" translatable="false">(± 10)</string>
+    <string name="tr_emoji_placeholder" translatable="false">X X</string>
+    <string name="tr_countdown_placeholder" translatable="false">XXX</string>
+
+    <!-- Preference keys-->
+    <string name="live_location_preference_key" translatable="false">share_live_location_key</string>
+    <string name="darkmode_preference" translatable="false">darkmode_preference</string>
 </resources>

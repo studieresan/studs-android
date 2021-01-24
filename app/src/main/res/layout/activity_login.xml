@@ -13,15 +13,15 @@
 
         <ImageView
             android:id="@+id/login_logo"
-            android:layout_width="101dp"
-            android:layout_height="46dp"
+            android:layout_width="182dp"
+            android:layout_height="163dp"
             android:layout_marginStart="@dimen/default_margin_giant"
             android:layout_marginTop="@dimen/default_margin_giant"
             android:layout_marginEnd="@dimen/default_margin_giant"
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name"
             android:scaleType="fitCenter"
-            android:src="@drawable/launch_logo"
+            android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

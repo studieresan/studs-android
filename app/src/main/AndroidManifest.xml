@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="se.studieresan.studs">
+    package="com.studieresan.studs"
+    android:versionCode="2"
+    android:versionName="2.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".StudsApplication"
+        android:name="com.studieresan.studs.StudsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,7 +23,7 @@
             android:required="false" />
 
         <activity
-            android:name=".LauncherActivity"
+            android:name="com.studieresan.studs.LauncherActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,56 +34,27 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.studieresan.studs.MainActivity" />
         <activity
-            android:name=".login.views.ForgotPasswordActivity"
+            android:name="com.studieresan.studs.login.views.ForgotPasswordActivity"
             android:label="@string/forgot_password"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".login.views.LoginActivity"
+            android:name="com.studieresan.studs.login.views.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".events.views.EventDetailActivity"
+            android:name="com.studieresan.studs.events.views.EventDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".notifications.PushNotificationsActivity"
-            android:label="@string/send_notifications"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".events.views.PreEventFormActivity"
-            android:label=""
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".events.views.PostEventFormActivity"
-            android:label=""
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".profile.SettingsActivity"
-            android:label=""
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".trip.TripInfoActivity"
+            android:name="com.studieresan.studs.profile.SettingsActivity"
             android:label=""
             android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="" />
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/notification_channel_id" />
-
-        <service android:name=".fcm.StudsFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>
