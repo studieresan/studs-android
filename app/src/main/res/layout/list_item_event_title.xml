@@ -9,7 +9,8 @@
     android:layout_marginTop="@dimen/default_margin"
     android:layout_marginBottom="@dimen/default_margin_medium"
     android:textColor="?android:attr/textColorPrimary"
-    android:textSize="32sp"
+    android:textSize="28sp"
+    android:textStyle="bold"
     tools:text="Title">
 
 </TextView>

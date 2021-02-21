@@ -4,11 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:layout_marginStart="@dimen/default_margin_small"
-    android:layout_marginTop="@dimen/default_margin_mini"
-    android:layout_marginEnd="@dimen/default_margin_small"
-    android:layout_marginBottom="@dimen/default_margin_mini"
+    android:layout_height="240dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
@@ -18,63 +14,121 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/event_map_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            map:liteMode="true">
-
-        </com.google.android.gms.maps.MapView>
-
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stateListAnimator="@animator/alpha">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/default_margin">
+                android:adjustViewBounds="false"
+                android:contentDescription="Background image"
+                android:cropToPadding="true"
+                android:scaleType="centerCrop"
+                android:tint="#4AFFFFFF"
+                android:tintMode="src_atop"
+                map:srcCompat="@drawable/background_landscape" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        tools:text="Feb" />
-
-                    <TextView
-                        android:id="@+id/tv_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="24sp"
-                        tools:text="17" />
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/align"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="15dp">
 
                 <TextView
                     android:id="@+id/tv_company_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="380dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/default_margin"
-                    android:textColor="?android:attr/textColorPrimary"
+                    android:layout_gravity="start"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
                     android:textSize="28sp"
                     tools:hint="SEB" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:textAllCaps="true"
+                    android:textColor="#222222"
+                    android:textColorHint="#222222"
+                    android:textSize="18sp"
+                    tools:text="17 Februari" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/ic_baseline_access_time_24px"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="#222222"
+                    android:gravity="center_vertical"
+                    android:text="17:00"
+                    android:textColor="#222222"
+                    android:textSize="16sp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <TextView
+                    android:id="@+id/tv_location_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="#222222"
+                    android:text="Digital"
+                    android:textColor="#222222"
+                    android:textSize="16sp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <TextView
+                    android:id="@+id/tv_event_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_info_24"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="#222222"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/no_description_available"
+                    android:textColor="#222222"
+                    android:textSize="16sp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="13dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_read_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_baseline_chevron_right_24"
+                        android:drawableTint="#222222"
+                        android:text="Read more"
+                        android:textColor="#222222"
+                        android:textSize="16sp"
+                        map:layout_constraintBottom_toBottomOf="parent"
+                        map:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

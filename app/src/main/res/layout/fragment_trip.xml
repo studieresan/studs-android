@@ -12,6 +12,10 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="85dp"
@@ -20,7 +24,7 @@
             android:text="@string/tr_omg"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="66sp"
+            android:textSize="58sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="116dp"
             tools:layout_editor_absoluteY="229dp" />
@@ -32,7 +36,7 @@
             android:gravity="center|center_vertical"
             android:text="@string/tr_emoji_placeholder"
             android:textColor="#000000"
-            android:textSize="48sp"
+            android:textSize="42sp"
             android:textStyle="bold" />
 
         <Space
@@ -46,7 +50,7 @@
             android:gravity="center"
             android:text="@string/tr_countdown1"
             android:textColor="?android:attr/textColorPrimary"
-            android:textSize="22sp"
+            android:textSize="20sp"
             tools:layout_editor_absoluteX="98dp"
             tools:layout_editor_absoluteY="333dp" />
 
@@ -58,17 +62,17 @@
                 android:id="@+id/countdown_number"
                 android:layout_width="318dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="-30sp"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="@string/tr_countdown_placeholder"
                 android:textColor="@color/colorAccent"
-                android:textSize="160sp"
+                android:textSize="120sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.494"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,7 +93,7 @@
             android:gravity="center"
             android:text="@string/tr_countdown2"
             android:textColor="?android:attr/textColorPrimary"
-            android:textSize="22sp"
+            android:textSize="20sp"
             tools:layout_editor_absoluteX="98dp"
             tools:layout_editor_absoluteY="530dp" />
 

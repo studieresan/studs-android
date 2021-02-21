@@ -12,14 +12,13 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_events.*
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDate.now
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsApplication
 import com.studieresan.studs.data.models.Event
 import com.studieresan.studs.events.adapters.EventAdapter
 import com.studieresan.studs.net.StudsRepository
 import timber.log.Timber
+import java.time.LocalDateTime
 
 class EventsFragment : Fragment() {
 
@@ -54,10 +53,10 @@ class EventsFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { events ->
-                    val today = now()
+                    val today = LocalDateTime.now()
                     val orderedEvents = events.data.events.sortedByDescending { it.getDate() }
                     val nextEvent =
-                            orderedEvents.firstOrNull { LocalDate.parse(it.date, EventAdapter.DATE_FORMATTER) >= today }
+                            orderedEvents.firstOrNull { LocalDateTime.parse(it.date, EventAdapter.DATE_FORMATTER) >= today }
                     orderedEvents
                 }
                 .observeOn(AndroidSchedulers.mainThread())

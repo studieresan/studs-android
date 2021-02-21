@@ -1,7 +1,7 @@
 package com.studieresan.studs.events.adapters
 
 import android.content.Context
-import android.graphics.Typeface
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +9,11 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDate.now
-import org.threeten.bp.format.DateTimeFormatter
 import com.studieresan.studs.R
 import com.studieresan.studs.data.models.Event
 import com.studieresan.studs.util.exhaustive
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 private const val ZOOM_FACTOR = 13f
 
@@ -81,8 +80,8 @@ class EventAdapter(
     }
 
     private fun partitionEvents(events: List<Event>) {
-        val today: LocalDate = now()
-        val (past, future) = events.partition { LocalDate.parse(it.date, DATE_FORMATTER) < today }
+        val today: LocalDateTime = LocalDateTime.now()
+        val (past, future) = events.partition { LocalDateTime.parse(it.date, DATE_FORMATTER) < today }
         pastEvents = past
         futureEvents = future.reversed()
     }
@@ -110,29 +109,39 @@ class EventAdapter(
 
     inner class NextEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val companyName: TextView = view.findViewById(R.id.tv_company_name)
-        private val month: TextView = view.findViewById(R.id.tv_month)
-        private val day: TextView = view.findViewById(R.id.tv_day)
+        private val date: TextView = view.findViewById(R.id.tv_date)
+        private val time: TextView = view.findViewById(R.id.tv_time)
+        private val location: TextView = view.findViewById(R.id.tv_location_address)
+        private val description: TextView = view.findViewById(R.id.tv_event_description)
 
         fun bind(event: Event) {
             view.tag = this
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
+            
+            var eventDate = LocalDateTime.parse(event.date, DATE_FORMATTER)
+            var minutes = if (eventDate.minute < 10) "0${eventDate.minute}" else eventDate.minute.toString()
+
             companyName.text = event.company?.name
-            month.text = LocalDate.parse(event.date, DATE_FORMATTER).month.name.substring(0, 3)
-            day.text = LocalDate.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
+            date.text = "${eventDate.dayOfMonth.toString()} ${eventDate.month.name}"
+            time.text = "${eventDate.hour.toString()}:${minutes}"
+            location.text = event.location
+            if (event.publicDescription?.isNotEmpty() == true) {
+                description.text = event.privateDescription
+            }
         }
 
     }
 
     inner class EventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val companyName: TextView = view.findViewById(R.id.tv_company_name)
-        private val month: TextView = view.findViewById(R.id.tv_month)
+        private val month: TextView = view.findViewById(R.id.tv_date)
         private val day: TextView = view.findViewById(R.id.tv_day)
 
         fun bind(event: Event) {
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
             companyName.text = event.company?.name
-            month.text = LocalDate.parse(event.date, DATE_FORMATTER).month.name.substring(0, 3)
-            day.text = LocalDate.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
+            month.text = LocalDateTime.parse(event.date, DATE_FORMATTER).month.name.substring(0, 3)
+            day.text = LocalDateTime.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
         }
     }
 
@@ -145,7 +154,7 @@ class EventAdapter(
                 PAST_EVENT_TITLE -> R.string.past_events
                 else -> R.string.next_event
             })
-            title.setTypeface(title.typeface, if (viewType == NEXT_EVENT_TITLE) Typeface.BOLD else Typeface.NORMAL)
+            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, if (viewType == NEXT_EVENT_TITLE) 36F else 28F);
         }
     }
 
