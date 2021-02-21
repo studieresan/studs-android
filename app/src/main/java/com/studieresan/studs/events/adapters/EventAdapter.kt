@@ -14,6 +14,8 @@ import com.studieresan.studs.data.models.Event
 import com.studieresan.studs.util.exhaustive
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.*
 
 private const val ZOOM_FACTOR = 13f
 
@@ -117,15 +119,17 @@ class EventAdapter(
         fun bind(event: Event) {
             view.tag = this
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
-            
+
             var eventDate = LocalDateTime.parse(event.date, DATE_FORMATTER)
             var minutes = if (eventDate.minute < 10) "0${eventDate.minute}" else eventDate.minute.toString()
 
             companyName.text = event.company?.name
-            date.text = "${eventDate.dayOfMonth.toString()} ${eventDate.month.name}"
+            date.text = "${eventDate.dayOfMonth.toString()} ${eventDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())}"
             time.text = "${eventDate.hour.toString()}:${minutes}"
-            location.text = event.location
-            if (event.publicDescription?.isNotEmpty() == true) {
+            if (!event.location.isNullOrEmpty()) {
+                location.text = event.location
+            }
+            if (!event.publicDescription.isNullOrEmpty()) {
                 description.text = event.privateDescription
             }
         }
@@ -135,7 +139,7 @@ class EventAdapter(
     inner class EventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val companyName: TextView = view.findViewById(R.id.tv_company_name)
         private val month: TextView = view.findViewById(R.id.tv_date)
-        private val day: TextView = view.findViewById(R.id.tv_day)
+        private val day: TextView = view.findViewById(R.id.tv_event_det_time)
 
         fun bind(event: Event) {
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
