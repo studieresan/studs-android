@@ -144,7 +144,7 @@ class EventAdapter(
         fun bind(event: Event) {
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
             companyName.text = event.company?.name
-            month.text = LocalDateTime.parse(event.date, DATE_FORMATTER).month.name.substring(0, 3)
+            month.text = LocalDateTime.parse(event.date, DATE_FORMATTER).month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
             day.text = LocalDateTime.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
         }
     }
