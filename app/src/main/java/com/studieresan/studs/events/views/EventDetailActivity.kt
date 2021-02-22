@@ -34,11 +34,8 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View {
         event = intent.getParcelableExtra(IntentExtra.EVENT)
 
         tv_company_name.text = event.company?.name
-        tv_company_location.text = if (event.location.isNullOrEmpty()) "No location available" else event.location
-        tv_private_description.text = if (event.privateDescription?.isNotEmpty() == true)
-            event.privateDescription
-        else
-            getString(R.string.no_description_available)
+        tv_company_location.text = if (event.location.isNullOrEmpty()) getString(R.string.no_location_available) else event.location
+        tv_private_description.text = if (event.privateDescription.isNullOrEmpty()) getString(R.string.no_description_available) else event.privateDescription
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         val parsedDate = LocalDateTime.parse(event.date, dateFormatter)
         val minutesDisplayFormat = if (parsedDate.minute < 10) "0${parsedDate.minute}" else parsedDate.minute.toString()
