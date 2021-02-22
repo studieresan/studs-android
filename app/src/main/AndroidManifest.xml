@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name="com.studieresan.studs.StudsApplication"
+        android:name=".StudsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,13 +17,22 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <receiver android:name=".StudsWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/studs_widget_info" />
+        </receiver>
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity
-            android:name="com.studieresan.studs.LauncherActivity"
+            android:name=".LauncherActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,21 +43,21 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name="com.studieresan.studs.MainActivity" />
+        <activity android:name=".MainActivity" />
         <activity
-            android:name="com.studieresan.studs.login.views.ForgotPasswordActivity"
+            android:name=".login.views.ForgotPasswordActivity"
             android:label="@string/forgot_password"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.studieresan.studs.login.views.LoginActivity"
+            android:name=".login.views.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.studieresan.studs.events.views.EventDetailActivity"
+            android:name=".events.views.EventDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.studieresan.studs.profile.SettingsActivity"
+            android:name=".profile.SettingsActivity"
             android:label=""
             android:screenOrientation="portrait" />
 
