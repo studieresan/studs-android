@@ -14,61 +14,8 @@
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
-    <style name="TransparentActivity" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
-    <style name="FooterButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:layout_marginBottom">12dp</item>
-    </style>
-
-    <style name="FooterButtonColorless" parent="Widget.AppCompat.Button">
-        <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:layout_marginBottom">12dp</item>
-    </style>
-
     <style name="FlatButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Widget.Studs.BottomNav" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="itemIconTint">@android:color/holo_green_light</item>
-        <item name="itemTextAppearanceActive">
-            @style/TextAppearance.Studs.BottomNavigationView.Active
-        </item>
-        <item name="itemTextAppearanceInactive">@style/TextAppearance.Studs.BottomNavigationView
-        </item>
-        <item name="labelVisibilityMode">labeled</item>
-        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>
-    </style>
-
-    <style name="TextAppearance.Studs.BottomNavigationView" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="android:textColor">@android:color/holo_green_light</item>
-    </style>
-
-    <style name="TextAppearance.Studs.BottomNavigationView.Active">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="AppTheme.LightNav" parent="AppTheme.NoActionBar" />
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="WhiteTextField" parent="Base.Widget.MaterialComponents.TextInputLayout">
-        <item name="colorAccent">@android:color/white</item>
-        <item name="android:textColorHint">@android:color/white</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
-    </style>
 </resources>

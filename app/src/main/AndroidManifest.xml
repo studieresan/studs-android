@@ -5,11 +5,16 @@
     android:versionCode="2"
     android:versionName="2.0">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.studieresan.studs.StudsApplication"
+        android:name=".StudsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,12 +23,21 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
 
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity
-            android:name="com.studieresan.studs.LauncherActivity"
+            android:name=".LauncherActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,27 +48,23 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name="com.studieresan.studs.MainActivity" />
+        <activity android:name=".MainActivity" />
         <activity
-            android:name="com.studieresan.studs.login.views.ForgotPasswordActivity"
+            android:name=".login.views.ForgotPasswordActivity"
             android:label="@string/forgot_password"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.studieresan.studs.login.views.LoginActivity"
+            android:name=".login.views.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.studieresan.studs.events.views.EventDetailActivity"
+            android:name=".events.views.EventDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.studieresan.studs.profile.SettingsActivity"
+            android:name=".profile.SettingsActivity"
             android:label=""
             android:screenOrientation="portrait" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="" />
     </application>
 
 </manifest>
