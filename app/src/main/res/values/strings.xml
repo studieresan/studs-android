@@ -2,7 +2,6 @@
     <!-- General-->
     <string name="app_name" translatable="false">Studs</string>
     <string name="email" translatable="false">Email</string>
-    <string name="studs" translatable="false">Studs</string>
     <string name="password">Password</string>
     <string name="login">Log in</string>
     <string name="forgot_password">Forgot password</string>
@@ -14,7 +13,6 @@
     <string name="forgot_your_password">Get a new one!</string>
     <string name="logout">Log out</string>
     <string name="generic_error_message">Hmm, something went wrong. Please try again.</string>
-    <string name="enter_valid_email">Please enter a valid email</string>
 
 
     <!-- Event -->
@@ -22,8 +20,9 @@
     <string name="upcoming_events">Upcoming events</string>
     <string name="past_events">Past events</string>
     <string name="next_event">Next event</string>
-    <string name="event_time_placeholder" translatable="false">%s - %s</string>
+    <string name="event_time_placeholder" translatable="false">HH:mm</string>
     <string name="no_description_available">No description available</string>
+    <string name="no_location_available">No location available</string>
 
     <!-- Profile/Settings-->
     <string name="profile">Profile</string>
