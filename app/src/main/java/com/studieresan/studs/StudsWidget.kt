@@ -3,17 +3,20 @@ package com.studieresan.studs
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.res.Resources
+import android.os.Build
 import android.text.format.DateUtils.getRelativeTimeSpanString
-import android.view.View
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import com.studieresan.studs.events.adapters.EventAdapter
 import com.studieresan.studs.net.StudsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_events.*
-import org.threeten.bp.LocalDate
-import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.*
+import java.time.format.TextStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -42,6 +45,7 @@ class StudsWidget : AppWidgetProvider() {
         // Enter relevant functionality for when the last widget is disabled
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         // Construct the RemoteViews object
         val views = RemoteViews(context.packageName, R.layout.studs_widget)
@@ -51,18 +55,19 @@ class StudsWidget : AppWidgetProvider() {
                 .getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { events ->
+                .forEach { events ->
                     println("fetched events widget...")
 
-                    val today = LocalDate.now()
+                    val today = LocalDateTime.now()
                     val orderedEvents = events.data.events.sortedByDescending { it.getDate() }
-                    val nextEvent =
-                            orderedEvents.firstOrNull { LocalDate.parse(it.date, EventAdapter.DATE_FORMATTER) >= today }
 
-                    val parsedDate = LocalDate.parse(nextEvent?.date, EventAdapter.DATE_FORMATTER)
+                    val nextEvent =
+                            orderedEvents.firstOrNull { LocalDateTime.parse(it.date, DATE_FORMATTER) >= today }
+
+                    val parsedDate = LocalDateTime.parse(nextEvent?.date, DATE_FORMATTER)
                     val minutesDisplayFormat = if (parsedDate.minute < 10) "0${parsedDate.minute}" else parsedDate.minute.toString()
                     val time = "${parsedDate.hour}:$minutesDisplayFormat"
-                    val displayDate = "${parsedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${parsedDate.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())} ${parsedDate.dayOfMonth.toString()}, ${time}"
+                    val displayDate = "${parsedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${parsedDate.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())} ${parsedDate.dayOfMonth.toString()}, $time"
 
                     views.setTextViewText(R.id.widget_company, nextEvent?.company?.name)
                     views.setTextViewText(R.id.widget_date, displayDate)
@@ -76,15 +81,20 @@ class StudsWidget : AppWidgetProvider() {
                 }
     }
 
-    private fun getCountdown(date: LocalDate): string {
-        val difference = LocalDate.now().until(date).DAYS
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getCountdown(date: LocalDateTime): String {
+        val difference = LocalDateTime.now().until(date, ChronoUnit.DAYS).toInt()
         return when (difference) {
-            0 -> getString(R.string.widget_today)
-            1 -> getString(R.string.widget_tomorrow)
+            0 -> Resources.getSystem().getString(R.string.widget_today)
+            1 -> Resources.getSystem().getString(R.string.widget_tomorrow)
             else -> {
-                "${getString(R.string.widget_countdown_in)} ${difference} ${getString(R.string.widget_countdown_days)}"
+                "${Resources.getSystem().getString(R.string.widget_countdown_in)} $difference ${Resources.getSystem().getString(R.string.widget_countdown_days)}"
             }
         }
+    }
+
+    companion object {
+        val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     }
 }
 
