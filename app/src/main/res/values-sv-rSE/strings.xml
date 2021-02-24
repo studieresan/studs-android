@@ -32,4 +32,9 @@
     <!-- Widget-->
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="widget_countdown">Om X dagar</string>
+    <string name="widget_today">Idag</string>
+    <string name="widget_tomorrow">Imorgon</string>
+    <string name="widget_countdown_in">Om</string>
+    <string name="widget_countdown_days">dagar</string>
 </resources>

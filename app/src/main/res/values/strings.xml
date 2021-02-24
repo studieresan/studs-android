@@ -47,5 +47,10 @@
     <!-- Widget-->
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="widget_countdown">In X days</string>
+    <string name="widget_today">Today</string>
+    <string name="widget_tomorrow">Tomorrow</string>
+    <string name="widget_countdown_in">In</string>
+    <string name="widget_countdown_days">days</string>
 
 </resources>
