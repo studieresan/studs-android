@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import com.studieresan.studs.events.views.EventsFragment
 import com.studieresan.studs.profile.ProfileFragment
 import com.studieresan.studs.trip.TripFragment
+import com.studieresan.studs.happenings.HappeningsFragment
 import com.studieresan.studs.util.inTransaction
 
 private const val TOPIC_ALL = "all"
@@ -44,7 +45,7 @@ class MainActivity : StudsActivity() {
             }
             R.id.navigation_trip -> {
                 setToolbarTitle(R.string.trip)
-                replaceFragment(R.id.navigation_trip, TripFragment())
+                replaceFragment(R.id.navigation_trip, HappeningsFragment())
             }
             R.id.navigation_profile -> {
                 setToolbarTitle(R.string.profile)
