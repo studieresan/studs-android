@@ -3,26 +3,18 @@ package com.studieresan.studs
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
-import android.text.format.DateUtils.getRelativeTimeSpanString
+import android.text.format.DateUtils.*
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
-import com.studieresan.studs.events.adapters.EventAdapter
 import com.studieresan.studs.net.StudsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_events.*
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.*
-import java.time.format.TextStyle
-import java.util.*
 import javax.inject.Inject
 
-/**
- * Implementation of App Widget functionality.
- */
 class StudsWidget : AppWidgetProvider() {
 
     @Inject
@@ -38,66 +30,45 @@ class StudsWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onEnabled(context: Context) {
-        // Enter relevant functionality for when the first widget is created
-    }
-
-    override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
-    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         // Construct the RemoteViews object
         val views = RemoteViews(context.packageName, R.layout.studs_widget)
-
-        // test/map should be switched out to something else...
-        val test = studsRepository
+        val subscribe = studsRepository
                 .getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( { events ->
-                    println("fetched events widget...")
+                .subscribe({ events ->
 
                     val today = LocalDateTime.now()
-                    val orderedEvents = events.data.events.sortedByDescending { it.getDate() }
-
+                    val orderedEvents = events.data.events.sortedBy { it.getDate() }
                     val nextEvent =
                             orderedEvents.firstOrNull { LocalDateTime.parse(it.date, DATE_FORMATTER) >= today }
 
-                    println("next event:")
-                    println(nextEvent)
-                    println("company name")
-                    println(nextEvent?.company?.name)
-                    val parsedDate = LocalDateTime.parse(nextEvent?.date, DATE_FORMATTER)
-                    val minutesDisplayFormat = if (parsedDate.minute < 10) "0${parsedDate.minute}" else parsedDate.minute.toString()
-                    val time = "${parsedDate.hour}:$minutesDisplayFormat"
-                    val displayDate = "${parsedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${parsedDate.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())} ${parsedDate.dayOfMonth.toString()}, $time"
+                    if (nextEvent !== null) {
 
-                    views.setTextViewText(R.id.widget_company, nextEvent?.company?.name)
-                    views.setTextViewText(R.id.widget_date, displayDate)
+                        val parsedDate = LocalDateTime.parse(nextEvent?.date, DATE_FORMATTER)
+                        val odt = OffsetDateTime.now()
+                        val zoneOffset = odt.offset
+                        val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
+                        val todayInMilli = today.atOffset(zoneOffset).toInstant().toEpochMilli()
 
-                    // switch countdown text to built-in relative time function
-                    // views.setTextViewText(R.id.widget_countdown, getRelativeTimeSpanString(R, nextEvent.date, today))
-                    views.setTextViewText(R.id.widget_countdown, getCountdown(parsedDate))
+                        val displayDate = if (nextEvent?.date !== null) formatDateTime(context, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_NUMERIC_DATE or FORMAT_SHOW_WEEKDAY or FORMAT_ABBREV_MONTH) else null
+                        val countdown = if (nextEvent?.date !== null) getRelativeTimeSpanString(dateInMilli, todayInMilli, DAY_IN_MILLIS) else null
+
+                        views.setTextViewText(R.id.widget_company, nextEvent?.company?.name)
+                        views.setTextViewText(R.id.widget_date, displayDate)
+                        views.setTextViewText(R.id.widget_countdown, countdown)
+
+                    } else {
+                        views.setTextViewText(R.id.widget_company, "No upcoming events")
+                    }
 
                     // Instruct the widget manager to update the widget
                     appWidgetManager.updateAppWidget(appWidgetId, views)
-                }, {error ->
+                }, { error ->
                     println(error)
                 })
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCountdown(date: LocalDateTime): String {
-        val difference = LocalDateTime.now().until(date, ChronoUnit.DAYS).toInt()
-        return when (difference) {
-            0 -> "Idag"
-            1 -> "Imorgon"
-            else -> {
-                "Om $difference dagar"
-            }
-        }
     }
 
     companion object {
