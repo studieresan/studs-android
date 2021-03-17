@@ -28,6 +28,7 @@ class StudsWidget : AppWidgetProvider() {
     @Inject
     lateinit var studsRepository: StudsRepository
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         StudsApplication.applicationComponent.inject(this)
         
@@ -55,7 +56,7 @@ class StudsWidget : AppWidgetProvider() {
                 .getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .forEach { events ->
+                .subscribe( { events ->
                     println("fetched events widget...")
 
                     val today = LocalDateTime.now()
@@ -64,6 +65,10 @@ class StudsWidget : AppWidgetProvider() {
                     val nextEvent =
                             orderedEvents.firstOrNull { LocalDateTime.parse(it.date, DATE_FORMATTER) >= today }
 
+                    println("next event:")
+                    println(nextEvent)
+                    println("company name")
+                    println(nextEvent?.company?.name)
                     val parsedDate = LocalDateTime.parse(nextEvent?.date, DATE_FORMATTER)
                     val minutesDisplayFormat = if (parsedDate.minute < 10) "0${parsedDate.minute}" else parsedDate.minute.toString()
                     val time = "${parsedDate.hour}:$minutesDisplayFormat"
@@ -78,22 +83,25 @@ class StudsWidget : AppWidgetProvider() {
 
                     // Instruct the widget manager to update the widget
                     appWidgetManager.updateAppWidget(appWidgetId, views)
-                }
+                }, {error ->
+                    println(error)
+                })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getCountdown(date: LocalDateTime): String {
         val difference = LocalDateTime.now().until(date, ChronoUnit.DAYS).toInt()
         return when (difference) {
-            0 -> Resources.getSystem().getString(R.string.widget_today)
-            1 -> Resources.getSystem().getString(R.string.widget_tomorrow)
+            0 -> "Idag"
+            1 -> "Imorgon"
             else -> {
-                "${Resources.getSystem().getString(R.string.widget_countdown_in)} $difference ${Resources.getSystem().getString(R.string.widget_countdown_days)}"
+                "Om $difference dagar"
             }
         }
     }
 
     companion object {
+        @RequiresApi(Build.VERSION_CODES.O)
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     }
 }
