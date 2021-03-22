@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.studieresan.studs"
     android:versionCode="2"
-    android:versionName="2.0">
+    android:versionName="2.1">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use

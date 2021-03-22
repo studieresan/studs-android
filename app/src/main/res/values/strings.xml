@@ -23,6 +23,10 @@
     <string name="event_time_placeholder" translatable="false">HH:mm</string>
     <string name="no_description_available">No description available</string>
     <string name="no_location_available">No location available</string>
+    <string name="forms">Forms</string>
+    <string name="pre_form" translatable="false">Pre-event</string>
+    <string name="post_form" translatable="false">Post-event</string>
+
 
     <!-- Profile/Settings-->
     <string name="profile">Profile</string>
