@@ -19,6 +19,7 @@
     <string name="next_event">Nästa event</string>
     <string name="no_description_available">Ingen beskrivning tillgänglig</string>
     <string name="no_location_available">Ingen plats angiven</string>
+    <string name="forms">Formulär</string>
 
     <!-- Profile/Settings-->
     <string name="profile">Profil</string>
