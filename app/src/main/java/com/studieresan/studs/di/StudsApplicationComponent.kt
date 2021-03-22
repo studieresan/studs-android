@@ -5,6 +5,7 @@ import com.studieresan.studs.events.views.EventDetailActivity
 import com.studieresan.studs.events.views.EventsFragment
 import com.studieresan.studs.login.views.ForgotPasswordActivity
 import com.studieresan.studs.login.views.LoginActivity
+import com.studieresan.studs.StudsWidget
 import javax.inject.Singleton
 
 @Singleton
@@ -14,4 +15,5 @@ interface StudsApplicationComponent {
     fun inject(loginActivity: LoginActivity)
     fun inject(eventsFragment: EventsFragment)
     fun inject(eventDetailActivity: EventDetailActivity)
+    fun inject(studsWidget: StudsWidget)
 }
