@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/widget_margin"
     android:theme="@style/ThemeOverlay.Kotten.AppWidgetContainer">
 
@@ -30,10 +31,12 @@
                 android:id="@+id/widget_countdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="4sp"
-                android:paddingBottom="4sp"
+                android:ellipsize="end"
+                android:paddingTop="6sp"
+                android:paddingBottom="6sp"
+                android:scrollHorizontally="false"
                 android:textColor="#EDEDED"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="In 2 days" />
 
@@ -45,7 +48,7 @@
 
                 <ImageView
                     android:id="@+id/widgetLogo"
-                    android:layout_width="25sp"
+                    android:layout_width="35sp"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:src="@drawable/logo_widget" />
@@ -68,7 +71,7 @@
                 android:layout_marginStart="8sp"
                 android:layout_marginEnd="10sp"
                 android:textColor="#000000"
-                android:textSize="19sp"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 tools:text="Company" />
 
@@ -77,11 +80,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8sp"
-                android:layout_marginTop="2sp"
+                android:layout_marginTop="4sp"
                 android:layout_marginEnd="10sp"
                 android:ellipsize="end"
                 android:textColor="@android:color/primary_text_light"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:text="Tuesday 12 Feb, 17:00" />
         </LinearLayout>
 

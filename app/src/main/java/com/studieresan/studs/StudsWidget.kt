@@ -1,8 +1,10 @@
 package com.studieresan.studs
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.text.format.DateUtils.*
 import android.widget.RemoteViews
@@ -23,7 +25,7 @@ class StudsWidget : AppWidgetProvider() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         StudsApplication.applicationComponent.inject(this)
-        
+
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
@@ -32,8 +34,19 @@ class StudsWidget : AppWidgetProvider() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+
+        // Adds on-click support
+        val pendingIntent: PendingIntent = Intent(context, MainActivity::class.java)
+                .let { intent ->
+                    PendingIntent.getActivity(context, 0, intent, 0)
+                }
+
         // Construct the RemoteViews object
-        val views = RemoteViews(context.packageName, R.layout.studs_widget)
+        val views = RemoteViews(context.packageName, R.layout.studs_widget).apply {
+            setOnClickPendingIntent(R.id.widget, pendingIntent)
+        }
+
+
         val subscribe = studsRepository
                 .getEvents()
                 .subscribeOn(Schedulers.io())
