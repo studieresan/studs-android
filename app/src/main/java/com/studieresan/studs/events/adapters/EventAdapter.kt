@@ -128,7 +128,7 @@ class EventAdapter(
             val odt = OffsetDateTime.now()
             val zoneOffset = odt.offset
             val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
-            val displayDate = if (event.date !== null) DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_ABBREV_TIME or DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_WEEKDAY) else null
+            val displayDate = if (event.date !== null) DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_ABBREV_TIME or DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_WEEKDAY).capitalize() else null
             val displayTime = if (event.date !== null) DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_SHOW_TIME) else null
 
             companyName.text = event.company?.name

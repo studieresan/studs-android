@@ -66,7 +66,7 @@ class StudsWidget : AppWidgetProvider() {
                         val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
                         val todayInMilli = today.atOffset(zoneOffset).toInstant().toEpochMilli()
 
-                        val displayDate = if (nextEvent?.date !== null) formatDateTime(context, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_NUMERIC_DATE or FORMAT_SHOW_WEEKDAY or FORMAT_ABBREV_MONTH) else null
+                        val displayDate = if (nextEvent?.date !== null) formatDateTime(context, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_NUMERIC_DATE or FORMAT_SHOW_WEEKDAY or FORMAT_ABBREV_MONTH).capitalize() else null
                         val countdown = if (nextEvent?.date !== null) getRelativeTimeSpanString(dateInMilli, todayInMilli, DAY_IN_MILLIS) else null
 
                         views.setTextViewText(R.id.widget_company, nextEvent?.company?.name)
