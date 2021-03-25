@@ -56,22 +56,22 @@ class StudsWidget : AppWidgetProvider() {
                     val today = LocalDateTime.now()
                     val orderedEvents = events.data.events.sortedBy { it.getDate() }
                     val nextEvent =
-                            orderedEvents.firstOrNull { LocalDateTime.parse(it.date, DATE_FORMATTER) >= today }
+                            orderedEvents.firstOrNull { LocalDateTime.parse(it.date, DATE_FORMATTER).toLocalDate() >= today.toLocalDate() }
 
                     if (nextEvent !== null) {
 
-                        val parsedDate = LocalDateTime.parse(nextEvent?.date, DATE_FORMATTER)
+                        val parsedDate = LocalDateTime.parse(nextEvent.date, DATE_FORMATTER)
                         val odt = OffsetDateTime.now()
                         val zoneOffset = odt.offset
                         val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
                         val todayInMilli = today.atOffset(zoneOffset).toInstant().toEpochMilli()
 
-                        val displayDate = if (nextEvent?.date !== null) formatDateTime(context, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_NUMERIC_DATE or FORMAT_SHOW_WEEKDAY or FORMAT_ABBREV_MONTH).capitalize() else null
-                        val countdown = if (nextEvent?.date !== null) getRelativeTimeSpanString(dateInMilli, todayInMilli, DAY_IN_MILLIS) else null
+                        val displayDate = if (nextEvent.date !== null) formatDateTime(context, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_NUMERIC_DATE or FORMAT_SHOW_WEEKDAY or FORMAT_ABBREV_MONTH).capitalize() else null
+                        val countdown = if (nextEvent.date !== null) getRelativeTimeSpanString(dateInMilli, todayInMilli, DAY_IN_MILLIS) else null
 
-                        views.setTextViewText(R.id.widget_company, nextEvent?.company?.name)
-                        views.setTextViewText(R.id.widget_date, displayDate)
                         views.setTextViewText(R.id.widget_countdown, countdown)
+                        views.setTextViewText(R.id.widget_company, nextEvent.company?.name)
+                        views.setTextViewText(R.id.widget_date, displayDate)
 
                     } else {
                         views.setTextViewText(R.id.widget_company, "No upcoming events")
