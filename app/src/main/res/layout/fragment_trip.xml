@@ -59,7 +59,7 @@
             android:layout_height="149dp">
 
             <TextView
-                android:id="@+id/countdown_number"
+                android:id="@+id/tv_countdown_number"
                 android:layout_width="318dp"
                 android:layout_height="match_parent"
                 android:gravity="center|center_horizontal|center_vertical"

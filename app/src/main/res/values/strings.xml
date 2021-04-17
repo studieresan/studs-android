@@ -14,7 +14,6 @@
     <string name="logout">Log out</string>
     <string name="generic_error_message">Hmm, something went wrong. Please try again.</string>
 
-
     <!-- Event -->
     <string name="event" translatable="false">Events</string>
     <string name="upcoming_events">Upcoming events</string>
@@ -27,7 +26,6 @@
     <string name="pre_form" translatable="false">Pre-event</string>
     <string name="post_form" translatable="false">Post-event</string>
 
-
     <!-- Profile/Settings-->
     <string name="profile">Profile</string>
     <string name="dark_mode" translatable="false">Dark mode</string>
@@ -37,6 +35,9 @@
 
     <!-- Happenings -->
     <string name="happenings" translatable="false">Happenings</string>
+    <string name="map_tab">Map</string>
+    <string name="list_tab">List</string>
+    <string name="happenings_add">Where are you?</string>
 
     <!-- Trip -->
     <string name="trip">Trip</string>

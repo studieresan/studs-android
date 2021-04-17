@@ -26,6 +26,11 @@
     <string name="notification_settings">Aviseringar</string>
     <string name="preferences">Inställningar</string>
 
+    <!-- Happenings -->
+    <string name="map_tab">Karta</string>
+    <string name="list_tab">Lista</string>
+    <string name="happenings_add">Var sitter du?</string>
+
     <!-- Trip -->
     <string name="trip">Resa</string>
     <string name="tr_countdown1">Det är endast</string>

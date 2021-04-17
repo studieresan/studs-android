@@ -22,12 +22,12 @@ class TripFragment : Fragment() {
     }
 
     private fun getRandomExcitedEmoji(): String {
-        val emojis = listOf("🥳", "🤯", "😍", "✨", "🎂", "☀️", "💃", "🍻", "😇", "🤩", "🥰", "🐳", "🇮🇸", "🇩🇪", "🇮🇹")
+        val emojis = listOf("🥳", "🤯", "😍", "✨", "🎂", "☀️", "💃", "🍻", "😇", "🤩", "🥰", "🚀", "🇸🇪", "🏞", "🦌", "🏠", "🚞")
         return emojis.random()
     }
 
     private fun configureView(view: View) {
-        val number: TextView = view.findViewById<Button>(R.id.countdown_number)
+        val number: TextView = view.findViewById<Button>(R.id.tv_countdown_number)
         val header: TextView = view.findViewById<Button>(R.id.countdown_emojis)
         val today = LocalDate.now()
         var tripDate = LocalDate.of(2021, 6, 14)
