@@ -22,7 +22,7 @@
             android:stateListAnimator="@animator/alpha">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/widgetBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="false"

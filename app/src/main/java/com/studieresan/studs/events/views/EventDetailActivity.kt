@@ -2,7 +2,9 @@ package com.studieresan.studs.events.views
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateUtils.*
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsActivity
 import com.studieresan.studs.StudsApplication
@@ -13,9 +15,8 @@ import com.studieresan.studs.events.presenters.EventDetailPresenter
 import com.studieresan.studs.net.StudsRepository
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.TextStyle
-import java.util.*
 import javax.inject.Inject
 
 class EventDetailActivity : StudsActivity(), EventDetailContract.View {
@@ -30,20 +31,42 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View {
         super.onCreate(savedInstanceState)
         StudsApplication.applicationComponent.inject(this)
         setContentView(R.layout.activity_event_detail)
-
         event = intent.getParcelableExtra(IntentExtra.EVENT)
 
+        if (event.beforeSurvey.isNullOrEmpty()) {
+            btn_pre_event.alpha = .5f;
+            btn_pre_event.isClickable = false
+        } else {
+            btn_pre_event.setOnClickListener {
+                val uri: Uri = Uri.parse(event.beforeSurvey)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+        }
+        if (event.afterSurvey.isNullOrEmpty()) {
+            btn_post_event.alpha = .5f;
+            btn_post_event.isClickable = false
+        } else {
+            btn_post_event.setOnClickListener {
+                val uri: Uri = Uri.parse(event.afterSurvey)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+        }
+
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val parsedDate = LocalDateTime.parse(event.date, dateFormatter)
+        val odt = OffsetDateTime.now()
+        val zoneOffset = odt.offset
+        val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
+        val displayDate = if (event.date !== null) formatDateTime(this, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_SHOW_WEEKDAY) else null
+        val displayTime = if (event.date !== null) formatDateTime(this, dateInMilli, FORMAT_SHOW_TIME) else null
+
+        tv_event_det_time.text = displayTime
+        tv_event_det_date.text = displayDate
         tv_company_name.text = event.company?.name
         tv_company_location.text = if (event.location.isNullOrEmpty()) getString(R.string.no_location_available) else event.location
         tv_private_description.text = if (event.privateDescription.isNullOrEmpty()) getString(R.string.no_description_available) else event.privateDescription
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        val parsedDate = LocalDateTime.parse(event.date, dateFormatter)
-        val minutesDisplayFormat = if (parsedDate.minute < 10) "0${parsedDate.minute}" else parsedDate.minute.toString()
-        val time = "${parsedDate.hour}:$minutesDisplayFormat"
-
-        tv_event_det_time.text = time
-        tv_event_det_date.text = "${parsedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${parsedDate.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())} ${parsedDate.dayOfMonth.toString()}, ${time}"
-
         presenter = EventDetailPresenter(this, event, studsRepository)
     }
 
