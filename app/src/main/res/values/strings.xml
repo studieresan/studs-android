@@ -33,12 +33,15 @@
     <string name="dark_mode" translatable="false">Dark mode</string>
     <string name="notification_settings">Notification settings</string>
     <string name="preferences">Preferences</string>
+    <string name="tr_countdown2">days left until the trip of a lifetime!</string>
+
+    <!-- Happenings -->
+    <string name="happenings" translatable="false">Happenings</string>
 
     <!-- Trip -->
     <string name="trip">Trip</string>
     <string name="tr_omg" translatable="false">Omg!</string>
     <string name="tr_countdown1">There are only</string>
-    <string name="tr_countdown2">days left until the trip of a lifetime!</string>
     <string name="tr_datemargin" translatable="false">(± 10)</string>
     <string name="tr_emoji_placeholder" translatable="false">X X</string>
     <string name="tr_countdown_placeholder" translatable="false">XXX</string>
