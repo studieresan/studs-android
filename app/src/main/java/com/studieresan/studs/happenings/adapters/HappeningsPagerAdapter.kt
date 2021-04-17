@@ -1,4 +1,4 @@
-package com.studieresan.studs.happenings.ui.main
+package com.studieresan.studs.happenings.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -12,10 +12,6 @@ private val TAB_TITLES = arrayOf(
         R.string.list_tab
 )
 
-/**
- * HappeningsPagerAdapter returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 class HappeningsPagerAdapter(private val context: FragmentManager?, fm: FragmentManager)
     : FragmentPagerAdapter(fm) {
 

@@ -39,6 +39,37 @@ private const val eventQuery =
         }
     }"""
 
+private const val happeningsQuery =
+        """query {
+        happenings {
+            id
+            title
+            emoji
+            created
+            description
+            location {
+                type
+                geometry {
+                    type
+                    coordinates
+                }
+                properties {
+                    name
+                  }
+                }
+            host {
+                id
+                firstName
+                lastName
+            }
+            participants {
+                id
+                firstName
+                lastName
+            }
+        }
+    }"""
+
 
 interface StudsService {
 
@@ -53,4 +84,7 @@ interface StudsService {
 
     @GET("graphql?query=$eventQuery")
     fun getEvents(): Observable<Events>
+
+    @GET("graphql?query=$happeningsQuery")
+    fun getHappenings(): Observable<Events>
 }

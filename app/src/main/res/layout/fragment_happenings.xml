@@ -55,6 +55,20 @@
 
             </com.google.android.material.tabs.TabLayout>
 
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/happenings_swipe_refresh"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                tools:context=".events.views.EventsFragment">
+
+                <ProgressBar
+                    android:id="@+id/happenings_progress_bar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/happenings_view_pager"
                 android:layout_width="match_parent"

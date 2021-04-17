@@ -36,6 +36,11 @@ class StudsRepository @Inject constructor(private val studsService: StudsService
                     .getEvents()
                     .compose(applySchedulers())
 
+    fun getHappenings(): Observable<Events> =
+            studsService
+                    .getHappenings()
+                    .compose(applySchedulers())
+
     private fun <T> applySchedulers(): ObservableTransformer<T, T> {
         return ObservableTransformer {
             it.subscribeOn(Schedulers.io())
