@@ -56,7 +56,7 @@ class EventsFragment : Fragment() {
                     val today = LocalDateTime.now()
                     val orderedEvents = events.data.events.sortedByDescending { it.getDate() }
                     val nextEvent =
-                            orderedEvents.firstOrNull { LocalDateTime.parse(it.date, EventAdapter.DATE_FORMATTER) >= today }
+                            orderedEvents.firstOrNull { LocalDateTime.parse(it.date, EventAdapter.DATE_FORMATTER).toLocalDate() >= today.toLocalDate() }
                     orderedEvents
                 }
                 .observeOn(AndroidSchedulers.mainThread())
