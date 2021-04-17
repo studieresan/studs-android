@@ -1,6 +1,7 @@
 package com.studieresan.studs.events.adapters
 
 import android.content.Context
+import android.text.format.DateUtils
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.studieresan.studs.R
 import com.studieresan.studs.data.models.Event
 import com.studieresan.studs.util.exhaustive
+import org.threeten.bp.OffsetDateTime
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -120,12 +122,18 @@ class EventAdapter(
             view.tag = this
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
 
-            var eventDate = LocalDateTime.parse(event.date, DATE_FORMATTER)
-            var minutes = if (eventDate.minute < 10) "0${eventDate.minute}" else eventDate.minute.toString()
+
+            val dateFormatter = org.threeten.bp.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            val parsedDate = org.threeten.bp.LocalDateTime.parse(event.date, dateFormatter)
+            val odt = OffsetDateTime.now()
+            val zoneOffset = odt.offset
+            val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
+            val displayDate = if (event.date !== null) DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_ABBREV_TIME or DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_WEEKDAY).capitalize() else null
+            val displayTime = if (event.date !== null) DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_SHOW_TIME) else null
 
             companyName.text = event.company?.name
-            date.text = "${eventDate.dayOfMonth.toString()} ${eventDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())}"
-            time.text = "${eventDate.hour.toString()}:${minutes}"
+            date.text = displayDate
+            time.text = displayTime
             if (!event.location.isNullOrEmpty()) {
                 location.text = event.location
             }

@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="ThemeOverlay.Kotten.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/colorBackground</item>
+        <item name="appWidgetTextColor">@color/colorPrimary</item>
+    </style>
+</resources>

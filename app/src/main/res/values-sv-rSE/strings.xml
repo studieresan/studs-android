@@ -19,6 +19,7 @@
     <string name="next_event">Nästa event</string>
     <string name="no_description_available">Ingen beskrivning tillgänglig</string>
     <string name="no_location_available">Ingen plats angiven</string>
+    <string name="forms">Formulär</string>
 
     <!-- Profile/Settings-->
     <string name="profile">Profil</string>
@@ -29,4 +30,8 @@
     <string name="trip">Resa</string>
     <string name="tr_countdown1">Det är endast</string>
     <string name="tr_countdown2">dagar kvar till livets resa!</string>
+
+    <!-- Widget-->
+    <string name="widget_no_time">Okänd tid</string>
+
 </resources>

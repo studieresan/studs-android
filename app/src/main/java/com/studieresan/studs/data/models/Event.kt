@@ -16,8 +16,10 @@ data class Event(
         val date: String?,
         val location: String? = "",
         val pictures: List<String> = emptyList(),
-        var latLng: LatLng? = null
-) : Parcelable {
+        var latLng: LatLng? = null,
+        var beforeSurvey: String? = null,
+        var afterSurvey: String? = null
+        ) : Parcelable {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Event>() {
             override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean = oldItem.id == newItem.id
