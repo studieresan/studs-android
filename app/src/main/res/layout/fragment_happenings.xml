@@ -21,10 +21,12 @@
             android:layout_marginStart="@dimen/default_margin_small"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin_medium"
-            android:text="Här sitter vi"
+            android:gravity="center_horizontal"
+            android:text="@string/happenings"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="36sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Här sitter vi!" />
 
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
@@ -54,7 +56,6 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ullamcorper laoreet porttitor. Suspendisse tempus, felis at sagittis mollis, justo ligula aliquet arcu, vel dictum quam mauris nec risus. " />
 
             <Button
