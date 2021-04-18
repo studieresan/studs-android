@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.studieresan.studs.R
+import com.studieresan.studs.happenings.HappeningsListFragment
 import com.studieresan.studs.happenings.MapsFragment
-import com.studieresan.studs.trip.TripFragment
 
 private val TAB_TITLES = arrayOf(
         R.string.map_tab,
@@ -13,12 +13,12 @@ private val TAB_TITLES = arrayOf(
 )
 
 class HappeningsPagerAdapter(private val context: FragmentManager?, fm: FragmentManager)
-    : FragmentPagerAdapter(fm) {
+    : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
 
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page
-        return if (position === 0) MapsFragment() else TripFragment()
+        return if (position === 0) MapsFragment() else HappeningsListFragment()
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

@@ -21,9 +21,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <!--
-             The API key for Google Maps-based APIs is defined as a local resource
-        -->
+        <activity android:name=".happenings.adapters.CreateHappeningActivity"></activity>
+        <!-- The API key for Google Maps-based APIs is defined as a local resource -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
@@ -37,6 +36,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/studs_widget_info" />
         </receiver>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

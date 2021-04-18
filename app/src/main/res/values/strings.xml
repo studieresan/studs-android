@@ -37,7 +37,8 @@
     <string name="happenings" translatable="false">Happenings</string>
     <string name="map_tab">Map</string>
     <string name="list_tab">List</string>
-    <string name="happenings_add">Where are you?</string>
+    <string name="happenings_create">Where are you?</string>
+    <string name="happenings_add">Add happening</string>
 
     <!-- Trip -->
     <string name="trip">Trip</string>

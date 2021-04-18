@@ -6,11 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 import com.studieresan.studs.data.StudsService
-import com.studieresan.studs.data.models.Events
-import com.studieresan.studs.data.models.ForgotPasswordRequest
-import com.studieresan.studs.data.models.LoginResponse
-import com.studieresan.studs.data.models.LoginUserRequest
-import com.studieresan.studs.data.models.User
+import com.studieresan.studs.data.models.*
 import javax.inject.Inject
 
 class StudsRepository @Inject constructor(private val studsService: StudsService) {
@@ -36,7 +32,7 @@ class StudsRepository @Inject constructor(private val studsService: StudsService
                     .getEvents()
                     .compose(applySchedulers())
 
-    fun getHappenings(): Observable<Events> =
+    fun getHappenings(): Observable<Happenings> =
             studsService
                     .getHappenings()
                     .compose(applySchedulers())

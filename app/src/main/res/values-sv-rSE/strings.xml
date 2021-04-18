@@ -29,7 +29,8 @@
     <!-- Happenings -->
     <string name="map_tab">Karta</string>
     <string name="list_tab">Lista</string>
-    <string name="happenings_add">Var sitter du?</string>
+    <string name="happenings_create">Var sitter du?</string>
+    <string name="happenings_add">Add happening</string>
 
     <!-- Trip -->
     <string name="trip">Resa</string>
