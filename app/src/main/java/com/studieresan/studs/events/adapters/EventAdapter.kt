@@ -8,18 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.studieresan.studs.R
-import com.studieresan.studs.data.models.Event
 import com.studieresan.studs.util.exhaustive
-import org.threeten.bp.OffsetDateTime
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
-
-private const val ZOOM_FACTOR = 13f
 
 private const val FUTURE_EVENT_TITLE = 0
 private const val PAST_EVENT_TITLE = 1
@@ -30,13 +28,19 @@ private const val NEXT_EVENT = 5
 private const val EMPTY = 6
 
 class EventAdapter(
+        val events: List<EventsQuery.Event>,
         private val applicationContext: Context,
-        private val didSelectEventCallback: (Event) -> Unit
-) : ListAdapter<Event, RecyclerView.ViewHolder>(Event.DIFF_CALLBACK) {
+        private val didSelectEventCallback: (EventsQuery.Event) -> Unit
+) : ListAdapter<EventsQuery.Event, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
-    private var pastEvents = emptyList<Event>()
-    private var futureEvents = emptyList<Event>()
+    private var pastEvents = emptyList<EventsQuery.Event>()
+    private var futureEvents = emptyList<EventsQuery.Event>()
+    init {
+        println("EVENTS YO: ")
+        println(events)
+        submitList(events)
 
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         fun inflate(@LayoutRes view: Int) = LayoutInflater.from(parent.context).inflate(view, parent, false)
 
@@ -67,7 +71,7 @@ class EventAdapter(
         }.exhaustive
     }
 
-    override fun submitList(list: List<Event>?) {
+    override fun submitList(list: List<EventsQuery.Event>?) {
         list?.let {
             partitionEvents(it)
         }
@@ -83,9 +87,9 @@ class EventAdapter(
         }
     }
 
-    private fun partitionEvents(events: List<Event>) {
+    private fun partitionEvents(events: List<EventsQuery.Event>) {
         val today: LocalDateTime = LocalDateTime.now()
-        val (past, future) = events.partition { LocalDateTime.parse(it.date, DATE_FORMATTER) < today }
+        val (past, future) = events.partition { LocalDateTime.parse(it.date as CharSequence?, DATE_FORMATTER) < today }
         pastEvents = past
         futureEvents = future.reversed()
     }
@@ -118,22 +122,22 @@ class EventAdapter(
         private val location: TextView = view.findViewById(R.id.tv_location_address)
         private val description: TextView = view.findViewById(R.id.tv_event_description)
 
-        fun bind(event: Event) {
+        fun bind(event: EventsQuery.Event) {
             view.tag = this
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
 
-
-            val dateFormatter = org.threeten.bp.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            val parsedDate = org.threeten.bp.LocalDateTime.parse(event.date, dateFormatter)
             val odt = OffsetDateTime.now()
             val zoneOffset = odt.offset
-            val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
-            val displayDate = if (event.date !== null) DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_ABBREV_TIME or DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_WEEKDAY).capitalize() else null
-            val displayTime = if (event.date !== null) DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_SHOW_TIME) else null
+            val dateInMilli = event.date?.atOffset(zoneOffset)?.toInstant()?.toEpochMilli()
+            if (dateInMilli is Long) {
+                val displayDate = DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_ABBREV_TIME or DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_WEEKDAY).capitalize()
+                val displayTime = DateUtils.formatDateTime(applicationContext, dateInMilli, DateUtils.FORMAT_SHOW_TIME)
+                date.text = displayDate
+                time.text = displayTime
+            }
 
             companyName.text = event.company?.name
-            date.text = displayDate
-            time.text = displayTime
+
             if (!event.location.isNullOrEmpty()) {
                 location.text = event.location
             }
@@ -149,10 +153,10 @@ class EventAdapter(
         private val month: TextView = view.findViewById(R.id.tv_date)
         private val day: TextView = view.findViewById(R.id.tv_event_det_time)
 
-        fun bind(event: Event) {
+        fun bind(event: EventsQuery.Event) {
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
             companyName.text = event.company?.name
-            month.text = LocalDateTime.parse(event.date, DATE_FORMATTER).month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+            month.text = LocalDateTime.parse(event.date as CharSequence?, DATE_FORMATTER).month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
             day.text = LocalDateTime.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
         }
     }
@@ -174,5 +178,10 @@ class EventAdapter(
 
     companion object {
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EventsQuery.Event>() {
+            override fun areItemsTheSame(oldItem: EventsQuery.Event, newItem: EventsQuery.Event): Boolean = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: EventsQuery.Event, newItem: EventsQuery.Event): Boolean = oldItem == newItem
+        }
     }
 }

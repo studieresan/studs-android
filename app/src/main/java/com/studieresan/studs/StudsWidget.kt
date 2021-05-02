@@ -1,5 +1,6 @@
 package com.studieresan.studs
 
+import EventsQuery
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -9,9 +10,13 @@ import android.os.Build
 import android.text.format.DateUtils.*
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.exception.ApolloException
+import com.studieresan.studs.graphql.apolloClient
 import com.studieresan.studs.net.StudsRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -46,42 +51,45 @@ class StudsWidget : AppWidgetProvider() {
             setOnClickPendingIntent(R.id.widget, pendingIntent)
         }
 
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = try {
+                apolloClient(context).query(EventsQuery()).await()
+            } catch (e: ApolloException) {
+                null
+            }
 
-        val subscribe = studsRepository
-                .getEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ events ->
+            val events = response?.data?.events?.filterNotNull()
 
-                    val today = LocalDateTime.now()
-                    val orderedEvents = events.data.events.sortedBy { it.getDate() }
-                    val nextEvent =
-                            orderedEvents.firstOrNull { LocalDateTime.parse(it.date, DATE_FORMATTER).toLocalDate() >= today.toLocalDate() }
+            if (events != null && !response.hasErrors()) {
+                val today = LocalDateTime.now()
+                val orderedEvents = events.sortedBy { it.date }
+                val nextEvent =
+                        orderedEvents.firstOrNull { LocalDateTime.parse(it.date as CharSequence?, DATE_FORMATTER).toLocalDate() >= today.toLocalDate() }
 
-                    if (nextEvent !== null) {
+                if (nextEvent !== null) {
 
-                        val parsedDate = LocalDateTime.parse(nextEvent.date, DATE_FORMATTER)
-                        val odt = OffsetDateTime.now()
-                        val zoneOffset = odt.offset
-                        val dateInMilli = parsedDate.atOffset(zoneOffset).toInstant().toEpochMilli()
-                        val todayInMilli = today.atOffset(zoneOffset).toInstant().toEpochMilli()
-
-                        val displayDate = if (nextEvent.date !== null) formatDateTime(context, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_NUMERIC_DATE or FORMAT_SHOW_WEEKDAY or FORMAT_ABBREV_MONTH).capitalize() else null
-                        val countdown = if (nextEvent.date !== null) getRelativeTimeSpanString(dateInMilli, todayInMilli, DAY_IN_MILLIS) else null
+                    val odt = OffsetDateTime.now()
+                    val zoneOffset = odt.offset
+                    val dateInMilli = nextEvent.date?.atOffset(zoneOffset)?.toInstant()?.toEpochMilli()
+                    val todayInMilli = today.atOffset(zoneOffset).toInstant().toEpochMilli()
+                    if (dateInMilli is Long) {
+                        val displayDate = formatDateTime(context, dateInMilli, FORMAT_SHOW_TIME or FORMAT_ABBREV_TIME or FORMAT_SHOW_DATE or FORMAT_NUMERIC_DATE or FORMAT_SHOW_WEEKDAY or FORMAT_ABBREV_MONTH).capitalize()
+                        val countdown = getRelativeTimeSpanString(dateInMilli, todayInMilli, DAY_IN_MILLIS)
 
                         views.setTextViewText(R.id.widget_countdown, countdown)
-                        views.setTextViewText(R.id.widget_company, nextEvent.company?.name)
                         views.setTextViewText(R.id.widget_date, displayDate)
-
-                    } else {
-                        views.setTextViewText(R.id.widget_company, "No upcoming events")
                     }
+                    views.setTextViewText(R.id.widget_company, nextEvent.company?.name)
 
-                    // Instruct the widget manager to update the widget
-                    appWidgetManager.updateAppWidget(appWidgetId, views)
-                }, { error ->
-                    println(error)
-                })
+                } else {
+                    views.setTextViewText(R.id.widget_company, "No upcoming events")
+                }
+
+                // Instruct the widget manager to update the widget
+                appWidgetManager.updateAppWidget(appWidgetId, views)
+            }
+        }
+
     }
 
     companion object {
