@@ -33,7 +33,6 @@ class MapsFragment : Fragment() {
 
         // change this to maybe first happening?
         val stockholm = LatLng(59.3, 18.0)
-        googleMap.addMarker(MarkerOptions().position(stockholm).title("sthlm"))
 
         val viewModel= ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
 
@@ -42,7 +41,6 @@ class MapsFragment : Fragment() {
             happenings.map { happening ->
                 val coordinates = LatLng(happening.location.geometry.coordinates[0].toDouble(), happening.location.geometry.coordinates[1].toDouble())
                 googleMap.addMarker(MarkerOptions().position(coordinates).title(happening.title))
-                println(happening.title)
             }
         })
 

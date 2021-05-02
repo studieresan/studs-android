@@ -11,6 +11,20 @@ import javax.inject.Inject
 
 class StudsRepository @Inject constructor(private val studsService: StudsService) {
 
+    private fun happeningCreateMutation(happening: HappeningInput): String {
+        return """mutation {
+    happeningCreate(fields: {
+            host: ${happening.host}
+            participants: ${happening.participants}
+            location: ${happening.location}
+            title: ${happening.title}
+            emoji: ${happening.emoji}
+            description: ${happening.description}
+           
+        })
+    }"""
+    }
+
     fun login(email: String, password: String): Observable<LoginResponse> =
             studsService
                     .login(LoginUserRequest(email, password))
@@ -35,6 +49,11 @@ class StudsRepository @Inject constructor(private val studsService: StudsService
     fun getHappenings(): Observable<Happenings> =
             studsService
                     .getHappenings()
+                    .compose(applySchedulers())
+
+    fun createHappening(happening: HappeningInput): Observable<Happening> =
+            studsService
+                    .createHappening(happening)
                     .compose(applySchedulers())
 
     private fun <T> applySchedulers(): ObservableTransformer<T, T> {

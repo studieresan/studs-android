@@ -7,6 +7,7 @@ import com.studieresan.studs.login.views.ForgotPasswordActivity
 import com.studieresan.studs.login.views.LoginActivity
 import com.studieresan.studs.StudsWidget
 import com.studieresan.studs.happenings.HappeningsFragment
+import com.studieresan.studs.happenings.CreateHappeningActivity
 import javax.inject.Singleton
 
 @Singleton
@@ -18,4 +19,5 @@ interface StudsApplicationComponent {
     fun inject(eventDetailActivity: EventDetailActivity)
     fun inject(studsWidget: StudsWidget)
     fun inject(happeningsFragment: HappeningsFragment)
+    fun inject(createHappeningActivity: CreateHappeningActivity)
 }

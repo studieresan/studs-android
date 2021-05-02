@@ -39,6 +39,9 @@
     <string name="list_tab">List</string>
     <string name="happenings_create">Where are you?</string>
     <string name="happenings_add">Add happening</string>
+    <string name="happenings_location">Location</string>
+    <string name="happenings_description">Description</string>
+    <string name="happenings_participants">Participants</string>
 
     <!-- Trip -->
     <string name="trip">Trip</string>

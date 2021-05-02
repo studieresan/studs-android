@@ -57,14 +57,36 @@ private const val happeningsQuery =
                 id
                 firstName
                 lastName
+                info {
+                    picture
+                }
             }
             participants {
                 id
                 firstName
                 lastName
+                info {
+                    picture
+                }
             }
         }
     }"""
+
+private fun happeningCreateMutation(happening: HappeningInput): String {
+    return """mutation {
+    happeningCreate(fields: {
+            host: ${happening.host}
+            participants: ${happening.participants}
+            location: ${happening.location}
+            title: ${happening.title}
+            emoji: ${happening.emoji}
+            description: ${happening.description}
+           
+        }) {
+        emoji
+        }
+    }"""
+}
 
 
 interface StudsService {
@@ -83,4 +105,7 @@ interface StudsService {
 
     @GET("graphql?query=$happeningsQuery")
     fun getHappenings(): Observable<Happenings>
+
+    @POST("graphql?query=")
+    fun createHappening(@Body happening: HappeningInput): Observable<Happening>
 }

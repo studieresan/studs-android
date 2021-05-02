@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsApplication
-import com.studieresan.studs.happenings.adapters.CreateHappeningActivity
 import com.studieresan.studs.happenings.adapters.HappeningsPagerAdapter
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 import com.studieresan.studs.net.StudsRepository

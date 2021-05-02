@@ -30,7 +30,10 @@
     <string name="map_tab">Karta</string>
     <string name="list_tab">Lista</string>
     <string name="happenings_create">Var sitter du?</string>
-    <string name="happenings_add">Add happening</string>
+    <string name="happenings_add">Lägg till happening</string>
+    <string name="happenings_location">Plats</string>
+    <string name="happenings_description">Beskrivning</string>
+    <string name="happenings_participants">Deltagare</string>
 
     <!-- Trip -->
     <string name="trip">Resa</string>
