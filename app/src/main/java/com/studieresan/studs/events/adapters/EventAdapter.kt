@@ -1,5 +1,6 @@
 package com.studieresan.studs.events.adapters
 
+import EventsQuery
 import android.content.Context
 import android.text.format.DateUtils
 import android.util.TypedValue
@@ -35,12 +36,11 @@ class EventAdapter(
 
     private var pastEvents = emptyList<EventsQuery.Event>()
     private var futureEvents = emptyList<EventsQuery.Event>()
-    init {
-        println("EVENTS YO: ")
-        println(events)
-        submitList(events)
 
+    init {
+        submitList(events)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         fun inflate(@LayoutRes view: Int) = LayoutInflater.from(parent.context).inflate(view, parent, false)
 
@@ -89,7 +89,7 @@ class EventAdapter(
 
     private fun partitionEvents(events: List<EventsQuery.Event>) {
         val today: LocalDateTime = LocalDateTime.now()
-        val (past, future) = events.partition { LocalDateTime.parse(it.date as CharSequence?, DATE_FORMATTER) < today }
+        val (past, future) = events.partition { it.date!! < today }
         pastEvents = past
         futureEvents = future.reversed()
     }
@@ -156,8 +156,10 @@ class EventAdapter(
         fun bind(event: EventsQuery.Event) {
             view.setOnClickListener { didSelectEventCallback.invoke(event) }
             companyName.text = event.company?.name
-            month.text = LocalDateTime.parse(event.date as CharSequence?, DATE_FORMATTER).month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
-            day.text = LocalDateTime.parse(event.date, DATE_FORMATTER).dayOfMonth.toString()
+            if (event.date !== null) {
+                month.text = event.date.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                day.text = event.date.dayOfMonth.toString()
+            }
         }
     }
 
@@ -170,7 +172,7 @@ class EventAdapter(
                 PAST_EVENT_TITLE -> R.string.past_events
                 else -> R.string.next_event
             })
-            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, if (viewType == NEXT_EVENT_TITLE) 36F else 28F);
+            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, if (viewType == NEXT_EVENT_TITLE) 36F else 28F)
         }
     }
 

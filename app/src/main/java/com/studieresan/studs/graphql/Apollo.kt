@@ -13,26 +13,25 @@ import okhttp3.logging.HttpLoggingInterceptor
 import type.CustomType
 import java.text.ParseException
 import java.time.LocalDateTime
-import kotlin.reflect.typeOf
+import java.time.format.DateTimeFormatter
 
 private var instance: ApolloClient? = null
+val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
 fun apolloClient(context: Context): ApolloClient {
 
-    /*check(Looper.myLooper() == Looper.getMainLooper()) {
+
+    check(Looper.myLooper() == Looper.getMainLooper()) {
         "Only the main thread can get the apolloClient instance"
-    }*/
+    }
 
     if (instance != null) {
         return instance!!
     }
 
-    val log = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-
     instance = ApolloClient.builder()
             .serverUrl("https://studs-overlord.herokuapp.com/graphql")
             .okHttpClient(OkHttpClient.Builder()
-                    .addInterceptor(log)
                     .addInterceptor(AuthorizationInterceptor(context))
                     .build()
             )
@@ -44,8 +43,9 @@ fun apolloClient(context: Context): ApolloClient {
 
 val DateTimeCustomTypeAdapter = object : CustomTypeAdapter<LocalDateTime> {
     override fun decode(value: CustomTypeValue<*>): LocalDateTime {
+
         return try {
-            LocalDateTime.parse(value.value.toString())
+            LocalDateTime.parse(value.value.toString(), DATE_FORMATTER)
         } catch (e: ParseException) {
             throw RuntimeException(e)
         }
@@ -56,10 +56,10 @@ val DateTimeCustomTypeAdapter = object : CustomTypeAdapter<LocalDateTime> {
     }
 }
 
-private class AuthorizationInterceptor(val context: Context): Interceptor {
+private class AuthorizationInterceptor(val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-                .addHeader("Authorization", StudsPreferences.getJwtToken(context) ?: "")
+                .addHeader("Authorization", StudsPreferences.getJwtToken(context))
                 .build()
 
         return chain.proceed(request)

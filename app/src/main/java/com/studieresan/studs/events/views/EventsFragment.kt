@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
-import kotlinx.android.synthetic.main.fragment_events.*
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsApplication
-import com.studieresan.studs.graphql.apolloClient
-
 import com.studieresan.studs.events.adapters.EventAdapter
+import com.studieresan.studs.graphql.apolloClient
+import kotlinx.android.synthetic.main.fragment_events.*
 
 class EventsFragment : Fragment() {
 
@@ -37,23 +36,14 @@ class EventsFragment : Fragment() {
 
     private fun fetchEvents(refresh: Boolean) {
 
-        println("fetching events")
         lifecycleScope.launchWhenResumed {
             val response = try {
                 apolloClient(requireContext()).query(EventsQuery()).await()
             } catch (e: ApolloException) {
-                println("ERROR: ")
-                println(e)
                 null
             }
 
-            println("RESPONSE: ")
-            println(response)
-
             val events = response?.data?.events?.filterNotNull()
-
-            println("we got events???")
-            println(events)
 
             progress_bar.visibility = View.GONE
 
