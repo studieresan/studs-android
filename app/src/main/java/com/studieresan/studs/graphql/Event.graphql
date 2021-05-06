@@ -1,0 +1,18 @@
+query Event($id: String) {
+  event(eventId: $id) {
+    id
+    company {
+      name
+    }
+    studsYear
+    privateDescription
+    publicDescription
+    date
+    beforeSurvey
+    afterSurvey
+    location
+  }
+}
+
+
+

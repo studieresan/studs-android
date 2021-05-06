@@ -1,0 +1,16 @@
+query Events {
+  events(studsYear:2021) {
+    id
+    company {
+      name
+    }
+    studsYear
+    privateDescription
+    publicDescription
+    date
+    location
+  }
+}
+
+
+
