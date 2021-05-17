@@ -1,11 +1,12 @@
 package com.studieresan.studs.happenings
 
 import HappeningCreateMutation
+import UsersQuery
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
+import android.widget.MultiAutoCompleteTextView.CommaTokenizer
 import androidx.appcompat.app.AppCompatActivity
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
@@ -15,9 +16,11 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.material.textfield.TextInputLayout
 import com.studieresan.studs.BuildConfig.PLACES_API_KEY
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsApplication
+import com.studieresan.studs.data.StudsPreferences
 import com.studieresan.studs.graphql.apolloClient
 import com.studieresan.studs.net.StudsRepository
 import io.reactivex.disposables.Disposable
@@ -29,10 +32,6 @@ import type.GeometryInputType
 import type.HappeningInput
 import type.PropertiesInputType
 import javax.inject.Inject
-import android.content.Context
-import com.google.android.material.textfield.TextInputLayout
-import com.studieresan.studs.data.StudsPreferences
-import kotlinx.android.synthetic.main.activity_create_happening.*
 
 
 class CreateHappeningActivity : AppCompatActivity() {
@@ -85,8 +84,6 @@ class CreateHappeningActivity : AppCompatActivity() {
 
 
 
-
-
         selectedEmoji = findViewById<View>(R.id.create_emoji1) as RadioButton
 
         val radioGroup = findViewById<View>(R.id.create_rb) as RadioGroup
@@ -102,8 +99,33 @@ class CreateHappeningActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             createHappening(this)
         }
+
+        loadUsers(this)
     }
 
+
+    private fun loadUsers(context: Context) {
+
+        CoroutineScope(Dispatchers.Main).launch {
+
+            val response = try {
+                apolloClient(context).query(UsersQuery()).await()
+            } catch (e: ApolloException) {
+                null
+            }
+
+            val users = response?.data?.users?.filterNotNull()
+
+            val adapter = ArrayAdapter(context,
+                    android.R.layout.simple_dropdown_item_1line, users?.map { user ->  "${user.firstName} ${user.lastName?.get(0)}"
+                    } ?: listOf(""))
+            val textView = findViewById<MultiAutoCompleteTextView>(R.id.create_participants)
+            textView.setAdapter(adapter)
+            textView.setTokenizer(CommaTokenizer())
+
+        }
+
+    }
 
     private fun createHappening(context: Context) {
         val description  = findViewById<View>(R.id.create_desc) as TextInputLayout

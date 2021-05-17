@@ -125,12 +125,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/default_margin_large"
             android:layout_marginTop="@dimen/default_margin_huge"
-            android:text="@string/happenings_description"
+            android:text="@string/happenings_participants"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp" />
 
         <MultiAutoCompleteTextView
-            android:id="@+id/autoCompleteParticipants"
+            android:id="@+id/create_participants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/default_margin_large"
