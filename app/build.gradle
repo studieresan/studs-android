@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id("com.apollographql.apollo").version("2.5.6")
 }
 
 android {
@@ -32,10 +33,23 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
 }
 
 androidExtensions {
     experimental = true
+}
+
+apollo {
+    schemaFile = file("src/main/java/com/studieresan/studs/graphql/schema.json")
+    generateKotlinModels.set(true)
+    customTypeMapping = [
+            "DateTime" : "java.time.LocalDateTime"
+    ]
 }
 
 dependencies {
@@ -68,6 +82,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
+
 
     // Maps
     implementation "com.google.android.gms:play-services-maps:$rootProject.ext.mapsVersion"
@@ -91,5 +107,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0-alpha04'
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    // Apollo
+    implementation("com.apollographql.apollo:apollo-runtime:2.5.6")
+    implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.6")
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-rc01"
+    compileOnly 'org.jetbrains:annotations:13.0'
+    testCompileOnly 'org.jetbrains:annotations:13.0'
+
 }
 
