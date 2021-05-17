@@ -2,13 +2,12 @@ package com.studieresan.studs.happenings.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.studieresan.studs.data.models.Happenings
 
 class HappeningsViewModel : ViewModel(){
 
-    val happenings = MutableLiveData<Happenings>()
+    val happenings = MutableLiveData<List<HappeningsQuery.Happening>>()
 
-    fun setHappenings(h: Happenings){
+    fun setHappenings(h: List<HappeningsQuery.Happening>?){
         happenings.value = h
     }
 }

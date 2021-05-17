@@ -1,5 +1,6 @@
 package com.studieresan.studs.happenings
 
+import HappeningsQuery
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,18 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.exception.ApolloException
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsApplication
+import com.studieresan.studs.graphql.apolloClient
 import com.studieresan.studs.happenings.adapters.HappeningsPagerAdapter
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 import com.studieresan.studs.net.StudsRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_happenings.*
-import timber.log.Timber
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 class HappeningsFragment : Fragment() {
 
@@ -63,26 +66,20 @@ class HappeningsFragment : Fragment() {
     }
 
     private fun fetchHappenings(refresh: Boolean) {
-        disposable?.dispose()
-        disposable = studsRepository
-                .getHappenings()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { happenings ->
-                    print("happenings fetched!!")
-                    println(happenings)
-                    happenings
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { if (!refresh) happenings_progress_bar.visibility = View.VISIBLE }
-                .doOnTerminate { if (!refresh) happenings_progress_bar.visibility = View.GONE }
-                .subscribe({
-                    happenings_swipe_refresh.isRefreshing = false
-                    viewModel?.setHappenings(it)
-                }, { t ->
-                    happenings_swipe_refresh.isRefreshing = false
-                    Timber.e(t)
-                })
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = try {
+                apolloClient(requireContext()).query(HappeningsQuery()).await()
+            } catch (e: ApolloException) {
+                null
+            }
+            happenings_swipe_refresh.isRefreshing = false
+            happenings_progress_bar.visibility = View.GONE
+
+            val happenings = response?.data?.happenings?.filterNotNull()
+            viewModel?.setHappenings(happenings)
+
+        }
     }
 
     override fun onDestroy() {

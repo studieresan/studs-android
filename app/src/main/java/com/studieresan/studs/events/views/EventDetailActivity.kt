@@ -10,6 +10,7 @@ import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import com.apollographql.apollo.api.Input
+import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import com.studieresan.studs.R
@@ -38,7 +39,7 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View {
 
         lifecycleScope.launchWhenResumed {
             val response = try {
-                apolloClient(view.applicationContext).query(EventQuery(id = Input.fromNullable(eventID))).await()
+                apolloClient(view.applicationContext).query(EventQuery(id = eventID.toInput())).await()
             } catch (e: ApolloException) {
                 null
             }

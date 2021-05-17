@@ -11,8 +11,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.studieresan.studs.R
-import com.studieresan.studs.data.models.Happening
-import com.studieresan.studs.data.models.Happenings
 import com.studieresan.studs.happenings.adapters.HappeningRecyclerViewAdapter
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 
@@ -37,7 +35,7 @@ class HappeningsListFragment : Fragment() {
 
         val viewModel= ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
 
-        viewModel.happenings.observe(viewLifecycleOwner, Observer<Happenings> { t ->
+        viewModel.happenings.observe(viewLifecycleOwner, Observer<List<HappeningsQuery.Happening>> { t ->
             if (view is RecyclerView) {
                 with(view) {
                     layoutManager = when {

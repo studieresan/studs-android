@@ -62,6 +62,7 @@ class LoginActivity : StudsActivity(), LoginContract.View {
     override fun loginSuccessful(loginResponse: LoginResponse) {
         StudsPreferences.run {
             logIn(this@LoginActivity, et_email.text.toString())
+            setID(this@LoginActivity, loginResponse.id)
             setName(this@LoginActivity, loginResponse.name)
             setPicture(this@LoginActivity, loginResponse.picture)
             setPosition(this@LoginActivity, loginResponse.role)

@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.studieresan.studs.R
-import com.studieresan.studs.data.models.Happenings
-
 
 class HappeningRecyclerViewAdapter(
-        private val values: Happenings)
+        private val values: List<HappeningsQuery.Happening>)
     : RecyclerView.Adapter<HappeningRecyclerViewAdapter.ViewHolder>() {
 
     private var context: Context? = null
@@ -27,7 +25,7 @@ class HappeningRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val happenings = values.data.happenings
+        val happenings = values
         val happening = happenings[position]
         holder.emojiView.text = happening.emoji
         holder.titleView.text = happening.title
@@ -45,7 +43,7 @@ class HappeningRecyclerViewAdapter(
         }
     }
 
-    override fun getItemCount(): Int = values.data.happenings.size
+    override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val emojiView: TextView = view.findViewById(R.id.happening_emoji)

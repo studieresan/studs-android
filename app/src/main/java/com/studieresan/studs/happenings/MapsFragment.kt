@@ -1,5 +1,6 @@
 package com.studieresan.studs.happenings
 
+import HappeningsQuery
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,6 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.studieresan.studs.R
-import com.studieresan.studs.data.models.Happenings
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 
 
@@ -31,21 +31,24 @@ class MapsFragment : Fragment() {
          * user has installed Google Play services and returned to the app.
          */
 
-        // change this to maybe first happening?
-        val stockholm = LatLng(59.3, 18.0)
+        var centerLocation: LatLng? = null
 
-        val viewModel= ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
+        val viewModel = ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
 
-        viewModel.happenings.observe(viewLifecycleOwner, Observer<Happenings> { t ->
-            val happenings = t.data.happenings
+        viewModel.happenings.observe(viewLifecycleOwner, Observer<List<HappeningsQuery.Happening>> { happenings ->
             happenings.map { happening ->
-                val coordinates = LatLng(happening.location.geometry.coordinates[0].toDouble(), happening.location.geometry.coordinates[1].toDouble())
-                googleMap.addMarker(MarkerOptions().position(coordinates).title(happening.title))
+                if (happening.location?.geometry?.coordinates != null && happening.location?.geometry?.coordinates[0] != null && happening.location?.geometry?.coordinates[1] != null) {
+                    val coordinates = LatLng(happening.location.geometry.coordinates[0]!!.toDouble(), happening.location.geometry.coordinates[1]!!.toDouble())
+                    googleMap.addMarker(MarkerOptions().position(coordinates).title(happening.title))
+                    if (centerLocation == null) {
+                        centerLocation = coordinates
+                    }
+                }
             }
         })
 
         val cameraPosition = CameraPosition.Builder()
-                .target(stockholm)
+                .target(if (centerLocation != null) centerLocation else LatLng(59.3, 18.0) )
                 .zoom(12f)
                 .build()
 
@@ -56,8 +59,6 @@ class MapsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val viewModel= ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
-
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 

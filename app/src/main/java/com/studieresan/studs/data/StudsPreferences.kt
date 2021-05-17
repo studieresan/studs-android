@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import com.studieresan.studs.R
 
+private const val ID = "id"
 private const val NAME = "name"
 private const val PICTURE = "picture"
 private const val POSITION = "position"
@@ -31,6 +32,17 @@ object StudsPreferences {
                     PreferenceManager.getDefaultSharedPreferences(context)
                             .getString(EMAIL, "")
             )
+
+    fun setID(context: Context, id: String) =
+            PreferenceManager.getDefaultSharedPreferences(context)
+                    .edit()
+                    .putString(ID, id)
+                    .apply()
+
+    fun getID(context: Context) = checkNotNull(
+            PreferenceManager.getDefaultSharedPreferences(context)
+                    .getString(ID, "")
+    )
 
     fun setName(context: Context, name: String) =
             PreferenceManager.getDefaultSharedPreferences(context)
