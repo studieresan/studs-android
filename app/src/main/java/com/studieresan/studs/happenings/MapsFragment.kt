@@ -2,6 +2,7 @@ package com.studieresan.studs.happenings
 
 import HappeningsQuery
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,20 +17,19 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.studieresan.studs.R
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
+import java.time.OffsetDateTime
 
 
 class MapsFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
+
+        // might remove this, does not seem to make a big difference?
+        var cameraPosition = CameraPosition.Builder()
+                .target(LatLng(59.3, 18.0))
+                .zoom(12f)
+                .build()
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
         var centerLocation: LatLng? = null
 
@@ -38,22 +38,30 @@ class MapsFragment : Fragment() {
         viewModel.happenings.observe(viewLifecycleOwner, Observer<List<HappeningsQuery.Happening>> { happenings ->
             happenings.map { happening ->
                 if (happening.location?.geometry?.coordinates != null && happening.location?.geometry?.coordinates[0] != null && happening.location?.geometry?.coordinates[1] != null) {
-                    val coordinates = LatLng(happening.location.geometry.coordinates[0]!!.toDouble(), happening.location.geometry.coordinates[1]!!.toDouble())
-                    googleMap.addMarker(MarkerOptions().position(coordinates).title(happening.title))
+
+                    val coordinates = LatLng(happening.location.geometry.coordinates[1]!!.toDouble(), happening.location.geometry.coordinates[0]!!.toDouble())
+                    val odt = OffsetDateTime.now()
+                    val zoneOffset = odt.offset
+                    val dateInMilli = happening.created?.atOffset(zoneOffset)?.toInstant()?.toEpochMilli()
+                    val displayDate = if (dateInMilli != null) DateUtils.formatDateTime(context, dateInMilli, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_ABBREV_TIME or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_ABBREV_WEEKDAY).capitalize() else ""
+
+                    googleMap
+                            .addMarker(MarkerOptions().position(coordinates)
+                                    .title("${happening.host?.firstName} ${happening.host?.lastName?.get(0)} ${happening.title?.decapitalize()}")
+                                    .snippet("${displayDate} @ ${happening.location?.properties?.name}"))
+
                     if (centerLocation == null) {
                         centerLocation = coordinates
                     }
                 }
             }
+            cameraPosition = CameraPosition.Builder()
+                    .target(if (centerLocation != null) centerLocation else LatLng(59.3, 18.0))
+                    .zoom(12f)
+                    .build()
+
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         })
-
-        val cameraPosition = CameraPosition.Builder()
-                .target(if (centerLocation != null) centerLocation else LatLng(59.3, 18.0) )
-                .zoom(12f)
-                .build()
-
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
     }
 
     override fun onCreateView(inflater: LayoutInflater,
