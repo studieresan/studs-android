@@ -3,27 +3,41 @@ package com.studieresan.studs.happenings
 import HappeningCreateMutation
 import UsersQuery
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import android.widget.*
-import android.widget.MultiAutoCompleteTextView.CommaTokenizer
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
-import com.studieresan.studs.BuildConfig.PLACES_API_KEY
+import com.studieresan.studs.BuildConfig.MAPS_API_KEY
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsApplication
 import com.studieresan.studs.data.StudsPreferences
 import com.studieresan.studs.graphql.apolloClient
 import com.studieresan.studs.net.StudsRepository
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_happening.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,8 +53,9 @@ class CreateHappeningActivity : AppCompatActivity() {
     private var selectedEmoji: RadioButton? = null
     private var disposable: Disposable? = null
     private var coordinates = arrayOf(18.074242F, 59.314797F)
+    private var hostID: String? = null
 
-    private var participants = listOf("5fb278e69fca82b6f5faf80e", "5fb278e69fca82b6f5faf806")
+    private var participants = mutableListOf<String>()
 
     @Inject
     lateinit var studsRepository: StudsRepository
@@ -50,10 +65,10 @@ class CreateHappeningActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_happening)
 
         StudsApplication.applicationComponent.inject(this)
-
+       hostID = StudsPreferences.getID(this)
 
         // Initialize the SDK
-        Places.initialize(applicationContext, PLACES_API_KEY)
+        Places.initialize(applicationContext, MAPS_API_KEY)
 
         // Create a new PlacesClient instance
         val placesClient = Places.createClient(this)
@@ -100,11 +115,25 @@ class CreateHappeningActivity : AppCompatActivity() {
             createHappening(this)
         }
 
+        val cancelButton = findViewById<View>(R.id.btn_cancel_happening) as Button
+        cancelButton.setOnClickListener {
+            finish()
+        }
+
         loadUsers(this)
     }
 
 
     private fun loadUsers(context: Context) {
+
+        val states = arrayOf(
+                intArrayOf(-android.R.attr.state_checked),
+                intArrayOf(android.R.attr.state_checked)
+
+        )
+
+        val colors = intArrayOf(ContextCompat.getColor(context, R.color.lightGrey), ContextCompat.getColor(context, R.color.colorPrimaryLight))
+        val colorsStateList = ColorStateList(states, colors)
 
         CoroutineScope(Dispatchers.Main).launch {
 
@@ -114,32 +143,71 @@ class CreateHappeningActivity : AppCompatActivity() {
                 null
             }
 
-            val users = response?.data?.users?.filterNotNull()
+            var users = response?.data?.users?.filterNotNull()?.sortedBy { user -> user.firstName }
+            val participantChips = findViewById<View>(R.id.create_participant_chips) as ChipGroup
+            users?.forEach { user ->
 
-            val adapter = ArrayAdapter(context,
-                    android.R.layout.simple_dropdown_item_1line, users?.map { user ->  "${user.firstName} ${user.lastName?.get(0)}"
-                    } ?: listOf(""))
-            val textView = findViewById<MultiAutoCompleteTextView>(R.id.create_participants)
-            textView.setAdapter(adapter)
-            textView.setTokenizer(CommaTokenizer())
+                if (user.id != hostID) {
+                    val chip = Chip(context).apply {
+                    text = "${user.firstName} ${user.lastName?.get(0)}"
+                    isCloseIconVisible = false
+                    isClickable = true
+                    isCheckable = true
+                    checkedIcon = null
+                    chipBackgroundColor = colorsStateList
+                    setOnCheckedChangeListener { chip, isChecked ->
+                        if (isChecked && user.id != null) {
+                            participants.add(user.id)
+                        } else {
+                            participants.remove(user.id)
+                        }
+                    }
+                }
+
+
+                Glide.with(context)
+                        .asBitmap()
+                        .load(user?.info?.picture)
+                        .apply(RequestOptions.circleCropTransform())
+                        .error(R.drawable.ic_person_black_24dp)
+                        .into(object : CustomTarget<Bitmap?>() {
+                            override fun onResourceReady(resource: Bitmap, @Nullable transition: Transition<in Bitmap?>?) {
+                                val drawable = BitmapDrawable(resource)
+                                chip.chipIcon = drawable
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                            }
+                        })
+
+                participantChips.addView(chip)
+                }
+
+            }
 
         }
 
     }
 
     private fun createHappening(context: Context) {
-        val description  = findViewById<View>(R.id.create_desc) as TextInputLayout
-        val participants  = findViewById<View>(R.id.tv_create_participants)
+
+        if (true) {
+            println(participants)
+            return
+        }
+
+        val description = findViewById<View>(R.id.create_desc) as TextInputLayout
+        var title = if (participants.isEmpty()) "Sitter ensam, joina!" else "Sitter med ${participants.size} andra!"
 
         val happening = HappeningInput(
-                host = StudsPreferences.getID(context).toInput(),
-                participants = listOf("5fb278e69fca82b6f5faf80e", "5fb278e69fca82b6f5faf806").toInput(),
+                host = hostID.toInput(),
+                participants = participants.toInput(),
                 location = GeoJSONFeatureInputType(type = "Feature".toInput(),
                         geometry = GeometryInputType(
                                 type = "Point".toInput(),
                                 coordinates = listOf(18.030078, 59.344294).toInput()).toInput(),
                         properties = PropertiesInputType("Idun".toInput()).toInput()).toInput(),
-                title = "Coding & crying pt 2".toInput(),
+                title = title.toInput(),
                 emoji = selectedEmoji?.text.toString().toInput(),
                 description = description.editText?.text.toString().toInput())
 

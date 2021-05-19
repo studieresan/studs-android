@@ -12,6 +12,7 @@
     <string name="forgot_your_password">Få ett nytt!</string>
     <string name="logout">Logga ut</string>
     <string name="generic_error_message">Hmm, något gick fel. Försök igen.</string>
+    <string name="cancel">Avbryt</string>
 
     <!-- Event -->
     <string name="upcoming_events">Kommande events</string>

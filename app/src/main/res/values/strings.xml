@@ -13,6 +13,7 @@
     <string name="forgot_your_password">Get a new one!</string>
     <string name="logout">Log out</string>
     <string name="generic_error_message">Hmm, something went wrong. Please try again.</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Event -->
     <string name="event" translatable="false">Events</string>
@@ -38,7 +39,7 @@
     <string name="map_tab">Map</string>
     <string name="list_tab">List</string>
     <string name="happenings_create">Where are you?</string>
-    <string name="happenings_add">Add happening</string>
+    <string name="happenings_add">Add</string>
     <string name="happenings_location">Location</string>
     <string name="happenings_description">Description</string>
     <string name="happenings_participants">Participants</string>

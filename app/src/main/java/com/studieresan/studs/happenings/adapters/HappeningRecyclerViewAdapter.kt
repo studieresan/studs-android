@@ -34,7 +34,6 @@ class HappeningRecyclerViewAdapter(
 
         // Set the image
         context?.let {
-            println(happening.host?.info?.picture)
 
             Glide.with(it)
                 .load(happening.host?.info?.picture)

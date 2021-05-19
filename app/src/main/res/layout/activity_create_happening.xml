@@ -6,152 +6,180 @@
     android:layout_height="match_parent"
     tools:context=".happenings.CreateHappeningActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_create_title"
-            style="@style/Base.TextAppearance.AppCompat.Title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin_small"
-            android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin_small"
-            android:layout_marginBottom="@dimen/default_margin_medium"
-            android:gravity="center_horizontal"
-            android:text="@string/happenings_create"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <RadioGroup
-            android:id="@+id/create_rb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin_medium"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/create_emoji1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/default_margin_medium"
-                android:button="@color/colorAccent"
-                android:text="☕️"
-                android:textSize="52sp" />
-
-            <RadioButton
-                android:id="@+id/create_emoji2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/default_margin_medium"
-                android:alpha="0.5"
-                android:button="@color/colorAccent"
-                android:text="🍻"
-                android:textSize="52sp" />
-
-            <RadioButton
-                android:id="@+id/create_emoji3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/default_margin_medium"
-                android:alpha="0.5"
-                android:button="@color/colorAccent"
-                android:text="🍷"
-                android:textSize="52sp" />
-
-            <RadioButton
-                android:id="@+id/create_emoji4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/default_margin_medium"
-                android:alpha="0.5"
-                android:button="@color/colorAccent"
-                android:text="🥂"
-                android:textSize="52sp" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/tv_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin_large"
-            android:layout_marginTop="@dimen/default_margin_huge"
-            android:text="@string/happenings_location"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/autocomplete_fragment"
-                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </androidx.cardview.widget.CardView>
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/default_margin_medium"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_create_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/default_margin_large"
-            android:layout_marginTop="@dimen/default_margin_huge"
-            android:text="@string/happenings_description"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp" />
+                <Button
+                    android:id="@+id/btn_cancel_happening"
+                    style="@style/FlatButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorAccent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/create_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6" />
 
-            <com.google.android.material.textfield.TextInputEditText
+                <Button
+                    android:id="@+id/btn_add_happening"
+                    style="@style/FlatButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/happenings_add"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_create_title"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/default_margin_small"
+                android:layout_marginEnd="@dimen/default_margin_small"
+                android:layout_marginBottom="@dimen/default_margin_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/happenings_create"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/create_rb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_medium"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/create_emoji1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:button="@color/colorAccent"
+                    android:text="☕️"
+                    android:textSize="46sp" />
+
+                <RadioButton
+                    android:id="@+id/create_emoji2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:alpha="0.5"
+                    android:button="@color/colorAccent"
+                    android:text="🍻"
+                    android:textSize="46sp" />
+
+                <RadioButton
+                    android:id="@+id/create_emoji3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:alpha="0.5"
+                    android:button="@color/colorAccent"
+                    android:text="🍷"
+                    android:textSize="46sp" />
+
+                <RadioButton
+                    android:id="@+id/create_emoji4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:alpha="0.5"
+                    android:button="@color/colorAccent"
+                    android:text="🥂"
+                    android:textSize="46sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin_large"
+                android:layout_marginTop="@dimen/default_margin_huge"
+                android:text="@string/happenings_location"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/autocomplete_fragment"
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_create_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/default_margin_large"
-                android:layout_marginTop="@dimen/default_margin_small" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="@dimen/default_margin_huge"
+                android:text="@string/happenings_description"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv_create_participants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/default_margin_large"
-            android:layout_marginTop="@dimen/default_margin_huge"
-            android:text="@string/happenings_participants"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <MultiAutoCompleteTextView
-            android:id="@+id/create_participants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/default_margin_large"
-            android:layout_marginTop="@dimen/default_margin_small"
-            android:text="MultiAutoCompleteTextView" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_margin_large"
+                    android:layout_marginTop="@dimen/default_margin_small" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_create_participants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/default_margin_large"
+                android:layout_marginTop="@dimen/default_margin_huge"
+                android:text="@string/happenings_participants"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btn_add_happening"
-        android:layout_width="wrap_content"
-        android:layout_height="55dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_weight="1"
-        android:backgroundTint="@color/colorAccent"
-        android:text="@string/happenings_add"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/create_participant_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/default_margin_large"
+                android:layout_marginVertical="@dimen/default_margin_huge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
