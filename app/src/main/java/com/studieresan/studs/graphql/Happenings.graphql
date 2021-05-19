@@ -18,6 +18,9 @@ query Happenings {
       geometry {
         coordinates
       }
+      properties {
+        name
+      }
     }
     created
     title

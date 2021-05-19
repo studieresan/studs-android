@@ -76,7 +76,7 @@ class HappeningsFragment : Fragment() {
             happenings_swipe_refresh.isRefreshing = false
             happenings_progress_bar.visibility = View.GONE
 
-            val happenings = response?.data?.happenings?.filterNotNull()
+            val happenings = response?.data?.happenings?.filterNotNull()?.sortedByDescending { happening -> happening.created }
             viewModel?.setHappenings(happenings)
 
         }

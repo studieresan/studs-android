@@ -15,6 +15,7 @@ import android.widget.RadioGroup
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
@@ -29,6 +30,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.studieresan.studs.BuildConfig.MAPS_API_KEY
 import com.studieresan.studs.R
@@ -36,7 +38,6 @@ import com.studieresan.studs.StudsApplication
 import com.studieresan.studs.data.StudsPreferences
 import com.studieresan.studs.graphql.apolloClient
 import com.studieresan.studs.net.StudsRepository
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_happening.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +52,6 @@ import javax.inject.Inject
 class CreateHappeningActivity : AppCompatActivity() {
 
     private var selectedEmoji: RadioButton? = null
-    private var disposable: Disposable? = null
     private var coordinates: List<Double>? = null
     private var locationName: String? = null
     private var locationType: String? = null
@@ -199,6 +199,8 @@ class CreateHappeningActivity : AppCompatActivity() {
     }
 
     private fun createHappening(context: Context) {
+        val progressBar = findViewById<View>(R.id.create_progress_bar)
+        progressBar.isVisible = true
 
         val description = findViewById<View>(R.id.create_desc) as TextInputLayout
         var title = if (participants.isEmpty()) "Sitter ensam, joina!" else "Sitter med ${participants.size} andra!"
@@ -218,6 +220,8 @@ class CreateHappeningActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val response = try {
                 apolloClient(context).mutate(HappeningCreateMutation(happening = happening.toInput())).await()
+                progressBar.isVisible = false
+                finish()
             } catch (e: ApolloException) {
                 null
             }
@@ -227,37 +231,8 @@ class CreateHappeningActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable?.dispose().also {
-            disposable = null
-        }
-
-
-        /*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    data?.let {
-                        val place = Autocomplete.getPlaceFromIntent(data)
-                        Log.i(TAG, "Place: ${place.name}, ${place.id}")
-                    }
-                }
-                AutocompleteActivity.RESULT_ERROR -> {
-                    // TODO: Handle the error.
-                    data?.let {
-                        val status = Autocomplete.getStatusFromIntent(data)
-                        Log.i(TAG, status.statusMessage)
-                    }
-                }
-                Activity.RESULT_CANCELED -> {
-                    // The user canceled the operation.
-                }
-            }
-            return
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-    */
+        // not sure if this is needed/correct
+        Places.deinitialize()
     }
 
 }

@@ -59,16 +59,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorPrimary"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="normal"
                 tools:text="Studs sitter med 3 andra!" />
+
+            <TextView
+                android:id="@+id/happening_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:capitalize="characters"
+                android:textAllCaps="true"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="12sp"
+                tools:text="META" />
 
             <TextView
                 android:id="@+id/happening_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_mini"
                 android:textColor="?android:attr/textColorPrimary"
                 tools:text="Wow vi har så roligt här uppe på fjället, joina!" />
+
+            <TextView
+                android:id="@+id/happening_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                tools:text="Torsdag 17.00" />
         </LinearLayout>
 
     </LinearLayout>
