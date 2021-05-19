@@ -1,5 +1,7 @@
 package com.studieresan.studs.happenings.adapters
 
+import HappeningDeleteMutation
+import HappeningsQuery
 import android.content.Context
 import android.text.format.DateUtils
 import android.view.LayoutInflater
@@ -7,10 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.apollographql.apollo.api.toInput
+import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.exception.ApolloException
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.studieresan.studs.R
+import com.studieresan.studs.data.StudsPreferences
+import com.studieresan.studs.graphql.apolloClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.OffsetDateTime
 
 class HappeningRecyclerViewAdapter(
@@ -23,6 +35,7 @@ class HappeningRecyclerViewAdapter(
         context = parent.context
         val view = LayoutInflater.from(context)
                 .inflate(R.layout.fragment_happening, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -39,13 +52,38 @@ class HappeningRecyclerViewAdapter(
         holder.timeView.text = displayDate
         holder.placeView.text = "@ ${happening.location?.properties?.name}"
 
+        if (context != null && happening.host?.id == StudsPreferences.getID(context!!)) {
+            holder.deleteBtn.isVisible = true
+            holder.deleteBtn.setOnLongClickListener {
+                MaterialAlertDialogBuilder(context!!)
+                        .setTitle("Ta bort happening?")
+                        .setNegativeButton("Avbryt") { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        .setPositiveButton("Ta bort") { dialog, which ->
+                            CoroutineScope(Dispatchers.Main).launch {
+                                val response = try {
+                                    // lägg till nån loading feedback
+                                    apolloClient(context!!).mutate(HappeningDeleteMutation(id = happening.id.toInput())).await()
+                                    dialog.dismiss()
+                                } catch (e: ApolloException) {
+                                    null
+                                }
+                            }
+                        }
+                        .create()
+                        .show()
+                true
+            }
+        }
+
         // Set the image
         context?.let {
 
             Glide.with(it)
-                .load(happening.host?.info?.picture)
-                .apply(RequestOptions.circleCropTransform())
-                .into(holder.imageView)
+                    .load(happening.host?.info?.picture)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.imageView)
         }
     }
 
@@ -58,6 +96,7 @@ class HappeningRecyclerViewAdapter(
         val placeView: TextView = view.findViewById(R.id.happening_place)
         val timeView: TextView = view.findViewById(R.id.happening_time)
         val titleView: TextView = view.findViewById(R.id.happening_title)
+        val deleteBtn: TextView = view.findViewById(R.id.happening_delete)
 
         override fun toString(): String {
             return super.toString() + " '" + titleView.text + "'"

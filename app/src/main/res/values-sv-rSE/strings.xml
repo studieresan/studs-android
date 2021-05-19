@@ -35,6 +35,8 @@
     <string name="happenings_location">Plats</string>
     <string name="happenings_description">Beskrivning</string>
     <string name="happenings_buddies">Polare</string>
+    <string name="happenings_delete">Ta bort happening?</string>
+    <string name="happenings_delete_confirm">Ta bort</string>
 
     <!-- Trip -->
     <string name="trip">Resa</string>

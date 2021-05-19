@@ -24,6 +24,8 @@ class HappeningsPagerAdapter(private val context: FragmentManager?, fm: Fragment
     override fun getPageTitle(position: Int): CharSequence? {
         return if (position === 0) "map" else "list"
 
+        // fix this!!! hehe
+
         //return context.getString(TAB_TITLES[position])
     }
 

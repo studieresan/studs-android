@@ -47,7 +47,7 @@ class MapsFragment : Fragment() {
 
                     googleMap
                             .addMarker(MarkerOptions().position(coordinates)
-                                    .title("${happening.host?.firstName} ${happening.host?.lastName?.get(0)} ${happening.title?.decapitalize()}")
+                                    .title("${happening.host?.firstName} ${happening.host?.lastName?.get(0)} ${happening.title?.decapitalize()} ${happening.emoji}")
                                     .snippet("${displayDate} @ ${happening.location?.properties?.name}"))
 
                     if (centerLocation == null) {

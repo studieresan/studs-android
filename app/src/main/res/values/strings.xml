@@ -43,6 +43,8 @@
     <string name="happenings_location">Location</string>
     <string name="happenings_description">Description</string>
     <string name="happenings_buddies">Buddies</string>
+    <string name="happenings_delete">Delete happening?</string>
+    <string name="happenings_delete_confirm">Delete</string>
 
     <!-- Trip -->
     <string name="trip">Trip</string>
