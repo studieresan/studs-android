@@ -37,7 +37,7 @@ class MapsFragment : Fragment() {
 
         viewModel.happenings.observe(viewLifecycleOwner, Observer<List<HappeningsQuery.Happening>> { happenings ->
             happenings.map { happening ->
-                if (happening.location?.geometry?.coordinates != null && happening.location?.geometry?.coordinates[0] != null && happening.location?.geometry?.coordinates[1] != null) {
+                if (happening.location?.geometry?.coordinates != null && happening.location.geometry.coordinates[0] != null && happening.location.geometry.coordinates[1] != null) {
 
                     val coordinates = LatLng(happening.location.geometry.coordinates[1]!!.toDouble(), happening.location.geometry.coordinates[0]!!.toDouble())
                     val odt = OffsetDateTime.now()
@@ -48,7 +48,7 @@ class MapsFragment : Fragment() {
                     googleMap
                             .addMarker(MarkerOptions().position(coordinates)
                                     .title("${happening.host?.firstName} ${happening.host?.lastName?.get(0)} ${happening.title?.decapitalize()} ${happening.emoji}")
-                                    .snippet("${displayDate} @ ${happening.location?.properties?.name}"))
+                                    .snippet("${displayDate} @ ${happening.location.properties?.name}"))
 
                     if (centerLocation == null) {
                         centerLocation = coordinates

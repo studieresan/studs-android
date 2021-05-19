@@ -50,7 +50,7 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View {
 
             if (!response.hasErrors()) {
                 if (event.beforeSurvey.isNullOrEmpty()) {
-                    btn_pre_event.alpha = .5f;
+                    btn_pre_event.alpha = .5f
                     btn_pre_event.isClickable = false
                 } else {
                     btn_pre_event.setOnClickListener {
@@ -60,7 +60,7 @@ class EventDetailActivity : StudsActivity(), EventDetailContract.View {
                     }
                 }
                 if (event.afterSurvey.isNullOrEmpty()) {
-                    btn_post_event.alpha = .5f;
+                    btn_post_event.alpha = .5f
                     btn_post_event.isClickable = false
                 } else {
                     btn_post_event.setOnClickListener {

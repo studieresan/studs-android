@@ -37,13 +37,5 @@ class TripFragment : Fragment() {
         header.text = getRandomExcitedEmoji().plus(getRandomExcitedEmoji())
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
 
 }

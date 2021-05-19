@@ -176,7 +176,7 @@ class CreateHappeningActivity : AppCompatActivity() {
 
                 Glide.with(context)
                         .asBitmap()
-                        .load(user?.info?.picture)
+                        .load(user.info?.picture)
                         .apply(RequestOptions.circleCropTransform())
                         .error(R.drawable.ic_person_black_24dp)
                         .into(object : CustomTarget<Bitmap?>() {
