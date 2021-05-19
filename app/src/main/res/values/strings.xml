@@ -42,7 +42,7 @@
     <string name="happenings_add">Add</string>
     <string name="happenings_location">Location</string>
     <string name="happenings_description">Description</string>
-    <string name="happenings_participants">Participants</string>
+    <string name="happenings_buddies">Buddies</string>
 
     <!-- Trip -->
     <string name="trip">Trip</string>

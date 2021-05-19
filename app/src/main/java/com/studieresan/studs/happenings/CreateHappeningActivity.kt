@@ -52,7 +52,9 @@ class CreateHappeningActivity : AppCompatActivity() {
 
     private var selectedEmoji: RadioButton? = null
     private var disposable: Disposable? = null
-    private var coordinates = arrayOf(18.074242F, 59.314797F)
+    private var coordinates: List<Double>? = null
+    private var locationName: String? = null
+    private var locationType: String? = null
     private var hostID: String? = null
 
     private var participants = mutableListOf<String>()
@@ -79,12 +81,16 @@ class CreateHappeningActivity : AppCompatActivity() {
                         as AutocompleteSupportFragment
 
         // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.TYPES))
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                println("Place: ${place.name}, ${place.id}")
+                locationName = place.name
+                locationType = place.types?.first().toString()
+                if (place.latLng != null) {
+                    coordinates = listOf(place.latLng!!.longitude, place.latLng!!.latitude)
+                }
             }
 
 
@@ -103,7 +109,7 @@ class CreateHappeningActivity : AppCompatActivity() {
 
         val radioGroup = findViewById<View>(R.id.create_rb) as RadioGroup
         radioGroup.setOnCheckedChangeListener { group, checkedId -> // checkedId is the RadioButton selected
-            selectedEmoji!!.alpha = 0.5F
+            selectedEmoji!!.alpha = 0.3F
             selectedEmoji = findViewById<View>(checkedId) as RadioButton
             selectedEmoji!!.alpha = 1F
         }
@@ -154,12 +160,15 @@ class CreateHappeningActivity : AppCompatActivity() {
                     isClickable = true
                     isCheckable = true
                     checkedIcon = null
+                        alpha = 0.75F
                     chipBackgroundColor = colorsStateList
                     setOnCheckedChangeListener { chip, isChecked ->
                         if (isChecked && user.id != null) {
                             participants.add(user.id)
+                            chip.alpha = 1F
                         } else {
                             participants.remove(user.id)
+                            chip.alpha = 0.75F
                         }
                     }
                 }
@@ -191,11 +200,6 @@ class CreateHappeningActivity : AppCompatActivity() {
 
     private fun createHappening(context: Context) {
 
-        if (true) {
-            println(participants)
-            return
-        }
-
         val description = findViewById<View>(R.id.create_desc) as TextInputLayout
         var title = if (participants.isEmpty()) "Sitter ensam, joina!" else "Sitter med ${participants.size} andra!"
 
@@ -204,9 +208,9 @@ class CreateHappeningActivity : AppCompatActivity() {
                 participants = participants.toInput(),
                 location = GeoJSONFeatureInputType(type = "Feature".toInput(),
                         geometry = GeometryInputType(
-                                type = "Point".toInput(),
-                                coordinates = listOf(18.030078, 59.344294).toInput()).toInput(),
-                        properties = PropertiesInputType("Idun".toInput()).toInput()).toInput(),
+                                type = locationType.toInput(),
+                                coordinates = coordinates.toInput()).toInput(),
+                        properties = PropertiesInputType(locationName.toInput()).toInput()).toInput(),
                 title = title.toInput(),
                 emoji = selectedEmoji?.text.toString().toInput(),
                 description = description.editText?.text.toString().toInput())
