@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.apollographql.apollo.exception.ApolloException
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayout
 import com.studieresan.studs.R
 import com.studieresan.studs.data.StudsPreferences
 import com.studieresan.studs.graphql.apolloClient
@@ -24,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.OffsetDateTime
+
 
 class HappeningRecyclerViewAdapter(
         private val values: List<HappeningsQuery.Happening>)
@@ -52,9 +55,32 @@ class HappeningRecyclerViewAdapter(
         holder.timeView.text = displayDate
         holder.placeView.text = "@ ${happening.location?.properties?.name}"
 
+        holder.cardView.setOnClickListener {
+            println("CLICKD")
+
+            val tabLayout = holder.itemView.findViewById(R.id.happenings_tabs) as TabLayout
+            println("here i am")
+            val tab = tabLayout.getTabAt(0)
+            println("here i am 2")
+
+            tab!!.select()
+            println("here i am3")
+
+            /*
+            var viewPager = R.id.happenings_view_pager as ViewPager
+
+            viewPager.currentItem = 0
+            */
+
+            true
+        }
+            /*context.
+            var viewPager = R.id.happenings_view_pager as ViewPager
+            viewPager.setCurrentItem(0, true)*/
+
         if (context != null && happening.host?.id == StudsPreferences.getID(context!!)) {
             holder.deleteBtn.isVisible = true
-            holder.deleteBtn.setOnLongClickListener {
+            holder.deleteBtn.setOnClickListener {
                 MaterialAlertDialogBuilder(context!!)
                         .setTitle("Ta bort happening?")
                         .setNegativeButton("Avbryt") { dialog, which ->
@@ -65,6 +91,7 @@ class HappeningRecyclerViewAdapter(
                                 val response = try {
                                     // lägg till nån loading feedback
                                     apolloClient(context!!).mutate(HappeningDeleteMutation(id = happening.id.toInput())).await()
+                                    notifyItemRemoved(position)
                                     dialog.dismiss()
                                 } catch (e: ApolloException) {
                                     null
@@ -97,6 +124,7 @@ class HappeningRecyclerViewAdapter(
         val timeView: TextView = view.findViewById(R.id.happening_time)
         val titleView: TextView = view.findViewById(R.id.happening_title)
         val deleteBtn: TextView = view.findViewById(R.id.happening_delete)
+        val cardView: LinearLayout = view.findViewById(R.id.happening_card)
 
         override fun toString(): String {
             return super.toString() + " '" + titleView.text + "'"

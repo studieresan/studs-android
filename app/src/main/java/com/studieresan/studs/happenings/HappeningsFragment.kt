@@ -16,7 +16,6 @@ import com.studieresan.studs.graphql.apolloClient
 import com.studieresan.studs.happenings.adapters.HappeningsPagerAdapter
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 import com.studieresan.studs.net.StudsRepository
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_happenings.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +25,6 @@ import javax.inject.Inject
 class HappeningsFragment : Fragment() {
 
     private lateinit var adapter: HappeningsPagerAdapter
-    private var disposable: Disposable? = null
     private var viewModel: HappeningsViewModel?=null
 
     @Inject
@@ -53,11 +51,11 @@ class HappeningsFragment : Fragment() {
         fetchHappenings(false)
         happenings_swipe_refresh.setOnRefreshListener { fetchHappenings(true) }
 
-        // this might be the thing causing it not to reload...
-        adapter = HappeningsPagerAdapter(parentFragmentManager, parentFragmentManager)
+        happenings_view_pager.offscreenPageLimit = 2
+
+        adapter = HappeningsPagerAdapter(this, parentFragmentManager)
         happenings_view_pager.adapter = adapter
         happenings_tabs.setupWithViewPager(happenings_view_pager)
-
     }
 
     private fun fetchHappenings(refresh: Boolean) {
@@ -79,8 +77,6 @@ class HappeningsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable?.dispose().also {
-            disposable = null
-        }
+
     }
 }
