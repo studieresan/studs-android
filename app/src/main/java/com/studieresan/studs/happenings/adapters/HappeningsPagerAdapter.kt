@@ -13,7 +13,7 @@ class HappeningsPagerAdapter(private val context: HappeningsFragment, fm: Fragme
 
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page
-        return if (position === 0) HappeningsMapsFragment() else HappeningsListFragment()
+        return if (position === 0) HappeningsMapsFragment() else HappeningsListFragment(context)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
@@ -23,4 +23,5 @@ class HappeningsPagerAdapter(private val context: HappeningsFragment, fm: Fragme
     override fun getCount(): Int {
         return 2
     }
+
 }

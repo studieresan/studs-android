@@ -7,9 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateUtils.*
 import android.view.View
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
-import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException

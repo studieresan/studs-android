@@ -3,10 +3,10 @@ package com.studieresan.studs.happenings
 import HappeningsQuery
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
@@ -73,6 +73,10 @@ class HappeningsFragment : Fragment() {
             viewModel?.setHappenings(happenings)
 
         }
+    }
+
+    fun selectTab(position: Int) {
+        happenings_view_pager.currentItem = position
     }
 
     override fun onDestroy() {

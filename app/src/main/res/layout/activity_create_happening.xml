@@ -80,40 +80,62 @@
                     android:id="@+id/create_emoji1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:layout_marginHorizontal="@dimen/default_margin_small"
                     android:button="@color/colorAccent"
-                    android:text="☕️"
-                    android:textSize="46sp" />
+                    android:text="🍻"
+                    android:textSize="42sp" />
 
                 <RadioButton
                     android:id="@+id/create_emoji2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:layout_marginHorizontal="@dimen/default_margin_small"
                     android:alpha="0.5"
                     android:button="@color/colorAccent"
-                    android:text="🍻"
-                    android:textSize="46sp" />
+                    android:text="🍷"
+                    android:textSize="42sp" />
 
                 <RadioButton
                     android:id="@+id/create_emoji3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:layout_marginHorizontal="@dimen/default_margin_small"
                     android:alpha="0.5"
                     android:button="@color/colorAccent"
-                    android:text="🍷"
-                    android:textSize="46sp" />
+                    android:text="🍔"
+                    android:textSize="42sp" />
 
                 <RadioButton
                     android:id="@+id/create_emoji4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/default_margin_medium"
+                    android:layout_marginHorizontal="@dimen/default_margin_small"
                     android:alpha="0.5"
                     android:button="@color/colorAccent"
-                    android:text="🥂"
-                    android:textSize="46sp" />
+                    android:text="☕️"
+                    android:textSize="42sp" />
+
+                <RadioButton
+                    android:id="@+id/create_emoji5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_margin_small"
+                    android:layout_weight="1"
+                    android:alpha="0.5"
+                    android:button="@color/colorAccent"
+                    android:text="🚶"
+                    android:textSize="42sp" />
+
+                <RadioButton
+                    android:id="@+id/create_emoji6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_margin_small"
+                    android:layout_weight="1"
+                    android:alpha="0.5"
+                    android:button="@color/colorAccent"
+                    android:text="🤔"
+                    android:textSize="42sp" />
 
             </RadioGroup>
 

@@ -17,11 +17,13 @@ import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.tabs.TabLayout
 import com.studieresan.studs.R
 import com.studieresan.studs.data.StudsPreferences
 import com.studieresan.studs.graphql.apolloClient
+import com.studieresan.studs.happenings.HappeningsListFragment
+import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,10 +31,12 @@ import java.time.OffsetDateTime
 
 
 class HappeningRecyclerViewAdapter(
-        private val values: List<HappeningsQuery.Happening>)
+        private val values: List<HappeningsQuery.Happening>,
+        private val parentFragment: HappeningsListFragment)
     : RecyclerView.Adapter<HappeningRecyclerViewAdapter.ViewHolder>() {
 
     private var context: Context? = null
+    private var viewModel: HappeningsViewModel?=null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -56,27 +60,14 @@ class HappeningRecyclerViewAdapter(
         holder.placeView.text = "@ ${happening.location?.properties?.name}"
 
         holder.cardView.setOnClickListener {
-            println("CLICKD")
 
-            val tabLayout = holder.itemView.findViewById(R.id.happenings_tabs) as TabLayout
-            println("here i am")
-            val tab = tabLayout.getTabAt(0)
-            println("here i am 2")
+            if (!happening.location?.geometry?.coordinates.isNullOrEmpty() && happening.location?.geometry?.coordinates?.get(0) != null && happening.location?.geometry?.coordinates?.get(1) != null) {
+                val coordinates = LatLng(happening.location.geometry.coordinates[1]!!.toDouble(), happening.location.geometry.coordinates[0]!!.toDouble())
+                viewModel?.setMapCenter(coordinates)
+            }
+            parentFragment.setTab(0)
 
-            tab!!.select()
-            println("here i am3")
-
-            /*
-            var viewPager = R.id.happenings_view_pager as ViewPager
-
-            viewPager.currentItem = 0
-            */
-
-            true
         }
-            /*context.
-            var viewPager = R.id.happenings_view_pager as ViewPager
-            viewPager.setCurrentItem(0, true)*/
 
         if (context != null && happening.host?.id == StudsPreferences.getID(context!!)) {
             holder.deleteBtn.isVisible = true

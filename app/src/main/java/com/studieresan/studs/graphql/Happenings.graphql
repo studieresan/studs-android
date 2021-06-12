@@ -13,6 +13,9 @@ query Happenings {
       id
       firstName
       lastName
+      info {
+        picture
+      }
     }
     location {
       geometry {

@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 import com.studieresan.studs.events.views.EventsFragment
-import com.studieresan.studs.profile.ProfileFragment
 import com.studieresan.studs.happenings.HappeningsFragment
+import com.studieresan.studs.profile.ProfileFragment
 import com.studieresan.studs.util.inTransaction
+import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TOPIC_ALL = "all"
 
