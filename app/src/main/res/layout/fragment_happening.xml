@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textIsSelectable="false"
                 android:textSize="24sp"
                 tools:text="🤠" />
         </FrameLayout>
@@ -59,7 +60,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -67,7 +69,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="100"
+                    android:ellipsize="none"
                     android:textColor="?android:attr/textColorPrimary"
+                    android:textIsSelectable="false"
                     android:textSize="16sp"
                     android:textStyle="normal"
                     tools:text="Studs sitter med 3 andra!" />
@@ -76,7 +80,8 @@
                     android:id="@+id/happening_delete"
                     style="@style/FlatButton"
                     android:layout_width="48dp"
-                    android:layout_height="42dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="0dp"
                     android:paddingRight="6dp"
                     android:visibility="invisible"
                     app:icon="@android:drawable/ic_menu_close_clear_cancel"
@@ -94,6 +99,7 @@
                 android:capitalize="characters"
                 android:textAllCaps="true"
                 android:textColor="?android:attr/textColorPrimary"
+                android:textIsSelectable="false"
                 android:textSize="12sp"
                 tools:text="META" />
 
@@ -102,7 +108,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin_mini"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="?android:attr/textColorPrimary"
+                android:textIsSelectable="false"
                 tools:text="Wow vi har så roligt här uppe på fjället, joina!" />
 
             <TextView

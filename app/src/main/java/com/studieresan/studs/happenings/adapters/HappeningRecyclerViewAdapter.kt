@@ -20,6 +20,8 @@ import com.apollographql.apollo.exception.ApolloException
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.studieresan.studs.R
 import com.studieresan.studs.data.StudsPreferences
@@ -30,7 +32,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.OffsetDateTime
-
 
 class HappeningRecyclerViewAdapter(
         private val values: List<HappeningsQuery.Happening>,
@@ -57,6 +58,8 @@ class HappeningRecyclerViewAdapter(
         val zoneOffset = odt.offset
         val dateInMilli = happening.created?.atOffset(zoneOffset)?.toInstant()?.toEpochMilli()
         val displayDate = if (dateInMilli != null) DateUtils.formatDateTime(context, dateInMilli, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_ABBREV_TIME or DateUtils.FORMAT_SHOW_WEEKDAY).capitalize() else ""
+        val detailedDate = if (dateInMilli != null) DateUtils.formatDateTime(context, dateInMilli, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_NUMERIC_DATE or DateUtils.FORMAT_SHOW_WEEKDAY).capitalize() else ""
+
         holder.emojiView.text = happening.emoji
         holder.titleView.text = happening.title
         holder.descView.text = happening.description
@@ -71,6 +74,34 @@ class HappeningRecyclerViewAdapter(
             }
             parentFragment.setTab(0)
 
+        }
+
+        holder.cardView.setOnLongClickListener {
+
+            val customView: View = LayoutInflater.from(context).inflate(R.layout.dialog_happening, null)
+            customView.findViewById<TextView>(R.id.info_window_title).text = happening.title
+            customView.findViewById<TextView>(R.id.info_window_emoji).text = happening.emoji
+            customView.findViewById<TextView>(R.id.info_window_desc).text = happening.description
+            customView.findViewById<TextView>(R.id.info_window_date).text = detailedDate
+
+            Glide.with(it)
+                    .load(happening.host?.info?.picture)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(customView.findViewById(R.id.info_window_host))
+
+            if (!happening.participants.isNullOrEmpty()) {
+                setParticipants(customView, happening.participants)
+            }
+
+            val builder = MaterialAlertDialogBuilder(context!!)
+                    .setView(customView)
+                    .setPositiveButton("Stäng") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .create()
+
+            builder.show()
+            true
         }
 
         if (context != null && happening.host?.id == StudsPreferences.getID(context!!)) {
@@ -123,6 +154,23 @@ class HappeningRecyclerViewAdapter(
 
         override fun toString(): String {
             return super.toString() + " '" + titleView.text + "'"
+        }
+    }
+
+    private fun setParticipants(view: View, participants: List<HappeningsQuery.Participant?>?) {
+        val participantChips = view.findViewById<View>(R.id.info_window_participants) as ChipGroup
+        participants?.forEach { user ->
+            if (user != null) {
+                if (user.id != context?.let { StudsPreferences.getID(it) }) {
+                    val chip = Chip(context).apply {
+                        text = "${user.firstName} ${user.lastName?.get(0)}"
+                        isCloseIconVisible = false
+                        checkedIcon = null
+                    }
+
+                    participantChips.addView(chip)
+                }
+            }
         }
     }
 }

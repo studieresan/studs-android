@@ -244,7 +244,6 @@ class CreateHappeningActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // not sure if this is needed/correct
         Places.deinitialize()
     }
 
