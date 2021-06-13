@@ -170,7 +170,7 @@ class CreateHappeningActivity : AppCompatActivity() {
                                 chip.alpha = 1F
                             } else {
                                 participants.remove(user.id)
-                                chip.alpha = 0.75F
+                                chip.alpha = 0.85F
                             }
                         }
                     }

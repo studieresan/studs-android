@@ -72,8 +72,6 @@ class HappeningRecyclerViewAdapter(
                 val coordinates = LatLng(happening.location.geometry.coordinates[1]!!.toDouble(), happening.location.geometry.coordinates[0]!!.toDouble())
                 viewModel?.setMapCenter(coordinates)
             }
-            parentFragment.setTab(0)
-
         }
 
         holder.cardView.setOnLongClickListener {
