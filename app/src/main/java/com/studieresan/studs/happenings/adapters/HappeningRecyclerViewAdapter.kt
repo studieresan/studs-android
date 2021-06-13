@@ -39,7 +39,7 @@ class HappeningRecyclerViewAdapter(
     : RecyclerView.Adapter<HappeningRecyclerViewAdapter.ViewHolder>() {
 
     private var context: Context? = null
-    private var viewModel: HappeningsViewModel?=null
+    private var viewModel: HappeningsViewModel? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -68,7 +68,7 @@ class HappeningRecyclerViewAdapter(
 
         holder.cardView.setOnClickListener {
 
-            if (!happening.location?.geometry?.coordinates.isNullOrEmpty() && happening.location?.geometry?.coordinates?.get(0) != null && happening.location?.geometry?.coordinates?.get(1) != null) {
+            if (!happening.location?.geometry?.coordinates.isNullOrEmpty() && happening.location?.geometry?.coordinates?.get(0) != null && happening.location.geometry.coordinates.get(1) != null) {
                 val coordinates = LatLng(happening.location.geometry.coordinates[1]!!.toDouble(), happening.location.geometry.coordinates[0]!!.toDouble())
                 viewModel?.setMapCenter(coordinates)
             }
@@ -115,7 +115,6 @@ class HappeningRecyclerViewAdapter(
                         .setPositiveButton("Ta bort") { dialog, which ->
                             CoroutineScope(Dispatchers.Main).launch {
                                 val response = try {
-                                    // lägg till nån loading feedback
                                     apolloClient(context!!).mutate(HappeningDeleteMutation(id = happening.id.toInput())).await()
                                     notifyItemRemoved(position)
                                     dialog.dismiss()

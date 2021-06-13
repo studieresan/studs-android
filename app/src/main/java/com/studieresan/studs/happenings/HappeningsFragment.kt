@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
+import com.google.android.gms.maps.model.LatLng
 import com.studieresan.studs.R
 import com.studieresan.studs.StudsApplication
 import com.studieresan.studs.graphql.apolloClient
@@ -25,7 +27,7 @@ import javax.inject.Inject
 class HappeningsFragment : Fragment() {
 
     private lateinit var adapter: HappeningsPagerAdapter
-    private var viewModel: HappeningsViewModel?=null
+    private var viewModel: HappeningsViewModel? = null
 
     @Inject
     lateinit var studsRepository: StudsRepository
@@ -41,7 +43,11 @@ class HappeningsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         StudsApplication.applicationComponent.inject(this)
 
-        viewModel= ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
+
+        viewModel!!.mapCenter.observe(viewLifecycleOwner, Observer<LatLng> {
+            selectTab(0)
+        })
 
         btn_create_happening.setOnClickListener {
             val intent = Intent(context, CreateHappeningActivity::class.java)
@@ -56,6 +62,7 @@ class HappeningsFragment : Fragment() {
         adapter = HappeningsPagerAdapter(this, parentFragmentManager)
         happenings_view_pager.adapter = adapter
         happenings_tabs.setupWithViewPager(happenings_view_pager)
+
     }
 
     private fun fetchHappenings(refresh: Boolean) {
@@ -79,8 +86,4 @@ class HappeningsFragment : Fragment() {
         happenings_view_pager.currentItem = position
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
 }

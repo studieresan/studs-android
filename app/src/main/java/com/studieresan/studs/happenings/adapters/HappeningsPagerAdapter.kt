@@ -8,12 +8,13 @@ import com.studieresan.studs.happenings.HappeningsFragment
 import com.studieresan.studs.happenings.HappeningsListFragment
 import com.studieresan.studs.happenings.HappeningsMapsFragment
 
+
 class HappeningsPagerAdapter(private val context: HappeningsFragment, fm: FragmentManager)
     : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page
-        return if (position === 0) HappeningsMapsFragment() else HappeningsListFragment(context)
+        return if (position === 0) HappeningsMapsFragment() else HappeningsListFragment()
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

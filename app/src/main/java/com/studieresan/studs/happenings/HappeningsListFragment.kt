@@ -15,7 +15,7 @@ import com.studieresan.studs.R
 import com.studieresan.studs.happenings.adapters.HappeningRecyclerViewAdapter
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 
-class HappeningsListFragment(private val parentFragment: HappeningsFragment) : Fragment() {
+class HappeningsListFragment : Fragment() {
 
     private var columnCount = 1
 
@@ -25,14 +25,13 @@ class HappeningsListFragment(private val parentFragment: HappeningsFragment) : F
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_happening_list, container, false)
 
-        val viewModel= ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
+        val viewModel = ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
 
         viewModel.happenings.observe(viewLifecycleOwner, Observer<List<HappeningsQuery.Happening>> { t ->
             if (view is RecyclerView) {
@@ -51,12 +50,15 @@ class HappeningsListFragment(private val parentFragment: HappeningsFragment) : F
         return view
     }
 
-    fun setTab(position: Int) {
-        val parent = parentFragment
-        parent.selectTab(position)
-    }
 
     companion object {
         const val ARG_COLUMN_COUNT = "column-count"
+
+        fun newInstance(columnCount: Int) =
+                HappeningsListFragment().apply {
+                    arguments = Bundle().apply {
+                        putInt(ARG_COLUMN_COUNT, columnCount)
+                    }
+                }
     }
 }

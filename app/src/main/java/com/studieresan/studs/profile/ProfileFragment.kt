@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
 
         // Set countdown values
         val today = LocalDate.now()
-        val tripDate = LocalDate.of(2021, 6, 14)
+        val tripDate = LocalDate.of(2021, 7, 23)
         val daysLeft = today.until(tripDate, ChronoUnit.DAYS)
         tv_countdown_number.text = daysLeft.toString()
         tv_countdown_emojis.text = getRandomExcitedEmoji().plus(getRandomExcitedEmoji())
@@ -64,7 +64,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getRandomExcitedEmoji(): String {
-        val emojis = listOf("🥳", "🤯", "😍", "✨", "🎂", "☀️", "💃", "🍻", "😇", "🤩", "🥰", "🚀", "🇸🇪", "🏞", "🦌", "🏠", "🚞")
+        val emojis = listOf("🥳", "🤯", "😍", "✨", "🎂", "☀️", "💃", "🍻", "😇", "🤩", "🥰", "🚀", "🇸🇪", "🏖", "🏠", "🚞")
         return emojis.random()
     }
 }

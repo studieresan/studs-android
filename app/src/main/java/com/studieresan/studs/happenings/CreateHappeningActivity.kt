@@ -92,7 +92,7 @@ class CreateHappeningActivity : AppCompatActivity() {
         autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.TYPES))
 
         // Sets location bias to Sweden, change to device location in future
-        autocompleteFragment.setLocationRestriction(RectangularBounds.newInstance(LatLng(55.37514 , 11.1712), LatLng(67.85572, 23.15645)))
+        autocompleteFragment.setLocationRestriction(RectangularBounds.newInstance(LatLng(55.37514, 11.1712), LatLng(67.85572, 23.15645)))
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
