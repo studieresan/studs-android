@@ -37,23 +37,15 @@ class HappeningsMapsFragment : Fragment() {
     private val callback = OnMapReadyCallback { googleMap ->
 
         map = googleMap
+        var viewModel = ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
 
-        val viewModel = ViewModelProviders.of(requireActivity()).get(HappeningsViewModel::class.java)
-
-        var cameraPosition = CameraPosition.Builder()
-                .target(viewModel.mapCenter.value)
-                .zoom(12f)
-                .build()
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
-        // move this somewhere else
         viewModel.mapCenter.observe(viewLifecycleOwner, Observer<LatLng> { center ->
             centerLocation = center
-            cameraPosition = CameraPosition.Builder()
+            var cameraPosition = CameraPosition.Builder()
                     .target(center)
                     .zoom(12f)
                     .build()
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         })
 
         viewModel.happenings.observe(viewLifecycleOwner, Observer<List<HappeningsQuery.Happening>> { happenings ->
@@ -107,6 +99,5 @@ class HappeningsMapsFragment : Fragment() {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-
     }
 }

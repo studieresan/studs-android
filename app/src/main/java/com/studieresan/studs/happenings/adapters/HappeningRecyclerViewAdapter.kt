@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
@@ -42,6 +43,8 @@ class HappeningRecyclerViewAdapter(
         context = parent.context
         val view = LayoutInflater.from(context)
                 .inflate(R.layout.fragment_happening, parent, false)
+
+        viewModel = ViewModelProviders.of(parentFragment.requireActivity()).get(HappeningsViewModel::class.java)
 
         return ViewHolder(view)
     }
