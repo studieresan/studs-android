@@ -12,6 +12,7 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.liveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -31,6 +32,7 @@ import java.time.OffsetDateTime
 
 class HappeningsMapsFragment : Fragment() {
 
+    var loaded: Boolean = false
     var centerLocation: LatLng? = null
     var map: GoogleMap? = null
 
@@ -43,7 +45,7 @@ class HappeningsMapsFragment : Fragment() {
             centerLocation = center
             var cameraPosition = CameraPosition.Builder()
                     .target(center)
-                    .zoom(12f)
+                    .zoom(16f)
                     .build()
             map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         })
@@ -78,9 +80,13 @@ class HappeningsMapsFragment : Fragment() {
                                 }
                             })
 
-
-                    if (centerLocation == null) {
-                        centerLocation = coordinates
+                    if (!loaded) {
+                        var cameraPosition = CameraPosition.Builder()
+                                .target(coordinates)
+                                .zoom(12f)
+                                .build()
+                        map?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                        loaded = true
                     }
                 }
             }
