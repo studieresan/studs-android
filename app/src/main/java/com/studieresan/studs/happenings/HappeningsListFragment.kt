@@ -57,14 +57,6 @@ class HappeningsListFragment(private val parentFragment: HappeningsFragment) : F
     }
 
     companion object {
-
         const val ARG_COLUMN_COUNT = "column-count"
-/*
-        fun newInstance(columnCount: Int) =
-                HappeningsListFragment(e).apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_COLUMN_COUNT, columnCount)
-                    }
-                }*/
     }
 }

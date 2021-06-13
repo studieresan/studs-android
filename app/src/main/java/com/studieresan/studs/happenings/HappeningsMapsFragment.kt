@@ -12,7 +12,6 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.liveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -28,7 +27,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.studieresan.studs.R
 import com.studieresan.studs.happenings.viewmodels.HappeningsViewModel
 import java.time.OffsetDateTime
-
 
 class HappeningsMapsFragment : Fragment() {
 
