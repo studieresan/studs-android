@@ -7,6 +7,7 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -117,7 +118,7 @@ class HappeningRecyclerViewAdapter(
         val placeView: TextView = view.findViewById(R.id.happening_place)
         val timeView: TextView = view.findViewById(R.id.happening_time)
         val titleView: TextView = view.findViewById(R.id.happening_title)
-        val deleteBtn: TextView = view.findViewById(R.id.happening_delete)
+        val deleteBtn: Button = view.findViewById(R.id.happening_delete)
         val cardView: LinearLayout = view.findViewById(R.id.happening_card)
 
         override fun toString(): String {

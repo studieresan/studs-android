@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
@@ -63,7 +64,7 @@
 
                 <TextView
                     android:id="@+id/happening_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="100"
                     android:textColor="?android:attr/textColorPrimary"
@@ -71,16 +72,18 @@
                     android:textStyle="normal"
                     tools:text="Studs sitter med 3 andra!" />
 
-                <TextView
+                <Button
                     android:id="@+id/happening_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="X"
-                    android:textAlignment="textEnd"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="16sp"
-                    android:textStyle="normal|bold"
-                    android:visibility="invisible" />
+                    style="@style/FlatButton"
+                    android:layout_width="48dp"
+                    android:layout_height="42dp"
+                    android:paddingRight="6dp"
+                    android:visibility="invisible"
+                    app:icon="@android:drawable/ic_menu_close_clear_cancel"
+                    app:iconGravity="end"
+                    app:iconSize="24dp"
+                    app:iconTint="?android:attr/textColorPrimary"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 
